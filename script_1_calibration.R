@@ -5,9 +5,12 @@
 #FMestre
 #28-04-2024
 
+#Load packages
+library(sdm)
+#sdm::getmethodNames()
+
 #1. Build Models
-var1 <- sdm::sdm(occ~.,data=data_olive_D,methods=c('cart','rf','fda','glm','gam','mars','svm','brt'),replication='sub',test.percent=30,n=10)
-#
+var1 <- sdm::sdm(occ~.,data=data_olive_D,methods=c('maxent','cart','rf','fda','glm','gam','mars','svm','brt'),replication='sub',test.percent=30,n=10)
 
 # 2.Model metrics and variable importance
 #
