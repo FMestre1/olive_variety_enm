@@ -3,7 +3,7 @@
 ################################################################################
 
 #FMestre
-#28-04-2024
+#13-05-2024
 
 #Load required packages
 library(sdm)
@@ -16,16 +16,33 @@ library(terra)
 #                       1. LOAD OLIVE TREES OCCURRENCES
 ################################################################################
 
-olive <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/UTM_10x10_km.shp") 
-#plot(olive)
-olive_df <- as.data.frame(olive)
-View(olive_df)
+#What is the minimum number of presences to conduct an SMD modelling?
+#See: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.01509
 
-olive_df[is.na(olive_df)] <- 0
-nr_presences_var <- as.data.frame(colSums(olive_df[,-c(1,2)]))
-nr_presences_var <- data.frame(rownames(nr_presences_var), nr_presences_var[,1])
-names(nr_presences_var) <- c("var_name", "number_presences")
-nr_presences_var[order(nr_presences_var$number_presences, decreasing=TRUE), ]
+olive_vars <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/variedades_portugal_15_05_2024.shp")
+
+#Derive variety prevalence in Portugal
+olive_vars_df <- data.frame(olive_vars)
+olive_vars_df[is.na(olive_vars_df)] <- 0
+names(olive_vars_df)[2] # Delete this column
+olive_vars_df <- olive_vars_df[,-2]
+olive_vars_df <- data.frame(colSums(olive_vars_df[,-1]))
+names(olive_vars_df) <- "number_presences"
+olive_vars_df <- data.frame(olive_vars_df,round((olive_vars_df$number_presences*100)/nrow(olive_vars), 2))
+names(olive_vars_df)[2] <- "prevalence"
+
+
+
+#olive <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/UTM_10x10_km.shp") 
+#plot(olive)
+#olive_df <- as.data.frame(olive)
+#View(olive_df)
+
+#olive_df[is.na(olive_df)] <- 0
+#nr_presences_var <- as.data.frame(colSums(olive_df[,-c(1,2)]))
+#nr_presences_var <- data.frame(rownames(nr_presences_var), nr_presences_var[,1])
+#names(nr_presences_var) <- c("var_name", "number_presences")
+#nr_presences_var[order(nr_presences_var$number_presences, decreasing=TRUE), ]
 
 ################################################################################
 #                         2. LOAD ENVIRONMENTAL LAYERS
