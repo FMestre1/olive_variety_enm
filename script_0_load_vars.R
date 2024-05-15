@@ -24,7 +24,7 @@ portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_v
 #See: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.01509
 
 olive_vars <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/variedades_portugal_15_05_2024.shp")
-crs(olive_vars)
+#crs(olive_vars)
 
 #Derive variety prevalence in Portugal
 olive_vars_df <- data.frame(olive_vars)
@@ -33,21 +33,58 @@ names(olive_vars_df)[2] # Delete this column
 olive_vars_df <- olive_vars_df[,-2]
 olive_vars_df <- data.frame(colSums(olive_vars_df[,-1]))
 names(olive_vars_df) <- "number_presences"
-olive_vars_df <- data.frame(olive_vars_df,round((olive_vars_df$number_presences*100)/nrow(olive_vars), 2))
+olive_vars_df <- data.frame(olive_vars_df,round((olive_vars_df$number_presences)/nrow(olive_vars), 2))
 names(olive_vars_df)[2] <- "prevalence"
-View(olive_vars_df)
+#View(olive_vars_df)
 
+#Galega (163 presences, prevalence 0.17)
+galega <- olive_vars[,"Galega"]
+galega$Galega[is.na(galega$Galega)] <- 0
+galega <- centroids(galega, inside=FALSE)
+galega <- galega[galega$Galega ==1,]
+#plot(galega)
 
-#olive <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/UTM_10x10_km.shp") 
-#plot(olive)
-#olive_df <- as.data.frame(olive)
-#View(olive_df)
+#Cobrançosa (128 presences, prevalence of 0.14)
+cobrancosa <- olive_vars[,"Cobrancosa"]
+cobrancosa$Cobrancosa[is.na(cobrancosa$Cobrancosa)] <- 0
+cobrancosa <- centroids(cobrancosa, inside=FALSE)
+cobrancosa <- cobrancosa[cobrancosa$Cobrancosa ==1,]
+#plot(cobrancosa)
 
-#olive_df[is.na(olive_df)] <- 0
-#nr_presences_var <- as.data.frame(colSums(olive_df[,-c(1,2)]))
-#nr_presences_var <- data.frame(rownames(nr_presences_var), nr_presences_var[,1])
-#names(nr_presences_var) <- c("var_name", "number_presences")
-#nr_presences_var[order(nr_presences_var$number_presences, decreasing=TRUE), ]
+#Arbequina (95 presences, prevalence of 0.10)
+arbequina <- olive_vars[,"Arbequina"]
+arbequina$Arbequina[is.na(arbequina$Arbequina)] <- 0
+arbequina <- centroids(arbequina, inside=FALSE)
+arbequina <- arbequina[arbequina$Arbequina ==1,]
+#plot(arbequina)
+
+#Picual (64 presences, prevalence of 0.07)
+picual <- olive_vars[,"Picual"]
+picual$Picual[is.na(picual$Picual)] <- 0
+picual <- centroids(picual, inside=FALSE)
+picual <- picual[picual$Picual ==1,]
+#plot(picual)
+
+#Cordovil (36 presences, prevalence of 0.04)
+cordovil <- olive_vars[,"Cordovil"]
+cordovil$Cordovil[is.na(cordovil$Cordovil)] <- 0
+cordovil <- centroids(cordovil, inside=FALSE)
+cordovil <- cordovil[cordovil$Cordovil ==1,]
+#plot(cordovil)
+
+#Madural (31 presences, prevalence of 0.03)
+madural <- olive_vars[,"Madural"]
+madural$Madural[is.na(madural$Madural)] <- 0
+madural <- centroids(madural, inside=FALSE)
+madural <- madural[madural$Madural ==1,]
+#plot(madural)
+
+#Verdeal (30 presences, prevalence of 0.03)
+verdeal <- olive_vars[,"Verdeal"]
+verdeal$Verdeal[is.na(verdeal$Verdeal)] <- 0
+verdeal <- centroids(verdeal, inside=FALSE)
+verdeal <- verdeal[verdeal$Verdeal ==1,]
+#plot(verdeal)
 
 ################################################################################
 #                         2. LOAD ENVIRONMENTAL LAYERS
@@ -74,8 +111,8 @@ bio17 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bi
 bio18 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_18.tif")
 bio19 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_19.tif")
 #
-crs(bio1)
-terra::res(bio1)
+#crs(bio1)
+#terra::res(bio1)
 
 bioclimatic <- c(bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9, bio10, bio11, bio12, bio13, bio14, 
                  bio15, bio16, bio17, bio18, bio19)
@@ -90,14 +127,19 @@ names(bioclimatic_crop) <- c("bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bi
 #Other climatic variables - ClimateEU
 #https://sites.ualberta.ca/~ahamann/data/climateeu.html
 
+#Marchi, M., Castellanos-Acuna, D., Hamann, A., Wang, T., Ray, D. Menzel, A. 2020. 
+#ClimateEU, scale-free climate normals, historical time series, and future 
+#projections for Europe. Scientific Data 7: 428. doi: 10.1038/s41597-020-00763-0
+#https://www.nature.com/articles/s41597-020-00763-0
+
 ahm <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/ahm_wgs84.tif")#Annual heat:moisture index (MAT+10)/(MAP/1000))
 shm <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/shm_wgs84.tif")#Summer heat:moisture index ((MWMT)/(MSP/1000))
 nffd <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/nffd_wgs84.tif")#Number of frost-free days
 eref <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/eref_wgs84.tif")#Hargreaves reference evaporation
 #
-crs(ahm_res)
+#crs(ahm_res)
 
-climate_eu <- c(ahm_res, shm_res, nffd_res, eref_res)
+climate_eu <- c(ahm, shm, nffd, eref)
 climate_eu_res <- terra::resample(climate_eu, bio1)
 climate_eu_res_crop <- crop(climate_eu_res, portugal, mask = TRUE)
 
@@ -122,8 +164,8 @@ tri_wgs84 <- terra::project(tri, bio1)
 twi_wgs84 <- terra::project(twi, bio1)
 slope_wgs84 <- terra::project(slope, bio1)
 #
-crs(ocd_wgs84)
-terra::res(ocd_wgs84)
+#crs(ocd_wgs84)
+#terra::res(ocd_wgs84)
 
 soil <- c(bdod_wgs84, ocd_wgs84, ph_wgs84, sand_wgs84, soil_class_wgs84, tri_wgs84, twi_wgs84, slope_wgs84)
 soil_crop <- crop(soil, portugal, mask = TRUE)
@@ -134,6 +176,56 @@ soil_crop <- crop(soil, portugal, mask = TRUE)
 ################################################################################
 
 env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
-names(env_vars)
+#names(env_vars)
 #
 #save(env_vars, file = "environmental_variables.RData")
+#load("environmental_variables.RData")
+
+################################################################################
+#                       Variance Inflation Factor (VIF)
+################################################################################
+
+#Names of all variables in the initial dataset
+#names(env_vars)
+
+vif1 <- usdm::vifstep(env_vars)#stepwise elimination of highly inflating variables
+usdm::vifcor(env_vars)
+vif1@results
+
+#Using VIF to select the variables to consider in the model
+env_vars_2 <- usdm::exclude(env_vars, vif1)
+#save(env_vars_2, file = "env_vars_2.RData")
+#load("env_vars_2.RData")
+#Which variables
+#names(env_vars_2)
+
+################################################################################
+#                              Create SDM data
+################################################################################
+
+#Galega (163 presences, prevalence 0.17)
+galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(galega),method='gRandom',remove=TRUE))
+
+#Cobrançosa (128 presences, prevalence of 0.14)
+cobrancosa_sdm_data <- sdmData(train=cobrancosa, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
+
+#Arbequina (95 presences, prevalence of 0.10)
+arbequina_sdm_data <- sdmData(train=arbequina, predictors=env_vars_2, bg=list(n=nrow(arbequina),method='gRandom',remove=TRUE))
+
+#Picual (64 presences, prevalence of 0.07)
+picual_sdm_data <- sdmData(train=picual, predictors=env_vars_2, bg=list(n=nrow(picual),method='gRandom',remove=TRUE))
+
+#Cordovil (36 presences, prevalence of 0.04)
+cordovil_sdm_data <- sdmData(train=cordovil, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
+
+#Madural (31 presences, prevalence of 0.03)
+madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow(madural),method='gRandom',remove=TRUE))
+
+#Verdea (30 presences, prevalence of 0.03)
+verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
+
+
+
+
+
+
