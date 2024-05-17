@@ -177,9 +177,6 @@ soil_crop <- crop(soil, portugal, mask = TRUE)
 
 env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
 #names(env_vars)
-#
-#save(env_vars, file = "environmental_variables.RData")
-#load("environmental_variables.RData")
 
 ################################################################################
 #                       Variance Inflation Factor (VIF)
@@ -223,9 +220,4 @@ madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow
 
 #Verdea (30 presences, prevalence of 0.03)
 verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
-
-
-
-
-
 
