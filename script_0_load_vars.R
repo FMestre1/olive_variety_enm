@@ -6,10 +6,13 @@
 #13-05-2024
 
 #Load required packages
+#detach(package:sdm, unload = TRUE)
+#devtools::install_github("babaknaimi/sdm")
 library(sdm)
 library(usdm)
 #installAll()
 library(terra)
+library(exactextractr)
 
 #Load Portugal shape
 portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
@@ -185,39 +188,52 @@ env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
 #Names of all variables in the initial dataset
 #names(env_vars)
 
-vif1 <- usdm::vifstep(env_vars)#stepwise elimination of highly inflating variables
-usdm::vifcor(env_vars)
-vif1@results
+#vif1 <- usdm::vifstep(env_vars)#stepwise elimination of highly inflating variables
+#usdm::vifcor(env_vars)
+#vif1@results
 
 #Using VIF to select the variables to consider in the model
-env_vars_2 <- usdm::exclude(env_vars, vif1)
-#save(env_vars_2, file = "env_vars_2.RData")
-#load("env_vars_2.RData")
-#Which variables
+#env_vars_2 <- usdm::exclude(env_vars, vif1)
 #names(env_vars_2)
+#
+
+#Keep the one from the first time I ran the VIF function
+keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
+  "eref_wgs84", "OCD", "pH", "Sand", "Soil_Class", "TRI", "TWI")
+
+env_vars_2 <- env_vars[[keep_these]]
 
 ################################################################################
 #                              Create SDM data
 ################################################################################
 
-#Galega (163 presences, prevalence 0.17)
-galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(galega),method='gRandom',remove=TRUE))
-
-#Cobrançosa (128 presences, prevalence of 0.14)
+galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
 cobrancosa_sdm_data <- sdmData(train=cobrancosa, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
-
-#Arbequina (95 presences, prevalence of 0.10)
 arbequina_sdm_data <- sdmData(train=arbequina, predictors=env_vars_2, bg=list(n=nrow(arbequina),method='gRandom',remove=TRUE))
-
-#Picual (64 presences, prevalence of 0.07)
 picual_sdm_data <- sdmData(train=picual, predictors=env_vars_2, bg=list(n=nrow(picual),method='gRandom',remove=TRUE))
-
-#Cordovil (36 presences, prevalence of 0.04)
 cordovil_sdm_data <- sdmData(train=cordovil, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
-
-#Madural (31 presences, prevalence of 0.03)
 madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow(madural),method='gRandom',remove=TRUE))
-
-#Verdea (30 presences, prevalence of 0.03)
 verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
 
+#galega_sdm_data2 <- sdmData(Galega~bio2+bio3+bio13+bio15+nffd_wgs84+eref_wgs84+OCD+pH+Sand+Soil_Class+TRI+TWI,
+#                           train=utm_bio1_10x10_df,
+#                           method='gRandom',
+#                           remove=TRUE)
+
+#Save...
+#write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
+#write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
+#write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
+#write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
+#write.sdm(cordovil_sdm_data, filename = "cordovil_sdm_data", overwrite = TRUE)
+#write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
+#write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
+
+#Read...
+#galega_sdm_data <- read.sdm(filename = "galega_sdm_data.sdd")
+#cobrancosa_sdm_data <- read.sdm(filename = "cobrancosa_sdm_data.sdd")
+#arbequina_sdm_data <- read.sdm(filename = "arbequina_sdm_data.sdd")
+#picual_sdm_data <- read.sdm(filename = "picual_sdm_data.sdd")
+#cordovil_sdm_data <- read.sdm(filename = "cordovil_sdm_data.sdd")
+#madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
+#verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")

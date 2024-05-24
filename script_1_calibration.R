@@ -72,13 +72,37 @@ modeloptions1 <- list(
 #                                1. Build Models
 ################################################################################
 
-galega_model <- sdm::sdm(Galega~.,data=galega_sdm_data, methods=c('mlp','cart','rf','fda','glm','gam','mars','brt'), replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
-cobrancosa_model <- sdm::sdm(Cobrancosa~.,data=cobrancosa_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
-arbequina_model <- sdm::sdm(Arbequina~.,data=arbequina_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
-picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
-cordovil_model <- sdm::sdm(Cordovil~.,data=cordovil_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
-madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
-verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication='sub', ncore = 4, modelSettings = modeloptions1, test.percent=30,n=10)
+# Example 3: fits using 5 models, and evaluates using 10 runs of both 5-folds 
+#cross-validation and bootsrapping replication methods
+
+#m <- sdm(sp~.,data=d,methods=c('gbm','tree','mars','mda','fda'), replication=c('cv','boot'),cv.folds=5, n=10)
+
+galega_model <- sdm::sdm(Galega~.,data=galega_sdm_data, methods=c('mlp','cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(galega), ncore = 6, modelSettings = modeloptions1, n=1)
+cobrancosa_model <- sdm::sdm(Cobrancosa~.,data=cobrancosa_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cobrancosa), ncore = 6, modelSettings = modeloptions1, n=1)
+arbequina_model <- sdm::sdm(Arbequina~.,data=arbequina_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(arbequina), ncore = 6, modelSettings = modeloptions1, n=1)
+picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(picual), ncore = 6, modelSettings = modeloptions1, n=1)
+#cordovil_model <- sdm::sdm(Cordovil~.,data=cordovil_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
+madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(madural), ncore = 6, modelSettings = modeloptions1, n=1)
+verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
+
+#Save...
+write.sdm(galega_model, file = "galega_model.RData", overwrite = TRUE)
+write.sdm(cobrancosa_model, file = "cobrancosa_model.RData", overwrite = TRUE)
+write.sdm(arbequina_model, file = "arbequina_model.RData", overwrite = TRUE)
+write.sdm(picual_model, file = "picual_model.RData", overwrite = TRUE)
+#write.sdm(cordovil_model, file = "cordovil_model.RData", overwrite = TRUE)
+write.sdm(madural_model, file = "madural_model.RData", overwrite = TRUE)
+write.sdm(verdeal_model, file = "verdeal_model.RData", overwrite = TRUE)
+
+#Read
+#galega_model <- read.sdm(filename = "galega_model")
+#cobrancosa_model <- read.sdm(filename = "cobrancosa_model")
+#arbequina_model <- read.sdm(filename = "arbequina_model")
+#picual_model <- read.sdm(filename = "picual_model")
+#cordovil_model <- read.sdm(filename = "cordovil_model")
+#madural_model <- read.sdm(filename = "madural_model")
+#verdeal_model <- read.sdm( filename = "verdeal_model")
+
 
 ################################################################################
 #                    2. Model metrics and variable importance
@@ -132,5 +156,4 @@ plot(getVarImp(verdeal_model),'auc')
 rcurve(verdeal_model, mean=TRUE, smooth=TRUE)
 ev_metrics_verdeal_model <- getEvaluation(verdeal_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_verdeal_model <- as.data.frame(round(colMeans(x=ev_metrics_verdeal_model),3))
-
 

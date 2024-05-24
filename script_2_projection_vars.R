@@ -9,6 +9,18 @@
 library(sdm)
 library(terra)
 
+################################################################################
+#    Current Variables - Converted to 10x10 km square grids
+################################################################################
+
+#Create 10x10 km to calibrate models
+utm10 <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/variedades_portugal_15_05_2024.shp")
+utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
+#utm10_df <- data.frame(utm10)
+#utm10_df[is.na(utm10_df)] <- 0
+variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
+#utm_bio1_10x10_df <- data.frame(utm10_df, variables_10x10)
+#names(utm_bio1_10x10_df)
 
 ################################################################################
 #                 RCP 4.5 - CCSM4
