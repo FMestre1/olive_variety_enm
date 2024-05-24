@@ -81,18 +81,18 @@ galega_model <- sdm::sdm(Galega~.,data=galega_sdm_data, methods=c('mlp','cart','
 cobrancosa_model <- sdm::sdm(Cobrancosa~.,data=cobrancosa_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cobrancosa), ncore = 6, modelSettings = modeloptions1, n=1)
 arbequina_model <- sdm::sdm(Arbequina~.,data=arbequina_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(arbequina), ncore = 6, modelSettings = modeloptions1, n=1)
 picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(picual), ncore = 6, modelSettings = modeloptions1, n=1)
-#cordovil_model <- sdm::sdm(Cordovil~.,data=cordovil_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
+cordovil_model <- sdm::sdm(Cordovil~.,data=cordovil_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
 madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(madural), ncore = 6, modelSettings = modeloptions1, n=1)
 verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
 
 #Save...
-write.sdm(galega_model, file = "galega_model.RData", overwrite = TRUE)
-write.sdm(cobrancosa_model, file = "cobrancosa_model.RData", overwrite = TRUE)
-write.sdm(arbequina_model, file = "arbequina_model.RData", overwrite = TRUE)
-write.sdm(picual_model, file = "picual_model.RData", overwrite = TRUE)
+#write.sdm(galega_model, file = "galega_model.RData", overwrite = TRUE)
+#write.sdm(cobrancosa_model, file = "cobrancosa_model.RData", overwrite = TRUE)
+#write.sdm(arbequina_model, file = "arbequina_model.RData", overwrite = TRUE)
+#write.sdm(picual_model, file = "picual_model.RData", overwrite = TRUE)
 #write.sdm(cordovil_model, file = "cordovil_model.RData", overwrite = TRUE)
-write.sdm(madural_model, file = "madural_model.RData", overwrite = TRUE)
-write.sdm(verdeal_model, file = "verdeal_model.RData", overwrite = TRUE)
+#write.sdm(madural_model, file = "madural_model.RData", overwrite = TRUE)
+#write.sdm(verdeal_model, file = "verdeal_model.RData", overwrite = TRUE)
 
 #Read
 #galega_model <- read.sdm(filename = "galega_model")
