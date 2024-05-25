@@ -19,6 +19,16 @@ library(sdm)
 #madural_sdm_data
 #verdeal_sdm_data
 
+#Read...
+#galega_sdm_data <- read.sdm(filename = "galega_sdm_data.sdd")
+#cobrancosa_sdm_data <- read.sdm(filename = "cobrancosa_sdm_data.sdd")
+#arbequina_sdm_data <- read.sdm(filename = "arbequina_sdm_data.sdd")
+#picual_sdm_data <- read.sdm(filename = "picual_sdm_data.sdd")
+#cordovil_sdm_data <- read.sdm(filename = "cordovil_sdm_data.sdd")
+#madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
+#verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")
+
+
 ################################################################################
 #                                0. Setup Options
 ################################################################################
@@ -86,22 +96,22 @@ madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart
 verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
 
 #Save...
-#write.sdm(galega_model, file = "galega_model.RData", overwrite = TRUE)
-#write.sdm(cobrancosa_model, file = "cobrancosa_model.RData", overwrite = TRUE)
-#write.sdm(arbequina_model, file = "arbequina_model.RData", overwrite = TRUE)
-#write.sdm(picual_model, file = "picual_model.RData", overwrite = TRUE)
-#write.sdm(cordovil_model, file = "cordovil_model.RData", overwrite = TRUE)
-#write.sdm(madural_model, file = "madural_model.RData", overwrite = TRUE)
-#write.sdm(verdeal_model, file = "verdeal_model.RData", overwrite = TRUE)
+#write.sdm(galega_model, file = "galega_model", overwrite = TRUE)
+#write.sdm(cobrancosa_model, file = "cobrancosa_model", overwrite = TRUE)
+#write.sdm(arbequina_model, file = "arbequina_model", overwrite = TRUE)
+#write.sdm(picual_model, file = "picual_model", overwrite = TRUE)
+#write.sdm(cordovil_model, file = "cordovil_model", overwrite = TRUE)
+#write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
+#write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
 
 #Read
-#galega_model <- read.sdm(filename = "galega_model")
-#cobrancosa_model <- read.sdm(filename = "cobrancosa_model")
-#arbequina_model <- read.sdm(filename = "arbequina_model")
-#picual_model <- read.sdm(filename = "picual_model")
-#cordovil_model <- read.sdm(filename = "cordovil_model")
-#madural_model <- read.sdm(filename = "madural_model")
-#verdeal_model <- read.sdm( filename = "verdeal_model")
+#galega_model <- read.sdm(filename = "galega_model.sdm")
+#cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
+#arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
+#picual_model <- read.sdm(filename = "picual_model.sdm")
+#cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
+#madural_model <- read.sdm(filename = "madural_model.sdm")
+#verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
 
 ################################################################################

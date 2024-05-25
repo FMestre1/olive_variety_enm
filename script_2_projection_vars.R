@@ -19,8 +19,17 @@ utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Ma
 #utm10_df <- data.frame(utm10)
 #utm10_df[is.na(utm10_df)] <- 0
 variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
-#utm_bio1_10x10_df <- data.frame(utm10_df, variables_10x10)
+#utm_bio1_10x10_df <- data.frame(variables_10x10)
 #names(utm_bio1_10x10_df)
+
+utm10_results <- utm10
+utm10_results$results_galega <- NA
+utm10_results$results_cobrancosa <- NA
+utm10_results$results_arbequina <- NA
+utm10_results$results_picual <- NA
+utm10_results$results_cordovil <- NA
+utm10_results$results_madural <- NA
+utm10_results$results_verdeal <- NA
 
 ################################################################################
 #                 RCP 4.5 - CCSM4
