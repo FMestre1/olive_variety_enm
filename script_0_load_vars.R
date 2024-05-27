@@ -203,6 +203,12 @@ keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84",
 
 env_vars_2 <- env_vars[[keep_these]]
 
+#Saving it...
+#save(env_vars_2, file = "env_vars_2.RData")
+
+#Load it...
+#load("env_vars_2.RData")
+
 ################################################################################
 #                              Create SDM data
 ################################################################################
@@ -214,11 +220,6 @@ picual_sdm_data <- sdmData(train=picual, predictors=env_vars_2, bg=list(n=nrow(p
 cordovil_sdm_data <- sdmData(train=cordovil, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
 madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow(madural),method='gRandom',remove=TRUE))
 verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
-
-#galega_sdm_data2 <- sdmData(Galega~bio2+bio3+bio13+bio15+nffd_wgs84+eref_wgs84+OCD+pH+Sand+Soil_Class+TRI+TWI,
-#                           train=utm_bio1_10x10_df,
-#                           method='gRandom',
-#                           remove=TRUE)
 
 #Save...
 #write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
