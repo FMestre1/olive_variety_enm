@@ -124,6 +124,7 @@ bioclimatic_crop <- crop(bioclimatic, portugal, mask = TRUE)
 names(bioclimatic_crop) <- c("bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bio7", "bio8", "bio9", 
                              "bio10", "bio11", "bio12", "bio13", "bio14", "bio15", "bio16", "bio17", "bio18", 
                              "bio19")
+
 #plot(bioclimatic_crop)
 
 #Other variables
@@ -145,6 +146,7 @@ eref <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-
 climate_eu <- c(ahm, shm, nffd, eref)
 climate_eu_res <- terra::resample(climate_eu, bio1)
 climate_eu_res_crop <- crop(climate_eu_res, portugal, mask = TRUE)
+
 
 #plot(climate_eu_crop)
 
@@ -174,12 +176,14 @@ soil <- c(bdod_wgs84, ocd_wgs84, ph_wgs84, sand_wgs84, soil_class_wgs84, tri_wgs
 soil_crop <- crop(soil, portugal, mask = TRUE)
 #plot(soil_crop)
 
+
 ################################################################################
 #                        All variables together...
 ################################################################################
 
 env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
 #names(env_vars)
+
 
 ################################################################################
 #                       Variance Inflation Factor (VIF)
@@ -198,8 +202,11 @@ env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
 #
 
 #Keep the one from the first time I ran the VIF function
+#keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
+#  "eref_wgs84", "OCD", "pH", "Sand", "Soil_Class", "TRI", "TWI")
 keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
-  "eref_wgs84", "OCD", "pH", "Sand", "Soil_Class", "TRI", "TWI")
+                "eref_wgs84", "OCD", "pH", "Sand", "TRI", "TWI")
+
 
 env_vars_2 <- env_vars[[keep_these]]
 
@@ -209,11 +216,29 @@ env_vars_2 <- env_vars[[keep_these]]
 #Load it...
 #load("env_vars_2.RData")
 
+
+################################################################################
+#                    Average to every 10x10 km square grid
+################################################################################
+
+#Create 10x10 km to calibrate models
+utm10 <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/variedades_portugal_15_05_2024.shp")
+utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
+#utm10_df <- data.frame(utm10)
+#utm10_df[is.na(utm10_df)] <- 0
+variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
+#utm_bio1_10x10_df <- data.frame(variables_10x10)
+#names(utm_bio1_10x10_df)
+
+#variables_10x10_2 <- terra::cbind2(utm10, variables_10x10)
+#plot(variables_10x10_2, "TWI")
+#names(variables_10x10_2)
+
 ################################################################################
 #                              Create SDM data
 ################################################################################
 
-galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
+galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(galega),method='gRandom',remove=TRUE))
 cobrancosa_sdm_data <- sdmData(train=cobrancosa, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
 arbequina_sdm_data <- sdmData(train=arbequina, predictors=env_vars_2, bg=list(n=nrow(arbequina),method='gRandom',remove=TRUE))
 picual_sdm_data <- sdmData(train=picual, predictors=env_vars_2, bg=list(n=nrow(picual),method='gRandom',remove=TRUE))
@@ -222,13 +247,22 @@ madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow
 verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
 
 #Save...
-#write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
-#write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
-#write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
-#write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
-#write.sdm(cordovil_sdm_data, filename = "cordovil_sdm_data", overwrite = TRUE)
-#write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
-#write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
+write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
+write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
+write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
+write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
+write.sdm(cordovil_sdm_data, filename = "cordovil_sdm_data", overwrite = TRUE)
+write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
+write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
+
+#remove individual rasters...
+rm(bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9, 
+   bio10, bio11, bio12, bio13, bio14, bio15, bio16, bio17, 
+   bio18, bio19, bdod_wgs84, ocd_wgs84, ph_wgs84, sand_wgs84, 
+   soil_class_wgs84, tri_wgs84, twi_wgs84, slope_wgs84, 
+   bdod, ocd, ph, sand, soil_class, tri, twi, slope, bioclimatic_crop, 
+   climate_eu_res_crop, soil_crop, climate_eu, climate_eu_res, soil, 
+   keep_these, ahm, shm, nffd, eref)
 
 #Read...
 #galega_sdm_data <- read.sdm(filename = "galega_sdm_data.sdd")

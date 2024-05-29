@@ -82,28 +82,20 @@ modeloptions1 <- list(
 #                                1. Build Models
 ################################################################################
 
-# Example 3: fits using 5 models, and evaluates using 10 runs of both 5-folds 
-#cross-validation and bootsrapping replication methods
-
-#m <- sdm(sp~.,data=d,methods=c('gbm','tree','mars','mda','fda'), replication=c('cv','boot'),cv.folds=5, n=10)
-
 galega_model <- sdm::sdm(Galega~.,data=galega_sdm_data, methods=c('mlp','cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(galega), ncore = 6, modelSettings = modeloptions1, n=1)
+write.sdm(galega_model, file = "galega_model", overwrite = TRUE)
 cobrancosa_model <- sdm::sdm(Cobrancosa~.,data=cobrancosa_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cobrancosa), ncore = 6, modelSettings = modeloptions1, n=1)
+write.sdm(cobrancosa_model, file = "cobrancosa_model", overwrite = TRUE)
 arbequina_model <- sdm::sdm(Arbequina~.,data=arbequina_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(arbequina), ncore = 6, modelSettings = modeloptions1, n=1)
+write.sdm(arbequina_model, file = "arbequina_model", overwrite = TRUE)
 picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(picual), ncore = 6, modelSettings = modeloptions1, n=1)
+write.sdm(picual_model, file = "picual_model", overwrite = TRUE)
 cordovil_model <- sdm::sdm(Cordovil~.,data=cordovil_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
+write.sdm(cordovil_model, file = "cordovil_model", overwrite = TRUE)
 madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(madural), ncore = 6, modelSettings = modeloptions1, n=1)
+write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
 verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
-
-
-#Save...
-#write.sdm(galega_model, file = "galega_model", overwrite = TRUE)
-#write.sdm(cobrancosa_model, file = "cobrancosa_model", overwrite = TRUE)
-#write.sdm(arbequina_model, file = "arbequina_model", overwrite = TRUE)
-#write.sdm(picual_model, file = "picual_model", overwrite = TRUE)
-#write.sdm(cordovil_model, file = "cordovil_model", overwrite = TRUE)
-#write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
-#write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
+write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
 
 #Read
 #galega_model <- read.sdm(filename = "galega_model.sdm")
@@ -114,7 +106,6 @@ verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
-
 ################################################################################
 #                    2. Model metrics and variable importance
 ################################################################################
@@ -123,12 +114,12 @@ verdeal_model <- sdm::sdm(Verdeal~.,data=verdeal_sdm_data,methods=c('mlp', 'cart
 #getModelInfo(galega_model)
 vimp_galega <- getVarImp(galega_model)
 vimp_galega@varImportanceMean$AUCtest
-#
+png(file="vimp_galega_model.png",width=800, height=500)
 plot(getVarImp(galega_model),'auc')
-rcurve(galega_model, mean=TRUE, smooth=TRUE)
+dev.off()
+#rcurve(galega_model, mean=TRUE, smooth=TRUE)
 ev_metrics_galega_model <- getEvaluation(galega_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_galega_model <- as.data.frame(round(colMeans(x=ev_metrics_galega_model),3))
-#save(mean_ev_metrics_galega_model, file = "mean_ev_metrics_galega_model.RData")
 
 
 ##### Cobrancosa #####
@@ -137,10 +128,9 @@ vimp_cobrancosa <- getVarImp(cobrancosa_model)
 vimp_cobrancosa@varImportanceMean$AUCtest
 #
 plot(getVarImp(cobrancosa_model),'auc')
-rcurve(cobrancosa_model, mean=TRUE, smooth=TRUE)
+#rcurve(cobrancosa_model, mean=TRUE, smooth=TRUE)
 ev_metrics_cobrancosa_model <- getEvaluation(cobrancosa_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_cobrancosa_model <- as.data.frame(round(colMeans(x=ev_metrics_cobrancosa_model),3))
-#save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
 
 
 ##### Arbequina #####
@@ -149,10 +139,9 @@ vimp_arbequina <- getVarImp(arbequina_model)
 vimp_arbequina@varImportanceMean$AUCtest
 #
 plot(getVarImp(arbequina_model),'auc')
-rcurve(arbequina_model, mean=TRUE, smooth=TRUE)
+#rcurve(arbequina_model, mean=TRUE, smooth=TRUE)
 ev_metrics_arbequina_model <- getEvaluation(arbequina_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_arbequina_model <- as.data.frame(round(colMeans(x=ev_metrics_arbequina_model),3))
-#save(mean_ev_metrics_arbequina_model, file = "mean_ev_metrics_arbequina_model.RData")
 
 
 ##### Picual #####
@@ -161,10 +150,9 @@ vimp_picual <- getVarImp(picual_model)
 vimp_picual@varImportanceMean$AUCtest
 #
 plot(getVarImp(picual_model),'auc')
-rcurve(picual_model, mean=TRUE, smooth=TRUE)
+#rcurve(picual_model, mean=TRUE, smooth=TRUE)
 ev_metrics_picual_model <- getEvaluation(picual_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_picual_model <- as.data.frame(round(colMeans(x=ev_metrics_picual_model),3))
-#save(mean_ev_metrics_picual_model, file = "mean_ev_metrics_picual_model.RData")
 
 
 ##### Cordovil #####
@@ -173,10 +161,9 @@ vimp_cordovil <- getVarImp(cordovil_model)
 vimp_cordovil@varImportanceMean$AUCtest
 #
 plot(getVarImp(cordovil_model),'auc')
-rcurve(cordovil_model, mean=TRUE, smooth=TRUE)
+#rcurve(cordovil_model, mean=TRUE, smooth=TRUE)
 ev_metrics_cordovil_model <- getEvaluation(cordovil_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_cordovil_model <- as.data.frame(round(colMeans(x=ev_metrics_cordovil_model),3))
-#save(mean_ev_metrics_cordovil_model, file = "mean_ev_metrics_cordovil_model.RData")
 
 
 ##### Madural #####
@@ -185,10 +172,9 @@ vimp_madural <- getVarImp(madural_model)
 vimp_madural@varImportanceMean$AUCtest
 #
 plot(getVarImp(madural_model),'auc')
-rcurve(madural_model, mean=TRUE, smooth=TRUE)
+#rcurve(madural_model, mean=TRUE, smooth=TRUE)
 ev_metrics_madural_model <- getEvaluation(madural_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_madural_model <- as.data.frame(round(colMeans(x=ev_metrics_madural_model),3))
-#save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
 
 
 ##### Verdeal #####
@@ -197,8 +183,16 @@ vimp_verdeal <- getVarImp(verdeal_model)
 vimp_verdeal@varImportanceMean$AUCtest
 #
 plot(getVarImp(verdeal_model),'auc')
-rcurve(verdeal_model, mean=TRUE, smooth=TRUE)
+#rcurve(verdeal_model, mean=TRUE, smooth=TRUE)
 ev_metrics_verdeal_model <- getEvaluation(verdeal_model, stat=c('TSS','Kappa','AUC', 'specificity', 'sensitivity'),opt="max(se+sp)")
 mean_ev_metrics_verdeal_model <- as.data.frame(round(colMeans(x=ev_metrics_verdeal_model),3))
-#save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")
 
+
+#Save...
+save(mean_ev_metrics_galega_model, file = "mean_ev_metrics_galega_model.RData")
+save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
+save(mean_ev_metrics_arbequina_model, file = "mean_ev_metrics_arbequina_model.RData")
+save(mean_ev_metrics_picual_model, file = "mean_ev_metrics_picual_model.RData")
+save(mean_ev_metrics_cordovil_model, file = "mean_ev_metrics_cordovil_model.RData")
+save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
+save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")

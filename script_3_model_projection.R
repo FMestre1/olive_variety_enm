@@ -37,7 +37,8 @@ ensemble_galega <- sdm::ensemble(
   )
 
 utm10_results$results_galega <- ensemble_galega
-plot(utm10_results, "results_galega")
+#plot(utm10_results, "results_galega")
+save(ensemble_galega, file = "galega_ensemble.RData")
 
 
 ##### COBRANÇOSA #####
@@ -54,7 +55,8 @@ ensemble_cobrancosa <- sdm::ensemble(
 
 
 utm10_results$results_cobrancosa <- ensemble_cobrancosa
-plot(utm10_results, "results_cobrancosa")
+#plot(utm10_results, "results_cobrancosa")
+save(ensemble_cobrancosa, file = "cobrancosa_ensemble.RData")
 
 
 ##### ARBEQUINA
@@ -70,7 +72,8 @@ ensemble_arbequina <- sdm::ensemble(
 )
 
 utm10_results$results_arbequina <- ensemble_arbequina
-plot(utm10_results, "results_arbequina")
+#plot(utm10_results, "results_arbequina")
+save(ensemble_arbequina, file = "arbequina_ensemble.RData")
 
 
 ##### PICUAL
@@ -86,7 +89,8 @@ ensemble_picual <- sdm::ensemble(
 )
 
 utm10_results$results_picual <- ensemble_picual
-plot(utm10_results, "results_picual")
+#plot(utm10_results, "results_picual")
+save(ensemble_picual, file = "picual_ensemble.RData")
 
 
 ##### CORDOVIL
@@ -102,7 +106,8 @@ ensemble_cordovil <- sdm::ensemble(
 )
 
 utm10_results$results_cordovil <- ensemble_cordovil
-plot(utm10_results, "results_cordovil")
+#plot(utm10_results, "results_cordovil")
+save(ensemble_cordovil, file = "cordovil_ensemble.RData")
 
 
 ##### MADURAL
@@ -118,8 +123,8 @@ ensemble_madural <- sdm::ensemble(
 )
 
 utm10_results$results_madural <- ensemble_madural
-plot(utm10_results, "results_madural")
-
+#plot(utm10_results, "results_madural")
+save(ensemble_madural, file = "madural_ensemble.RData")
 
 ##### VERDEAL
 ensemble_verdeal <- sdm::ensemble(
@@ -134,21 +139,18 @@ ensemble_verdeal <- sdm::ensemble(
 )
 
 utm10_results$results_verdeal <- ensemble_verdeal
-plot(utm10_results, "results_verdeal")
-
+#plot(utm10_results, "results_verdeal")
+save(ensemble_verdeal, file = "verdeal_ensemble.RData")
 
 ################################################################################
-#                              Write to disk
+#                              Write to shapefile
 ################################################################################
 
-#Save...
-#save(ensemble_galega, file = "galega_ensemble.RData")
-#save(ensemble_cobrancosa, file = "cobrancosa_ensemble.RData")
-#save(ensemble_arbequina, file = "arbequina_ensemble.RData")
-#save(ensemble_picual, file = "picual_ensemble.RData")
-#save(ensemble_cordovil, file = "cordovil_ensemble.RData")
-#save(ensemble_madural, file = "madural_ensemble.RData")
-#save(ensemble_verdeal, file = "verdeal_ensemble.RData")
+terra::writeVector(utm10_results, "olive_variety_suitability_v2", filetype="ESRI Shapefile")
+
+################################################################################
+#                              Load ...
+################################################################################
 
 #Load...
 #load("galega_ensemble.RData")
@@ -190,10 +192,4 @@ dev.off()
 png(file="verdeal.png",width=800, height=500)
 plot(utm10_results, "results_verdeal", main = "Verdeal")
 dev.off()
-
-################################################################################
-#                              Write to shapefile
-################################################################################
-
-terra::writeVector(utm10_results, "olive_variety_suitability", filetype="ESRI Shapefile")
 
