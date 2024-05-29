@@ -189,10 +189,10 @@ mean_ev_metrics_verdeal_model <- as.data.frame(round(colMeans(x=ev_metrics_verde
 
 
 #Save...
-save(mean_ev_metrics_galega_model, file = "mean_ev_metrics_galega_model.RData")
-save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
-save(mean_ev_metrics_arbequina_model, file = "mean_ev_metrics_arbequina_model.RData")
-save(mean_ev_metrics_picual_model, file = "mean_ev_metrics_picual_model.RData")
-save(mean_ev_metrics_cordovil_model, file = "mean_ev_metrics_cordovil_model.RData")
-save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
-save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")
+#save(mean_ev_metrics_galega_model, file = "mean_ev_metrics_galega_model.RData")
+#save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
+#save(mean_ev_metrics_arbequina_model, file = "mean_ev_metrics_arbequina_model.RData")
+#save(mean_ev_metrics_picual_model, file = "mean_ev_metrics_picual_model.RData")
+#save(mean_ev_metrics_cordovil_model, file = "mean_ev_metrics_cordovil_model.RData")
+#save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
+#save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")
