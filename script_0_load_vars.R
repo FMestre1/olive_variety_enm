@@ -167,15 +167,11 @@ sand_wgs84 <- terra::project(sand, bio1)
 soil_class_wgs84 <- terra::project(soil_class, bio1)
 tri_wgs84 <- terra::project(tri, bio1)
 twi_wgs84 <- terra::project(twi, bio1)
-slope_wgs84 <- terra::project(slope, bio1)
-#
-#crs(ocd_wgs84)
-#terra::res(ocd_wgs84)
+slope_wgs84 <- terra::project(slope, bio1)#
 
 soil <- c(bdod_wgs84, ocd_wgs84, ph_wgs84, sand_wgs84, soil_class_wgs84, tri_wgs84, twi_wgs84, slope_wgs84)
 soil_crop <- crop(soil, portugal, mask = TRUE)
 #plot(soil_crop)
-
 
 ################################################################################
 #                        All variables together...
@@ -231,8 +227,10 @@ variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
 #names(utm_bio1_10x10_df)
 
 #variables_10x10_2 <- terra::cbind2(utm10, variables_10x10)
-#plot(variables_10x10_2, "TWI")
+#plot(variables_10x10_2, "bio2")
 #names(variables_10x10_2)
+
+plot(bio2)
 
 ################################################################################
 #                              Create SDM data
@@ -247,13 +245,13 @@ madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow
 verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
 
 #Save...
-write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
-write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
-write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
-write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
-write.sdm(cordovil_sdm_data, filename = "cordovil_sdm_data", overwrite = TRUE)
-write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
-write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
+#write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
+#write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
+#write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
+#write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
+#write.sdm(cordovil_sdm_data, filename = "cordovil_sdm_data", overwrite = TRUE)
+#write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
+#write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
 
 #remove individual rasters...
 rm(bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9, 

@@ -9,7 +9,7 @@
 library(sdm)
 library(terra)
 #remotes::install_github("dieghernan/tidyterra")
-library("tidyterra")
+library(tidyterra)
 
 #A model performs accurately at a certain detection threshold if it scores a 
 #TSS higher than 0.5 (Allouche et al. 2006; Liu et al. 2011).
@@ -24,6 +24,15 @@ library("tidyterra")
 #cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
+
+#Ensemble Outputs
+#load("galega_ensemble.RData")
+#load("cobrancosa_ensemble.RData")
+#load("arbequina_ensemble.RData")
+#load("picual_ensemble.RData")
+#load("cordovil_ensemble.RData")
+#load("madural_ensemble.RData")
+#load("verdeal_ensemble.RData")
 
 
 ##### GALEGA #####
@@ -145,8 +154,6 @@ utm10_results$results_verdeal <- ensemble_verdeal
 save(ensemble_verdeal, file = "verdeal_ensemble.RData")
 
 
-
-
 ################################################################################
 #                           Evaluation metrics
 ################################################################################
@@ -239,34 +246,8 @@ rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordov
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results, "olive_variety_suitability_v2", filetype="ESRI Shapefile")
-names(utm10_results)
-
-
-################################################################################
-#                     Figure of current suitability
-################################################################################
-
-#Hernangómez, D., (2023). Using the tidyverse with terra objects: 
-#the tidyterra package. Journal of Open Source Software, 8(91), 5751, 
-#https://doi.org/10.21105/joss.05751.
-
-#"atlas", "high_relief", "arid", "soft", "muted", "purple", "viridi", "gn_yl", "pi_y_g", "bl_yl_rd", "deep".
-
-ggplot(utm10_results) +
-  #autoplot(aes(fill = results_galega)) +
-  geom_spatvector(data = utm10_results, fill = NA) +
-  scale_fill_whitebox_d(palette = "viridi") + 
-  theme_grey()
-  
-  scale_fill_whitebox_c(palette = "viridi") +
-  labs(
-    fill = "population per km2",
-    title = "Population density of Luxembourg",
-    subtitle = "By canton"
-  )
-
-
+#terra::writeVector(utm10_results, "olive_variety_suitability_v4", filetype="ESRI Shapefile")
+#utm10_results <- terra::vect("olive_variety_suitability_v2/olive_variety_suitability_v4.shp")
 
 ################################################################################
 #                              Load ...
@@ -282,41 +263,98 @@ ggplot(utm10_results) +
 #load("verdeal_ensemble.RData")
 
 ################################################################################
-#                              Combined plot
+#                              Plotting
 ################################################################################
 
-png(file="galega.png",width=800, height=500)
-plot(utm10_results, "results_galega", main = "Galega")
+
+#tidyterra reference:
+  
+  #Hernangómez, D., (2023). Using the tidyverse with terra objects: 
+  #the tidyterra package. Journal of Open Source Software, 8(91), 5751, 
+  #https://doi.org/10.21105/joss.05751.
+  
+  
+png(file="galega_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_galega), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Galega current suitability"
+  )+ 
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="cobrancosa.png",width=800, height=500)
-plot(utm10_results, "results_cobrancosa", main = "Cobrançosa")
+
+png(file="cobrancosa_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_cobrancosa), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Cobrançosa current suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="arbequina.png",width=800, height=500)
-plot(utm10_results, "results_arbequina", main = "Arbequina")
+png(file="arbequina_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_arbequina), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Arbequina current suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="picual.png",width=800, height=500)
-plot(utm10_results, "results_picual", main = "Picual")
+png(file="picual_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_picual), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Picual current suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="cordovil.png",width=800, height=500)
-plot(utm10_results, "results_cordovil", main = "Cordovil")
+png(file="cordovil_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_cordovil), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Cordovil current suitability"
+  )+
+geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="madural.png",width=800, height=500)
-plot(utm10_results, "results_madural", main = "Madural")
+png(file="madural_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_madural), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Madural current suitability"
+  )+
+geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="verdeal.png",width=800, height=500)
-plot(utm10_results, "results_verdeal", main = "Verdeal")
+png(file="verdeal_v4.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_verdeal), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Verdeal current suitability"
+  )+
+geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
 #######################################################################################################################################
 #                                                   MODEL PROJECTION - 2050
 #######################################################################################################################################
-
 
 
 
