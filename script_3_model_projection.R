@@ -352,11 +352,195 @@ ggplot(utm10_results) +
 geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
+
+################################################################################
+#                 Creta vector for the 2050 projections
+################################################################################
+
+utm10_results_2050 <- utm10
+utm10_results_2050$galCC <- NA
+utm10_results_2050$cbrCC <- NA
+utm10_results_2050$arbCC <- NA
+utm10_results_2050$picCC <- NA
+utm10_results_2050$corCC <- NA
+utm10_results_2050$madCC <- NA
+utm10_results_2050$verCC <- NA
+#
+utm10_results_2050$galCN <- NA
+utm10_results_2050$cbrCN <- NA
+utm10_results_2050$arbCN <- NA
+utm10_results_2050$picCN <- NA
+utm10_results_2050$corCN <- NA
+utm10_results_2050$madCN <- NA
+utm10_results_2050$verCN <- NA
+#
+utm10_results_2050$galGF <- NA
+utm10_results_2050$cbrGF <- NA
+utm10_results_2050$arbGF <- NA
+utm10_results_2050$picGF <- NA
+utm10_results_2050$corGF <- NA
+utm10_results_2050$madGF <- NA
+utm10_results_2050$verGF <- NA
+#
+utm10_results_2050$galHad <- NA
+utm10_results_2050$cbrHad <- NA
+utm10_results_2050$arbHad <- NA
+utm10_results_2050$picHad <- NA
+utm10_results_2050$corHad <- NA
+utm10_results_2050$madHad <- NA
+utm10_results_2050$verHad <- NA
+#
+utm10_results_2050$galIN <- NA
+utm10_results_2050$cbrIN <- NA
+utm10_results_2050$arbIN <- NA
+utm10_results_2050$picIN <- NA
+utm10_results_2050$corIN <- NA
+utm10_results_2050$madIN <- NA
+utm10_results_2050$verIN <- NA
+#
+utm10_results_2050$galIP <- NA
+utm10_results_2050$cbrIP <- NA
+utm10_results_2050$arbIP <- NA
+utm10_results_2050$picIP <- NA
+utm10_results_2050$corIP <- NA
+utm10_results_2050$madIP <- NA
+utm10_results_2050$verIP <- NA
+#
+utm10_results_2050$galMPI <- NA
+utm10_results_2050$cbrMPI <- NA
+utm10_results_2050$arbMPI <- NA
+utm10_results_2050$picMPI <- NA
+utm10_results_2050$corMPI <- NA
+utm10_results_2050$madMPI <- NA
+utm10_results_2050$verMPI <- NA
+
 #######################################################################################################################################
 #                                                   MODEL PROJECTION - 2050
 #######################################################################################################################################
 
+################################################################################
+#                 RCP 4.5 - CCSM4 (CC)
+################################################################################
+
+#Use thes vars
+#variables_10x10_cc_rcp45
+
+#Read
+#galega_model <- read.sdm(filename = "galega_model.sdm")
+#cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
+#arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
+#picual_model <- read.sdm(filename = "picual_model.sdm")
+#cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
+#madural_model <- read.sdm(filename = "madural_model.sdm")
+#verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
+
+##### GALEGA #####
+ensemble_galega_2050_CC <- sdm::ensemble(
+  x = galega_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+#utm10_results_2050$galCC <- ensemble_galega_2050_CC
+#save(ensemble_galega_2050_CC, file = "ensemble_galega_2050_CC.RData")
 
 
+##### COBRANÇOSA #####
+ensemble_cobrancosa_2050_CC <- sdm::ensemble(
+  x = cobrancosa_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+#AQUI - os valores são muito esquisitos, muitos NA e NaN
+utm10_results_2050$cbrCC <- ensemble_cobrancosa_2050_CC
+save(ensemble_cobrancosa_2050_CC, file = "ensemble_cobrancosa_2050_CC.RData")
 
+
+##### ARBEQUINA
+ensemble_arbequina_2050_CC <- sdm::ensemble(
+  x = arbequina_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$arbCC <- ensemble_arbequina_2050_CC
+save(ensemble_arbequina_2050_CC, file = "ensemble_arbequina_2050_CC.RData")
+
+
+##### PICUAL
+ensemble_picual_2050_CC <- sdm::ensemble(
+  x = picual_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$picCC <- ensemble_picual_2050_CC
+save(ensemble_picual_2050_CC, file = "ensemble_picual_2050_CC.RData")
+
+
+##### CORDOVIL
+ensemble_cordovil_2050_CC <- sdm::ensemble(
+  x = cordovil_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$corCC <- ensemble_cordovil_2050_CC
+save(ensemble_cordovil_2050_CC, file = "ensemble_cordovil_2050_CC.RData")
+
+
+##### MADURAL
+ensemble_madural_2050_CC <- sdm::ensemble(
+  x = madural_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$madCC <- ensemble_madural_2050_CC
+save(ensemble_madural_2050_CC, file = "ensemble_madural_2050_CC.RData")
+
+##### VERDEAL
+ensemble_verdeal_2050_CC <- sdm::ensemble(
+  x = verdeal_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$verCC <- ensemble_verdeal_2050_CC
+save(ensemble_verdeal_2050_CC, file = "ensemble_verdeal_2050_CC.RData")
 

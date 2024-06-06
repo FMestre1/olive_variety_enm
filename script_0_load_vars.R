@@ -147,7 +147,6 @@ climate_eu <- c(ahm, shm, nffd, eref)
 climate_eu_res <- terra::resample(climate_eu, bio1)
 climate_eu_res_crop <- crop(climate_eu_res, portugal, mask = TRUE)
 
-
 #plot(climate_eu_crop)
 
 #Soil-related variables
