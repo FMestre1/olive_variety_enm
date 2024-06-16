@@ -22,10 +22,22 @@ library(tidyterra)
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
+#Load the variable data frames
+#load("variables_10x10_cc_rcp45.csv")
+#load("variables_10x10_cn_rcp45.csv")
+#load("variables_10x10_gf_rcp45.csv")
+#load("variables_10x10_had_rcp45.csv")
+#load("variables_10x10_in_rcp45.csv")
+#load("variables_10x10_ip_rcp45.csv")
+#load("variables_10x10_mpi_rcp45.csv")
 
 ################################################################################
 #                 Create vector for the 2050 projections
 ################################################################################
+
+#Create 10x10 km to calibrate models
+utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
+utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
 
 utm10_results_2050 <- utm10
 utm10_results_2050$galCC <- NA
@@ -92,18 +104,6 @@ utm10_results_2050$verMPI <- NA
 #                 RCP 4.5 - CCSM4 (CC)
 ################################################################################
 
-#Use thes vars
-#variables_10x10_cc_rcp45
-
-#Read
-#galega_model <- read.sdm(filename = "galega_model.sdm")
-#cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
-#arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
-#picual_model <- read.sdm(filename = "picual_model.sdm")
-#cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
-#madural_model <- read.sdm(filename = "madural_model.sdm")
-#verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
-
 ##### GALEGA #####
 ensemble_galega_2050_CC <- sdm::ensemble(
   x = galega_model,
@@ -117,7 +117,7 @@ ensemble_galega_2050_CC <- sdm::ensemble(
 )
 
 utm10_results_2050$galCC <- ensemble_galega_2050_CC
-#save(ensemble_galega_2050_CC, file = "ensemble_galega_2050_CC.RData")
+save(ensemble_galega_2050_CC, file = "ensemble_galega_2050_CC.RData")
 #load("ensemble_galega_2050_CC.RData")
 
 ##### COBRANÇOSA #####
@@ -132,10 +132,8 @@ ensemble_cobrancosa_2050_CC <- sdm::ensemble(
   )
 )
 
-#AQUI - os valores são muito esquisitos, muitos NA e NaN
-
 utm10_results_2050$cbrCC <- ensemble_cobrancosa_2050_CC
-#save(ensemble_cobrancosa_2050_CC, file = "ensemble_cobrancosa_2050_CC.RData")
+save(ensemble_cobrancosa_2050_CC, file = "ensemble_cobrancosa_2050_CC.RData")
 #load("ensemble_cobrancosa_2050_CC.RData")
 
 ##### ARBEQUINA
@@ -238,7 +236,7 @@ ensemble_galega_2050_CN <- sdm::ensemble(
 )
 
 utm10_results_2050$galCN <- ensemble_galega_2050_CN
-#save(ensemble_galega_2050_CN, file = "ensemble_galega_2050_CN.RData")
+save(ensemble_galega_2050_CN, file = "ensemble_galega_2050_CN.RData")
 #load("ensemble_galega_2050_CN.RData")
 
 ##### COBRANÇOSA #####
@@ -254,7 +252,7 @@ ensemble_cobrancosa_2050_CN <- sdm::ensemble(
 )
 
 utm10_results_2050$cbrCN <- ensemble_cobrancosa_2050_CN
-#save(ensemble_cobrancosa_2050_CN, file = "ensemble_cobrancosa_2050_CN.RData")
+save(ensemble_cobrancosa_2050_CN, file = "ensemble_cobrancosa_2050_CN.RData")
 #load("ensemble_cobrancosa_2050_CN.RData")
 
 ##### ARBEQUINA
@@ -345,7 +343,6 @@ save(ensemble_verdeal_2050_CN, file = "ensemble_verdeal_2050_CN.RData")
 #                 RCP 4.5 - GFDL-CM3 (GF)
 ################################################################################
 
-
 ##### GALEGA #####
 ensemble_galega_2050_GF <- sdm::ensemble(
   x = galega_model,
@@ -359,7 +356,7 @@ ensemble_galega_2050_GF <- sdm::ensemble(
 )
 
 utm10_results_2050$galGF <- ensemble_galega_2050_GF
-#save(ensemble_galega_2050_GF, file = "ensemble_galega_2050_GF.RData")
+save(ensemble_galega_2050_GF, file = "ensemble_galega_2050_GF.RData")
 #load("ensemble_galega_2050_GF.RData")
 
 ##### COBRANÇOSA #####
@@ -375,7 +372,7 @@ ensemble_cobrancosa_2050_GF <- sdm::ensemble(
 )
 
 utm10_results_2050$cbrGF <- ensemble_cobrancosa_2050_GF
-#save(ensemble_cobrancosa_2050_GF, file = "ensemble_cobrancosa_2050_GF.RData")
+save(ensemble_cobrancosa_2050_GF, file = "ensemble_cobrancosa_2050_GF.RData")
 #load("ensemble_cobrancosa_2050_GF.RData")
 
 ##### ARBEQUINA
@@ -479,7 +476,7 @@ ensemble_galega_2050_HAD <- sdm::ensemble(
 )
 
 utm10_results_2050$galHAD <- ensemble_galega_2050_HAD
-#save(ensemble_galega_2050_HAD, file = "ensemble_galega_2050_HAD.RData")
+save(ensemble_galega_2050_HAD, file = "ensemble_galega_2050_HAD.RData")
 #load("ensemble_galega_2050_HAD.RData")
 
 ##### COBRANÇOSA #####
@@ -495,7 +492,7 @@ ensemble_cobrancosa_2050_HAD <- sdm::ensemble(
 )
 
 utm10_results_2050$cbrHAD <- ensemble_cobrancosa_2050_HAD
-#save(ensemble_cobrancosa_2050_HAD, file = "ensemble_cobrancosa_2050_HAD.RData")
+save(ensemble_cobrancosa_2050_HAD, file = "ensemble_cobrancosa_2050_HAD.RData")
 #load("ensemble_cobrancosa_2050_HAD.RData")
 
 ##### ARBEQUINA
@@ -599,7 +596,7 @@ ensemble_galega_2050_IN <- sdm::ensemble(
 )
 
 utm10_results_2050$galIN <- ensemble_galega_2050_IN
-#save(ensemble_galega_2050_IN, file = "ensemble_galega_2050_IN.RData")
+save(ensemble_galega_2050_IN, file = "ensemble_galega_2050_IN.RData")
 #load("ensemble_galega_2050_IN.RData")
 
 ##### COBRANÇOSA #####
@@ -615,7 +612,7 @@ ensemble_cobrancosa_2050_IN <- sdm::ensemble(
 )
 
 utm10_results_2050$cbrIN <- ensemble_cobrancosa_2050_IN
-#save(ensemble_cobrancosa_2050_IN, file = "ensemble_cobrancosa_2050_IN.RData")
+save(ensemble_cobrancosa_2050_IN, file = "ensemble_cobrancosa_2050_IN.RData")
 #load("ensemble_cobrancosa_2050_IN.RData")
 
 ##### ARBEQUINA
@@ -719,7 +716,7 @@ ensemble_galega_2050_IP <- sdm::ensemble(
 )
 
 utm10_results_2050$galIP <- ensemble_galega_2050_IP
-#save(ensemble_galega_2050_IP, file = "ensemble_galega_2050_IP.RData")
+save(ensemble_galega_2050_IP, file = "ensemble_galega_2050_IP.RData")
 #load("ensemble_galega_2050_IP.RData")
 
 ##### COBRANÇOSA #####
@@ -735,7 +732,7 @@ ensemble_cobrancosa_2050_IP <- sdm::ensemble(
 )
 
 utm10_results_2050$cbrIP <- ensemble_cobrancosa_2050_IP
-#save(ensemble_cobrancosa_2050_IP, file = "ensemble_cobrancosa_2050_IP.RData")
+save(ensemble_cobrancosa_2050_IP, file = "ensemble_cobrancosa_2050_IP.RData")
 #load("ensemble_cobrancosa_2050_IP.RData")
 
 ##### ARBEQUIPA
@@ -839,7 +836,7 @@ ensemble_galega_2050_MPI <- sdm::ensemble(
 )
 
 utm10_results_2050$galMPI <- ensemble_galega_2050_MPI
-#save(ensemble_galega_2050_MPI, file = "ensemble_galega_2050_MPI.RData")
+save(ensemble_galega_2050_MPI, file = "ensemble_galega_2050_MPI.RData")
 #load("ensemble_galega_2050_MPI.RData")
 
 ##### COBRANÇOSA #####
@@ -855,7 +852,7 @@ ensemble_cobrancosa_2050_MPI <- sdm::ensemble(
 )
 
 utm10_results_2050$cbrMPI <- ensemble_cobrancosa_2050_MPI
-#save(ensemble_cobrancosa_2050_MPI, file = "ensemble_cobrancosa_2050_MPI.RData")
+save(ensemble_cobrancosa_2050_MPI, file = "ensemble_cobrancosa_2050_MPI.RData")
 #load("ensemble_cobrancosa_2050_MPI.RData")
 
 ##### ARBEQUMPIA
@@ -946,5 +943,5 @@ save(ensemble_verdeal_2050_MPI, file = "ensemble_verdeal_2050_MPI.RData")
 #                              Write to shapefile
 ################################################################################
 
-#terra::writeVector(utm10_results_2050, "utm10_results_2050", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results_2050, "utm10_results_2050", filetype="ESRI Shapefile")
 #utm10_results_2050 <- terra::vect("olive_variety_suitability_v2/utm10_results_2050.shp")

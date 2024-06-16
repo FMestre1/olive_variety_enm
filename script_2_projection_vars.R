@@ -24,6 +24,18 @@ crs_climateEU <- 'PROJCS["Europe_Albers_Equal_Area_Conic",
     PARAMETER["Standard_Parallel_2",62.0],
     PARAMETER["Latitude_Of_Origin",30.0],
     UNIT["Meter",1.0]]'
+
+#Load sample raster for resample operations
+bio1 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_1.tif")
+
+#Load Portugal shape
+portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
+
+#Create 10x10 km to calibrate models
+utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
+utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
+#utm10_df <- data.frame(utm10)
+#utm10_df[is.na(utm10_df)] <- 0
 	
 ################################################################################
 #         Variables that remain the same (no projections for 2050)
@@ -60,17 +72,6 @@ soil_vars_crop <- terra::crop(soil_vars, portugal, mask = TRUE)
 #    Current Variables - Converted to 10x10 km square grids
 ################################################################################
 
-#Load sample raster for resample operations
-bio1 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_1.tif")
-
-#Load Portugal shape
-portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
-
-#Create 10x10 km to calibrate models
-utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
-utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
-#utm10_df <- data.frame(utm10)
-#utm10_df[is.na(utm10_df)] <- 0
 #variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean', touches = TRUE)
 variables_10x10 <- exactextractr::exact_extract(stack(env_vars_2), sf::st_as_sf(utm10), 'mean')
 
@@ -151,6 +152,7 @@ plot(env_vars_cc)
 
 #Create a data frame
 variables_10x10_cc_rcp45 <- terra::extract(env_vars_cc, utm10, fun = 'mean')
+write.csv(variables_10x10_cc_rcp45, "variables_10x10_cc_rcp45.csv")
 #View(variables_10x10_cc_rcp45)
 
 #Delete the files
@@ -207,10 +209,11 @@ names(env_vars_cn)
 names(env_vars_cn) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                         "OCD", "pH", "Sand", "TRI", "TWI")
 
-plot(env_vars_cn)
+#plot(env_vars_cn)
 
 #Create a data frame
 variables_10x10_cn_rcp45 <- terra::extract(env_vars_cn, utm10, fun = 'mean')
+write.csv(variables_10x10_cn_rcp45, "variables_10x10_cn_rcp45.csv")
 #View(variables_10x10_cn_rcp45)
 
 #Delete the files
@@ -222,7 +225,7 @@ rm(bio2_cn_45, bio3_cn_45, bio13_cn_45, bio15_cn_45,
    nffd_cn_45_wgs84_res_crop, eref_cn_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
 
 ################################################################################
@@ -267,10 +270,11 @@ names(env_vars_gf)
 names(env_vars_gf) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                         "OCD", "pH", "Sand", "TRI", "TWI")
 
-plot(env_vars_gf)
+#plot(env_vars_gf)
 
 #Create a data frame
 variables_10x10_gf_rcp45 <- terra::extract(env_vars_gf, utm10, fun = 'mean')
+write.csv(variables_10x10_gf_rcp45, "variables_10x10_gf_rcp45.csv")
 #View(variables_10x10_gf_rcp45)
 
 #Delete the files
@@ -282,28 +286,24 @@ rm(bio2_gf_45, bio3_gf_45, bio13_gf_45, bio15_gf_45,
    nffd_gf_45_wgs84_res_crop, eref_gf_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
    
 ################################################################################
-#                 RCP 4.5 - HadGEM2-ES (Had)
+#                 RCP 4.5 - HadGEM2-ES (HE)
 ################################################################################
 
-
-
-
-
-bio2_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HAD/rcp45/had45bi502.tif")    
-bio3_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HAD/rcp45/had45bi503.tif")       
-bio13_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HAD/rcp45/had45bi5013.tif")
-bio15_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HAD/rcp45/had45bi5015.tif")
+bio2_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HE/rcp45/he45bi502.tif")    
+bio3_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HE/rcp45/he45bi503.tif")       
+bio13_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HE/rcp45/he45bi5013.tif")
+bio15_had_45 <- terra::rast("D:/SDM_OLIVES/2050/HE/rcp45/he45bi5015.tif")
 #
 bioclimatic_had_45 <- c(bio2_had_45, bio3_had_45, bio13_had_45, bio15_had_45)
 bioclimatic_had_45 <- terra::project(bioclimatic_had_45, bio1)
 bioclimatic_had_45 <- terra::crop(bioclimatic_had_45, portugal, mask = TRUE)
 #
-nffd_had_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\HAD\\rcp45\\NFFD.asc") 
-eref_had_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\HAD\\rcp45\\Eref.asc") 
+nffd_had_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\HE\\rcp45\\NFFD.asc") 
+eref_had_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\HE\\rcp45\\Eref.asc") 
 
 terra::crs(nffd_had_45)  <- crs_climateEU
 terra::crs(eref_had_45)  <- crs_climateEU
@@ -331,10 +331,11 @@ names(env_vars_had)
 names(env_vars_had) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                         "OCD", "pH", "Sand", "TRI", "TWI")
 
-plot(env_vars_had)
+#plot(env_vars_had)
 
 #Create a data frame
 variables_10x10_had_rcp45 <- terra::extract(env_vars_had, utm10, fun = 'mean')
+write.csv(variables_10x10_had_rcp45, "variables_10x10_had_rcp45.csv")
 #View(variables_10x10_had_rcp45)
 
 #Delete the files
@@ -346,7 +347,7 @@ rm(bio2_had_45, bio3_had_45, bio13_had_45, bio15_had_45,
    nffd_had_45_wgs84_res_crop, eref_had_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
 
 ################################################################################
@@ -395,6 +396,7 @@ plot(env_vars_in)
 
 #Create a data frame
 variables_10x10_in_rcp45 <- terra::extract(env_vars_in, utm10, fun = 'mean')
+write.csv(variables_10x10_in_rcp45, "variables_10x10_in_rcp45.csv")
 #View(variables_10x10_in_rcp45)
 
 #Delete the files
@@ -406,9 +408,9 @@ rm(bio2_in_45, bio3_in_45, bio13_in_45, bio15_in_45,
    nffd_in_45_wgs84_res_crop, eref_in_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
-  
+#AQUI  
 ################################################################################
 #                 RCP 4.5 - IPSL-CM5A-LR (IP)
 ################################################################################
@@ -455,6 +457,7 @@ plot(env_vars_ip)
 
 #Create a data frame
 variables_10x10_ip_rcp45 <- terra::extract(env_vars_ip, utm10, fun = 'mean')
+write.csv(variables_10x10_ip_rcp45, "variables_10x10_ip_rcp45.csv")
 #View(variables_10x10_ip_rcp45)
 
 #Delete the files
@@ -466,7 +469,7 @@ rm(bio2_ip_45, bio3_ip_45, bio13_ip_45, bio15_ip_45,
    nffd_ip_45_wgs84_res_crop, eref_ip_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
 
 
@@ -474,21 +477,17 @@ rm(bio2_ip_45, bio3_ip_45, bio13_ip_45, bio15_ip_45,
 #                 RCP 4.5 - MPI-ESM-LR (MPI)
 ################################################################################
 
-
-
-
-
-bio2_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MPI/rcp45/mpi45bi502.tif")    
-bio3_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MPI/rcp45/mpi45bi503.tif")       
-bio13_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MPI/rcp45/mpi45bi5013.tif")
-bio15_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MPI/rcp45/mpi45bi5015.tif")
+bio2_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MP/rcp45/mp45bi502.tif")    
+bio3_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MP/rcp45/mp45bi503.tif")       
+bio13_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MP/rcp45/mp45bi5013.tif")
+bio15_mpi_45 <- terra::rast("D:/SDM_OLIVES/2050/MP/rcp45/mp45bi5015.tif")
 #
 bioclimatic_mpi_45 <- c(bio2_mpi_45, bio3_mpi_45, bio13_mpi_45, bio15_mpi_45)
 bioclimatic_mpi_45 <- terra::project(bioclimatic_mpi_45, bio1)
 bioclimatic_mpi_45 <- terra::crop(bioclimatic_mpi_45, portugal, mask = TRUE)
 #
-nffd_mpi_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\MPI\\rcp45\\NFFD.asc") 
-eref_mpi_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\MPI\\rcp45\\Eref.asc") 
+nffd_mpi_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\MP\\rcp45\\NFFD.asc") 
+eref_mpi_45 <- terra::rast("D:\\SDM_OLIVES\\2050\\MP\\rcp45\\Eref.asc") 
 
 terra::crs(nffd_mpi_45)  <- crs_climateEU
 terra::crs(eref_mpi_45)  <- crs_climateEU
@@ -520,6 +519,7 @@ plot(env_vars_mpi)
 
 #Create a data frame
 variables_10x10_mpi_rcp45 <- terra::extract(env_vars_mpi, utm10, fun = 'mean')
+write.csv(variables_10x10_mpi_rcp45, "variables_10x10_mpi_rcp45.csv")
 #View(variables_10x10_mpi_rcp45)
 
 #Delete the files
@@ -531,6 +531,6 @@ rm(bio2_mpi_45, bio3_mpi_45, bio13_mpi_45, bio15_mpi_45,
    nffd_mpi_45_wgs84_res_crop, eref_mpi_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
 

@@ -34,6 +34,7 @@ library(tidyterra)
 #load("madural_ensemble.RData")
 #load("verdeal_ensemble.RData")
 
+
 ##### GALEGA #####
 ensemble_galega <- sdm::ensemble(
   x = galega_model,
