@@ -8,6 +8,8 @@
 #Load packages
 library(sdm)
 library(terra)
+library(exactextractr)
+
 
 #From: https://epsg.io/102013
 crs_climateEU <- 'PROJCS["Europe_Albers_Equal_Area_Conic",
@@ -34,8 +36,7 @@ portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_v
 #Create 10x10 km to calibrate models
 utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
 utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
-#utm10_df <- data.frame(utm10)
-#utm10_df[is.na(utm10_df)] <- 0
+
 	
 ################################################################################
 #         Variables that remain the same (no projections for 2050)
@@ -148,10 +149,13 @@ names(env_vars_cc)
 names(env_vars_cc) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                         "OCD", "pH", "Sand", "TRI", "TWI")
 
-plot(env_vars_cc)
+#plot(env_vars_cc)
 
 #Create a data frame
-variables_10x10_cc_rcp45 <- terra::extract(env_vars_cc, utm10, fun = 'mean')
+variables_10x10_cc_rcp45 <- exactextractr::exact_extract(stack(env_vars_cc), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_cc_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                      "OCD", "pH", "Sand", "TRI", "TWI")
+
 write.csv(variables_10x10_cc_rcp45, "variables_10x10_cc_rcp45.csv")
 #View(variables_10x10_cc_rcp45)
 
@@ -164,7 +168,7 @@ rm(bio2_cc_45, bio3_cc_45, bio13_cc_45, bio15_cc_45,
    nffd_cc_45_wgs84_res_crop, eref_cc_45_wgs84_res_crop,
    ocd, ph, sand, tri, twi,
    ocd_wgs84, ph_wgs84, sand_wgs84, tri_wgs84, twi_wgs84,
-   soil_vars, soil_vars_crop
+   soil_vars#, soil_vars_crop
    )
 
 ################################################################################
@@ -212,7 +216,9 @@ names(env_vars_cn) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wg
 #plot(env_vars_cn)
 
 #Create a data frame
-variables_10x10_cn_rcp45 <- terra::extract(env_vars_cn, utm10, fun = 'mean')
+variables_10x10_cn_rcp45 <- exactextractr::exact_extract(stack(env_vars_cn), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_cn_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                        "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_cn_rcp45, "variables_10x10_cn_rcp45.csv")
 #View(variables_10x10_cn_rcp45)
 
@@ -273,9 +279,10 @@ names(env_vars_gf) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wg
 #plot(env_vars_gf)
 
 #Create a data frame
-variables_10x10_gf_rcp45 <- terra::extract(env_vars_gf, utm10, fun = 'mean')
+variables_10x10_gf_rcp45 <- exactextractr::exact_extract(stack(env_vars_gf), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_gf_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                        "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_gf_rcp45, "variables_10x10_gf_rcp45.csv")
-#View(variables_10x10_gf_rcp45)
 
 #Delete the files
 rm(bio2_gf_45, bio3_gf_45, bio13_gf_45, bio15_gf_45,
@@ -334,9 +341,10 @@ names(env_vars_had) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_w
 #plot(env_vars_had)
 
 #Create a data frame
-variables_10x10_had_rcp45 <- terra::extract(env_vars_had, utm10, fun = 'mean')
+variables_10x10_had_rcp45 <- exactextractr::exact_extract(stack(env_vars_had), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_had_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                        "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_had_rcp45, "variables_10x10_had_rcp45.csv")
-#View(variables_10x10_had_rcp45)
 
 #Delete the files
 rm(bio2_had_45, bio3_had_45, bio13_had_45, bio15_had_45,
@@ -395,9 +403,10 @@ names(env_vars_in) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wg
 plot(env_vars_in)
 
 #Create a data frame
-variables_10x10_in_rcp45 <- terra::extract(env_vars_in, utm10, fun = 'mean')
+variables_10x10_in_rcp45 <- exactextractr::exact_extract(stack(env_vars_in), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_in_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                         "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_in_rcp45, "variables_10x10_in_rcp45.csv")
-#View(variables_10x10_in_rcp45)
 
 #Delete the files
 rm(bio2_in_45, bio3_in_45, bio13_in_45, bio15_in_45,
@@ -456,9 +465,11 @@ names(env_vars_ip) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wg
 plot(env_vars_ip)
 
 #Create a data frame
-variables_10x10_ip_rcp45 <- terra::extract(env_vars_ip, utm10, fun = 'mean')
+variables_10x10_ip_rcp45 <- exactextractr::exact_extract(stack(env_vars_ip), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_ip_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                        "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_ip_rcp45, "variables_10x10_ip_rcp45.csv")
-#View(variables_10x10_ip_rcp45)
+
 
 #Delete the files
 rm(bio2_ip_45, bio3_ip_45, bio13_ip_45, bio15_ip_45,
@@ -518,9 +529,10 @@ names(env_vars_mpi) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_w
 plot(env_vars_mpi)
 
 #Create a data frame
-variables_10x10_mpi_rcp45 <- terra::extract(env_vars_mpi, utm10, fun = 'mean')
+variables_10x10_mpi_rcp45 <- exactextractr::exact_extract(stack(env_vars_mpi), sf::st_as_sf(utm10), 'mean')
+colnames(variables_10x10_mpi_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
+                                        "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_mpi_rcp45, "variables_10x10_mpi_rcp45.csv")
-#View(variables_10x10_mpi_rcp45)
 
 #Delete the files
 rm(bio2_mpi_45, bio3_mpi_45, bio13_mpi_45, bio15_mpi_45,

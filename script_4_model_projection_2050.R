@@ -23,13 +23,13 @@ library(tidyterra)
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
 #Load the variable data frames
-#load("variables_10x10_cc_rcp45.csv")
-#load("variables_10x10_cn_rcp45.csv")
-#load("variables_10x10_gf_rcp45.csv")
-#load("variables_10x10_had_rcp45.csv")
-#load("variables_10x10_in_rcp45.csv")
-#load("variables_10x10_ip_rcp45.csv")
-#load("variables_10x10_mpi_rcp45.csv")
+#variables_10x10_cc_rcp45 <- read.csv("variables_10x10_cc_rcp45.csv")
+#variables_10x10_cn_rcp45 <- read.csv("variables_10x10_cn_rcp45.csv")
+#variables_10x10_gf_rcp45 <- read.csv("variables_10x10_gf_rcp45.csv")
+#variables_10x10_had_rcp45 <- read.csv("variables_10x10_had_rcp45.csv")
+#variables_10x10_in_rcp45 <- read.csv("variables_10x10_in_rcp45.csv")
+#variables_10x10_ip_rcp45 <- read.csv("variables_10x10_ip_rcp45.csv")
+#variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
 
 ################################################################################
 #                 Create vector for the 2050 projections
@@ -95,6 +95,120 @@ utm10_results_2050$picMPI <- NA
 utm10_results_2050$corMPI <- NA
 utm10_results_2050$madMPI <- NA
 utm10_results_2050$verMPI <- NA
+
+#Complete the vector table
+#load("ensemble_galega_2050_CC.RData")
+#load("ensemble_cobrancosa_2050_CC.RData")
+#load("ensemble_arbequina_2050_CC.RData")
+#load("ensemble_picual_2050_CC.RData")
+#load("ensemble_cordovil_2050_CC.RData")
+#load("ensemble_madural_2050_CC.RData")
+#load("ensemble_verdeal_2050_CC.RData")
+#
+#load("ensemble_galega_2050_CN.RData")
+#load("ensemble_cobrancosa_2050_CN.RData")
+#load("ensemble_arbequina_2050_CN.RData")
+#load("ensemble_picual_2050_CN.RData")
+#load("ensemble_cordovil_2050_CN.RData")
+#load("ensemble_madural_2050_CN.RData")
+#load("ensemble_verdeal_2050_CN.RData")
+#
+#load("ensemble_galega_2050_GF.RData")
+#load("ensemble_cobrancosa_2050_GF.RData")
+#load("ensemble_arbequina_2050_GF.RData")
+#load("ensemble_picual_2050_GF.RData")
+#load("ensemble_cordovil_2050_GF.RData")
+#load("ensemble_madural_2050_GF.RData")
+#load("ensemble_verdeal_2050_GF.RData")
+#
+#load("ensemble_galega_2050_HAD.RData")
+#load("ensemble_cobrancosa_2050_HAD.RData")
+#load("ensemble_arbequina_2050_HAD.RData")
+#load("ensemble_picual_2050_HAD.RData")
+#load("ensemble_cordovil_2050_HAD.RData")
+#load("ensemble_madural_2050_HAD.RData")
+#load("ensemble_verdeal_2050_HAD.RData")
+#
+#load("ensemble_galega_2050_IN.RData")
+#load("ensemble_cobrancosa_2050_IN.RData")
+#load("ensemble_arbequina_2050_IN.RData")
+#load("ensemble_picual_2050_IN.RData")
+#load("ensemble_cordovil_2050_IN.RData")
+#load("ensemble_madural_2050_IN.RData")
+#load("ensemble_verdeal_2050_IN.RData")
+#
+#load("ensemble_galega_2050_IP.RData")
+#load("ensemble_cobrancosa_2050_IP.RData")
+#load("ensemble_arbequina_2050_IP.RData")
+#load("ensemble_picual_2050_IP.RData")
+#load("ensemble_cordovil_2050_IP.RData")
+#load("ensemble_madural_2050_IP.RData")
+#load("ensemble_verdeal_2050_IP.RData")
+#
+#load("ensemble_galega_2050_MPI.RData")
+#load("ensemble_cobrancosa_2050_MPI.RData")
+#load("ensemble_arbequina_2050_MPI.RData")
+#load("ensemble_picual_2050_MPI.RData")
+#load("ensemble_cordovil_2050_MPI.RData")
+#load("ensemble_madural_2050_MPI.RData")
+#load("ensemble_verdeal_2050_MPI.RData")
+
+#Send the columns to the vector table
+utm10_results_2050$galCC <- ensemble_galega_2050_CC
+utm10_results_2050$cbrCC <- ensemble_cobrancosa_2050_CC
+utm10_results_2050$arbCC <- ensemble_arbequina_2050_CC
+utm10_results_2050$picCC <- ensemble_picual_2050_CC
+utm10_results_2050$corCC <- ensemble_cordovil_2050_CC
+utm10_results_2050$madCC <- ensemble_madural_2050_CC
+utm10_results_2050$verCC <- ensemble_verdeal_2050_CC
+#
+utm10_results_2050$galCN <- ensemble_galega_2050_CN
+utm10_results_2050$cbrCN <- ensemble_cobrancosa_2050_CN
+utm10_results_2050$arbCN <- ensemble_arbequina_2050_CN
+utm10_results_2050$picCN <- ensemble_picual_2050_CN
+utm10_results_2050$corCN <- ensemble_cordovil_2050_CN
+utm10_results_2050$madCN <- ensemble_madural_2050_CN
+utm10_results_2050$verCN <- ensemble_verdeal_2050_CN
+#
+utm10_results_2050$galGF <- ensemble_galega_2050_GF
+utm10_results_2050$cbrGF <- ensemble_cobrancosa_2050_GF
+utm10_results_2050$arbGF <- ensemble_arbequina_2050_GF
+utm10_results_2050$picGF <- ensemble_picual_2050_GF
+utm10_results_2050$corGF <- ensemble_cordovil_2050_GF
+utm10_results_2050$madGF <- ensemble_madural_2050_GF
+utm10_results_2050$verGF <- ensemble_verdeal_2050_GF
+#
+utm10_results_2050$galHad <- ensemble_galega_2050_HAD
+utm10_results_2050$cbrHad <- ensemble_cobrancosa_2050_HAD
+utm10_results_2050$arbHad <- ensemble_arbequina_2050_HAD
+utm10_results_2050$picHad <- ensemble_picual_2050_HAD
+utm10_results_2050$corHad <- ensemble_cordovil_2050_HAD
+utm10_results_2050$madHad <- ensemble_madural_2050_HAD
+utm10_results_2050$verHad <- ensemble_verdeal_2050_HAD
+#
+utm10_results_2050$galIN <- ensemble_galega_2050_IN
+utm10_results_2050$cbrIN <- ensemble_cobrancosa_2050_IN
+utm10_results_2050$arbIN <- ensemble_arbequina_2050_IN
+utm10_results_2050$picIN <- ensemble_picual_2050_IN
+utm10_results_2050$corIN <- ensemble_cordovil_2050_IN
+utm10_results_2050$madIN <- ensemble_madural_2050_IN
+utm10_results_2050$verIN <- ensemble_verdeal_2050_IN
+#
+utm10_results_2050$galIP <- ensemble_galega_2050_IP
+utm10_results_2050$cbrIP <- ensemble_cobrancosa_2050_IP
+utm10_results_2050$arbIP <- ensemble_arbequina_2050_IP
+utm10_results_2050$picIP <- ensemble_picual_2050_IP
+utm10_results_2050$corIP <- ensemble_cordovil_2050_IP
+utm10_results_2050$madIP <- ensemble_madural_2050_IP
+utm10_results_2050$verIP <- ensemble_verdeal_2050_IP
+#
+utm10_results_2050$galMPI <- ensemble_galega_2050_MPI
+utm10_results_2050$cbrMPI <- ensemble_cobrancosa_2050_MPI
+utm10_results_2050$arbMPI <- ensemble_arbequina_2050_MPI
+utm10_results_2050$picMPI <- ensemble_picual_2050_MPI
+utm10_results_2050$corMPI <- ensemble_cordovil_2050_MPI
+utm10_results_2050$madMPI <- ensemble_madural_2050_MPI
+utm10_results_2050$verMPI <- ensemble_verdeal_2050_MPI
 
 #######################################################################################################################################
 #                                                   MODEL PROJECTION - 2050
@@ -271,7 +385,6 @@ utm10_results_2050$arbCN <- ensemble_arbequina_2050_CN
 save(ensemble_arbequina_2050_CN, file = "ensemble_arbequina_2050_CN.RData")
 #load("ensemble_arbequina_2050_CN.RData")
 
-
 ##### PICUAL
 ensemble_picual_2050_CN <- sdm::ensemble(
   x = picual_model,
@@ -441,6 +554,7 @@ ensemble_madural_2050_GF <- sdm::ensemble(
 utm10_results_2050$madGF <- ensemble_madural_2050_GF
 save(ensemble_madural_2050_GF, file = "ensemble_madural_2050_GF.RData")
 #load("ensemble_madural_2050_GF.RData")
+
 
 ##### VERDEAL
 ensemble_verdeal_2050_GF <- sdm::ensemble(
@@ -702,7 +816,6 @@ save(ensemble_verdeal_2050_IN, file = "ensemble_verdeal_2050_IN.RData")
 #                 RCP 4.5 - IPSL-CM5A-LR (IP)
 ################################################################################
 
-
 ##### GALEGA #####
 ensemble_galega_2050_IP <- sdm::ensemble(
   x = galega_model,
@@ -736,8 +849,8 @@ save(ensemble_cobrancosa_2050_IP, file = "ensemble_cobrancosa_2050_IP.RData")
 #load("ensemble_cobrancosa_2050_IP.RData")
 
 ##### ARBEQUIPA
-ensemble_arbequipa_2050_IP <- sdm::ensemble(
-  x = arbequipa_model,
+ensemble_arbequina_2050_IP <- sdm::ensemble(
+  x = arbequina_model,
   newdata = variables_10x10_ip_rcp45,
   settipg=list(
     method = 'weighted',
@@ -747,8 +860,8 @@ ensemble_arbequipa_2050_IP <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$arbIP <- ensemble_arbequipa_2050_IP
-save(ensemble_arbequipa_2050_IP, file = "ensemble_arbequipa_2050_IP.RData")
+utm10_results_2050$arbIP <- ensemble_arbequina_2050_IP
+save(ensemble_arbequina_2050_IP, file = "ensemble_arbequina_2050_IP.RData")
 #load("ensemble_arbequipa_2050_IP.RData")
 
 
@@ -856,8 +969,8 @@ save(ensemble_cobrancosa_2050_MPI, file = "ensemble_cobrancosa_2050_MPI.RData")
 #load("ensemble_cobrancosa_2050_MPI.RData")
 
 ##### ARBEQUMPIA
-ensemble_arbequmpia_2050_MPI <- sdm::ensemble(
-  x = arbequmpia_model,
+ensemble_arbequina_2050_MPI <- sdm::ensemble(
+  x = arbequina_model,
   newdata = variables_10x10_mpi_rcp45,
   settmpig=list(
     method = 'weighted',
@@ -867,8 +980,8 @@ ensemble_arbequmpia_2050_MPI <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$arbMPI <- ensemble_arbequmpia_2050_MPI
-save(ensemble_arbequmpia_2050_MPI, file = "ensemble_arbequmpia_2050_MPI.RData")
+utm10_results_2050$arbMPI <- ensemble_arbequina_2050_MPI
+save(ensemble_arbequina_2050_MPI, file = "ensemble_arbequina_2050_MPI.RData")
 #load("ensemble_arbequmpia_2050_MPI.RData")
 
 
@@ -943,5 +1056,5 @@ save(ensemble_verdeal_2050_MPI, file = "ensemble_verdeal_2050_MPI.RData")
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results_2050, "utm10_results_2050", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results_2050, "utm10_results_2050_version_1", filetype="ESRI Shapefile")
 #utm10_results_2050 <- terra::vect("olive_variety_suitability_v2/utm10_results_2050.shp")
