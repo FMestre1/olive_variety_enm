@@ -26,7 +26,7 @@ portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_v
 #What is the minimum number of presences to conduct an SMD modelling?
 #See: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.01509
 
-olive_vars <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/variedades_portugal_15_05_2024.shp")
+olive_vars <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/recente/variedades_recente.shp")
 #crs(olive_vars)
 
 #Derive variety prevalence in Portugal
@@ -38,55 +38,57 @@ olive_vars_df <- data.frame(colSums(olive_vars_df[,-1]))
 names(olive_vars_df) <- "number_presences"
 olive_vars_df <- data.frame(olive_vars_df,round((olive_vars_df$number_presences)/nrow(olive_vars), 2))
 names(olive_vars_df)[2] <- "prevalence"
-#View(olive_vars_df)
+olive_vars_df <- olive_vars_df[order(olive_vars_df$number_presences, decreasing = TRUE),]
+#Use these varieties
+vars_keep <- rownames(olive_vars_df[olive_vars_df$number_presences > 30,])
 
-#Galega (163 presences, prevalence 0.17)
-galega <- olive_vars[,"Galega"]
+#Galega (173 presences, prevalence 0.18)
+galega <- olive_vars[,vars_keep[1]]
 galega$Galega[is.na(galega$Galega)] <- 0
 galega <- centroids(galega, inside=FALSE)
 galega <- galega[galega$Galega ==1,]
 #plot(galega)
 
-#Cobrançosa (128 presences, prevalence of 0.14)
-cobrancosa <- olive_vars[,"Cobrancosa"]
+#Cobrançosa (149 presences, prevalence of 0.16)
+cobrancosa <- olive_vars[,vars_keep[2]]
 cobrancosa$Cobrancosa[is.na(cobrancosa$Cobrancosa)] <- 0
 cobrancosa <- centroids(cobrancosa, inside=FALSE)
 cobrancosa <- cobrancosa[cobrancosa$Cobrancosa ==1,]
 #plot(cobrancosa)
 
-#Arbequina (95 presences, prevalence of 0.10)
-arbequina <- olive_vars[,"Arbequina"]
+#Arbequina (98 presences, prevalence of 0.10)
+arbequina <- olive_vars[,vars_keep[3]]
 arbequina$Arbequina[is.na(arbequina$Arbequina)] <- 0
 arbequina <- centroids(arbequina, inside=FALSE)
 arbequina <- arbequina[arbequina$Arbequina ==1,]
 #plot(arbequina)
 
-#Picual (64 presences, prevalence of 0.07)
-picual <- olive_vars[,"Picual"]
+#Picual (71 presences, prevalence of 0.08)
+picual <- olive_vars[,vars_keep[4]]
 picual$Picual[is.na(picual$Picual)] <- 0
 picual <- centroids(picual, inside=FALSE)
 picual <- picual[picual$Picual ==1,]
 #plot(picual)
 
-#Cordovil (36 presences, prevalence of 0.04)
-cordovil <- olive_vars[,"Cordovil"]
+#Cordovil (35 presences, prevalence of 0.04)
+cordovil <- olive_vars[,vars_keep[7]]
 cordovil$Cordovil[is.na(cordovil$Cordovil)] <- 0
 cordovil <- centroids(cordovil, inside=FALSE)
 cordovil <- cordovil[cordovil$Cordovil ==1,]
 #plot(cordovil)
 
-#Madural (31 presences, prevalence of 0.03)
-madural <- olive_vars[,"Madural"]
+#Madural (41 presences, prevalence of 0.04)
+madural <- olive_vars[,vars_keep[6]]
 madural$Madural[is.na(madural$Madural)] <- 0
 madural <- centroids(madural, inside=FALSE)
 madural <- madural[madural$Madural ==1,]
 #plot(madural)
 
-#Verdeal (30 presences, prevalence of 0.03)
-verdeal <- olive_vars[,"Verdeal"]
-verdeal$Verdeal[is.na(verdeal$Verdeal)] <- 0
+#VerdealTM (41 presences, prevalence of 0.04)
+verdeal <- olive_vars[,vars_keep[5]]
+verdeal$VerdealTM[is.na(verdeal$VerdealTM)] <- 0
 verdeal <- centroids(verdeal, inside=FALSE)
-verdeal <- verdeal[verdeal$Verdeal ==1,]
+verdeal <- verdeal[verdeal$VerdealTM ==1,]
 #plot(verdeal)
 
 ################################################################################
@@ -127,7 +129,7 @@ names(bioclimatic_crop) <- c("bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bi
 
 #plot(bioclimatic_crop)
 
-#Other variables
+#ClimateEU variables
 #Other climatic variables - ClimateEU
 #https://sites.ualberta.ca/~ahamann/data/climateeu.html
 
@@ -141,13 +143,11 @@ shm <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1
 nffd <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/nffd_wgs84.tif")#Number of frost-free days
 eref <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/eref_wgs84.tif")#Hargreaves reference evaporation
 #
-#crs(ahm_res)
-
 climate_eu <- c(ahm, shm, nffd, eref)
 climate_eu_res <- terra::resample(climate_eu, bio1)
 climate_eu_res_crop <- crop(climate_eu_res, portugal, mask = TRUE)
 
-#plot(climate_eu_crop)
+#plot(climate_eu_res_crop)
 
 #Soil-related variables
 bdod <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/BDOD.tif") #BDOD - Bulk density of the fine earth fraction
@@ -173,12 +173,11 @@ soil_crop <- crop(soil, portugal, mask = TRUE)
 #plot(soil_crop)
 
 ################################################################################
-#                        All variables together...
+#                        All variables together
 ################################################################################
 
 env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
 #names(env_vars)
-
 
 ################################################################################
 #                       Variance Inflation Factor (VIF)
@@ -221,15 +220,16 @@ utm10 <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_vari
 utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
 #utm10_df <- data.frame(utm10)
 #utm10_df[is.na(utm10_df)] <- 0
-variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
+
+#variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
+variables_10x10 <- exactextractr::exact_extract(env_vars_2, sf::st_as_sf(utm10), 'mean')
+
 #utm_bio1_10x10_df <- data.frame(variables_10x10)
 #names(utm_bio1_10x10_df)
 
 #variables_10x10_2 <- terra::cbind2(utm10, variables_10x10)
 #plot(variables_10x10_2, "bio2")
 #names(variables_10x10_2)
-
-plot(bio2)
 
 ################################################################################
 #                              Create SDM data

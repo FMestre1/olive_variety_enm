@@ -152,7 +152,6 @@ utm10_results$results_verdeal <- ensemble_verdeal
 #plot(utm10_results, "results_verdeal")
 save(ensemble_verdeal, file = "verdeal_ensemble.RData")
 
-
 ################################################################################
 #                           Evaluation metrics
 ################################################################################
@@ -238,14 +237,14 @@ metrics_verdeal@threshold_based$TSS[2]
 #Create data frame
 metrics_1 <- data.frame(auc_1, tss_1)
 colnames(metrics_1) <- c("AUC", "TSS")
-rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")
+rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordovil", "Madural", "VerdealTM")
 #write.csv(metrics_1, file = "metrics_1.csv")
 
 ################################################################################
 #                              Write to shapefile
 ################################################################################
 
-#terra::writeVector(utm10_results, "olive_variety_suitability_v4", filetype="ESRI Shapefile")
+#terra::writeVector(utm10_results, "olive_variety_suitability_v5", filetype="ESRI Shapefile")
 #utm10_results <- terra::vect("olive_variety_suitability_v2/olive_variety_suitability_v4.shp")
 
 ################################################################################
@@ -346,7 +345,7 @@ ggplot(utm10_results) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
   labs(
     fill = "Suitability",
-    title = "Verdeal current suitability"
+    title = "VerdealTM current suitability"
   )+
 geom_spatvector(data = portugal, fill = NA)
 dev.off()

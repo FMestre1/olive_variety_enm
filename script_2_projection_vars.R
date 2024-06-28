@@ -10,7 +10,6 @@ library(sdm)
 library(terra)
 library(exactextractr)
 
-
 #From: https://epsg.io/102013
 crs_climateEU <- 'PROJCS["Europe_Albers_Equal_Area_Conic",
     GEOGCS["GCS_European_1950",
@@ -37,7 +36,6 @@ portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_v
 utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
 utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
 
-	
 ################################################################################
 #         Variables that remain the same (no projections for 2050)
 ################################################################################
@@ -62,19 +60,17 @@ soil_vars <- c(
   ph_wgs84,
   sand_wgs84,
   tri_wgs84,
-  twi_wgs84#,
-#  slope_wgs84
+  twi_wgs84
   )
 
 soil_vars_crop <- terra::crop(soil_vars, portugal, mask = TRUE)
-
 
 ################################################################################
 #    Current Variables - Converted to 10x10 km square grids
 ################################################################################
 
 #variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean', touches = TRUE)
-variables_10x10 <- exactextractr::exact_extract(stack(env_vars_2), sf::st_as_sf(utm10), 'mean')
+variables_10x10 <- exactextractr::exact_extract(env_vars_2, sf::st_as_sf(utm10), 'mean')
 
 #utm_bio1_10x10_df <- data.frame(variables_10x10)
 #names(utm_bio1_10x10_df)
@@ -157,6 +153,7 @@ colnames(variables_10x10_cc_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_
                                       "OCD", "pH", "Sand", "TRI", "TWI")
 
 write.csv(variables_10x10_cc_rcp45, "variables_10x10_cc_rcp45.csv")
+variables_10x10_cc_rcp45 <- read.csv("variables_10x10_cc_rcp45.csv")
 #View(variables_10x10_cc_rcp45)
 
 #Delete the files
@@ -220,6 +217,7 @@ variables_10x10_cn_rcp45 <- exactextractr::exact_extract(stack(env_vars_cn), sf:
 colnames(variables_10x10_cn_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                         "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_cn_rcp45, "variables_10x10_cn_rcp45.csv")
+variables_10x10_cn_rcp45 <- read.csv("variables_10x10_cn_rcp45.csv")
 #View(variables_10x10_cn_rcp45)
 
 #Delete the files
@@ -282,7 +280,9 @@ names(env_vars_gf) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wg
 variables_10x10_gf_rcp45 <- exactextractr::exact_extract(stack(env_vars_gf), sf::st_as_sf(utm10), 'mean')
 colnames(variables_10x10_gf_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                         "OCD", "pH", "Sand", "TRI", "TWI")
+
 write.csv(variables_10x10_gf_rcp45, "variables_10x10_gf_rcp45.csv")
+variables_10x10_gf_rcp45 <- read.csv("variables_10x10_gf_rcp45.csv")
 
 #Delete the files
 rm(bio2_gf_45, bio3_gf_45, bio13_gf_45, bio15_gf_45,
@@ -345,6 +345,7 @@ variables_10x10_had_rcp45 <- exactextractr::exact_extract(stack(env_vars_had), s
 colnames(variables_10x10_had_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                         "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_had_rcp45, "variables_10x10_had_rcp45.csv")
+variables_10x10_had_rcp45 <- read.csv("variables_10x10_had_rcp45.csv")
 
 #Delete the files
 rm(bio2_had_45, bio3_had_45, bio13_had_45, bio15_had_45,
@@ -407,6 +408,7 @@ variables_10x10_in_rcp45 <- exactextractr::exact_extract(stack(env_vars_in), sf:
 colnames(variables_10x10_in_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                          "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_in_rcp45, "variables_10x10_in_rcp45.csv")
+variables_10x10_in_rcp45 <- read.csv("variables_10x10_in_rcp45.csv")
 
 #Delete the files
 rm(bio2_in_45, bio3_in_45, bio13_in_45, bio15_in_45,
@@ -469,6 +471,7 @@ variables_10x10_ip_rcp45 <- exactextractr::exact_extract(stack(env_vars_ip), sf:
 colnames(variables_10x10_ip_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                         "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_ip_rcp45, "variables_10x10_ip_rcp45.csv")
+variables_10x10_ip_rcp45 <- read.csv("variables_10x10_ip_rcp45.csv")
 
 
 #Delete the files
@@ -533,6 +536,7 @@ variables_10x10_mpi_rcp45 <- exactextractr::exact_extract(stack(env_vars_mpi), s
 colnames(variables_10x10_mpi_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                         "OCD", "pH", "Sand", "TRI", "TWI")
 write.csv(variables_10x10_mpi_rcp45, "variables_10x10_mpi_rcp45.csv")
+variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
 
 #Delete the files
 rm(bio2_mpi_45, bio3_mpi_45, bio13_mpi_45, bio15_mpi_45,
