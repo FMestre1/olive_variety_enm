@@ -8,6 +8,9 @@
 #Load required packages
 #detach(package:sdm, unload = TRUE)
 #devtools::install_github("babaknaimi/sdm")
+
+#sessionInfo()
+
 library(sdm)
 library(usdm)
 #installAll()
