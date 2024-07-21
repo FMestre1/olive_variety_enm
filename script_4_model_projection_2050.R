@@ -23,13 +23,13 @@ library(tidyterra)
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
 #Load the variable data frames
-#variables_10x10_cc_rcp45 <- read.csv("variables_10x10_cc_rcp45.csv")
-#variables_10x10_cn_rcp45 <- read.csv("variables_10x10_cn_rcp45.csv")
-#variables_10x10_gf_rcp45 <- read.csv("variables_10x10_gf_rcp45.csv")
-#variables_10x10_had_rcp45 <- read.csv("variables_10x10_had_rcp45.csv")
-#variables_10x10_in_rcp45 <- read.csv("variables_10x10_in_rcp45.csv")
-#variables_10x10_ip_rcp45 <- read.csv("variables_10x10_ip_rcp45.csv")
-#variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
+variables_10x10_cc_rcp45 <- read.csv("variables_10x10_cc_rcp45.csv")
+variables_10x10_cn_rcp45 <- read.csv("variables_10x10_cn_rcp45.csv")
+variables_10x10_gf_rcp45 <- read.csv("variables_10x10_gf_rcp45.csv")
+variables_10x10_had_rcp45 <- read.csv("variables_10x10_had_rcp45.csv")
+variables_10x10_in_rcp45 <- read.csv("variables_10x10_in_rcp45.csv")
+variables_10x10_ip_rcp45 <- read.csv("variables_10x10_ip_rcp45.csv")
+variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
 
 ################################################################################
 #                 Create vector for the 2050 projections
@@ -466,7 +466,7 @@ ensemble_galega_2050_GF <- sdm::ensemble(
     expr = 'tss > 0.5'
   )
 )
-#AQUI
+
 utm10_results_2050$galGF <- ensemble_galega_2050_GF
 save(ensemble_galega_2050_GF, file = "ensemble_galega_2050_GF.RData")
 #load("ensemble_galega_2050_GF.RData")
@@ -503,7 +503,6 @@ utm10_results_2050$arbGF <- ensemble_arbequina_2050_GF
 save(ensemble_arbequina_2050_GF, file = "ensemble_arbequina_2050_GF.RData")
 #load("ensemble_arbequina_2050_GF.RData")
 
-
 ##### PICUAL
 ensemble_picual_2050_GF <- sdm::ensemble(
   x = picual_model,
@@ -536,7 +535,6 @@ ensemble_cordovil_2050_GF <- sdm::ensemble(
 utm10_results_2050$corGF <- ensemble_cordovil_2050_GF
 save(ensemble_cordovil_2050_GF, file = "ensemble_cordovil_2050_GF.RData")
 #load("ensemble_cordovil_2050_GF.RData")
-
 
 ##### MADURAL
 ensemble_madural_2050_GF <- sdm::ensemble(
@@ -574,7 +572,6 @@ save(ensemble_verdeal_2050_GF, file = "ensemble_verdeal_2050_GF.RData")
 ################################################################################
 #                 RCP 4.5 - HadGEM2-ES (Had)
 ################################################################################
-
 
 ##### GALEGA #####
 ensemble_galega_2050_HAD <- sdm::ensemble(
@@ -694,7 +691,6 @@ save(ensemble_verdeal_2050_HAD, file = "ensemble_verdeal_2050_HAD.RData")
 ################################################################################
 #                 RCP 4.5 - INMCM4 (IN)
 ################################################################################
-
 
 ##### GALEGA #####
 ensemble_galega_2050_IN <- sdm::ensemble(
@@ -847,7 +843,7 @@ utm10_results_2050$cbrIP <- ensemble_cobrancosa_2050_IP
 save(ensemble_cobrancosa_2050_IP, file = "ensemble_cobrancosa_2050_IP.RData")
 #load("ensemble_cobrancosa_2050_IP.RData")
 
-##### ARBEQUIPA
+##### ARBEQUINA
 ensemble_arbequina_2050_IP <- sdm::ensemble(
   x = arbequina_model,
   newdata = variables_10x10_ip_rcp45,
@@ -934,7 +930,6 @@ save(ensemble_verdeal_2050_IP, file = "ensemble_verdeal_2050_IP.RData")
 #                 RCP 4.5 - MPI-ESM-LR (MPI)
 ################################################################################
 
-
 ##### GALEGA #####
 ensemble_galega_2050_MPI <- sdm::ensemble(
   x = galega_model,
@@ -967,7 +962,7 @@ utm10_results_2050$cbrMPI <- ensemble_cobrancosa_2050_MPI
 save(ensemble_cobrancosa_2050_MPI, file = "ensemble_cobrancosa_2050_MPI.RData")
 #load("ensemble_cobrancosa_2050_MPI.RData")
 
-##### ARBEQUMPIA
+##### ARBEQUINA
 ensemble_arbequina_2050_MPI <- sdm::ensemble(
   x = arbequina_model,
   newdata = variables_10x10_mpi_rcp45,
@@ -1050,10 +1045,9 @@ utm10_results_2050$verMPI <- ensemble_verdeal_2050_MPI
 save(ensemble_verdeal_2050_MPI, file = "ensemble_verdeal_2050_MPI.RData")
 #load("ensemble_verdeal_2050_MPI.RData")
 
-
 ################################################################################
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results_2050, "utm10_results_2050_version_1", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results_2050, "utm10_results_2050_version_2", filetype="ESRI Shapefile")
 #utm10_results_2050 <- terra::vect("olive_variety_suitability_v2/utm10_results_2050.shp")

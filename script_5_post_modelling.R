@@ -24,82 +24,180 @@ utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Ma
 #                    AVERAGE ALL MODELS ACROSS ALL GCM
 ################################################################################
 
-utm10_results_2050$galCC
-utm10_results_2050$galCN
-utm10_results_2050$galGF
+utm10_results_2050_averages <- utm10
 
-utm10_results_2050$cbrCC
-utm10_results_2050$cbrCN
-utm10_results_2050$cbrGF
+galega_mean_2050 <- rowMeans(cbind(
+ensemble_galega_2050_CC,
+ensemble_galega_2050_CN,
+ensemble_galega_2050_GF,
+ensemble_galega_2050_HAD,
+ensemble_galega_2050_IN,
+ensemble_galega_2050_IP,
+ensemble_galega_2050_MPI
+))
 
-utm10_results_2050$arbCC
-utm10_results_2050$arbCN
-utm10_results_2050$arbGF
+utm10_results_2050_averages$GAL_m <- galega_mean_2050
+#terra::plot(utm10_results_2050_averages, "GAL_m")
 
-utm10_results_2050$picCC
-utm10_results_2050$picCN
-utm10_results_2050$picGF
+cobrancosa_mean_2050 <- rowMeans(cbind(
+  ensemble_cobrancosa_2050_CC,
+  ensemble_cobrancosa_2050_CN,
+  ensemble_cobrancosa_2050_GF,
+  ensemble_cobrancosa_2050_HAD,
+  ensemble_cobrancosa_2050_IN,
+  ensemble_cobrancosa_2050_IP,
+  ensemble_cobrancosa_2050_MPI
+))
 
-utm10_results_2050$corCC
-utm10_results_2050$corCN
-utm10_results_2050$corGF
+utm10_results_2050_averages$COB_m <- cobrancosa_mean_2050
 
-utm10_results_2050$madCC
-utm10_results_2050$madCN
-utm10_results_2050$madGF
+arbequina_mean_2050 <- rowMeans(cbind(
+  ensemble_arbequina_2050_CC,
+  ensemble_arbequina_2050_CN,
+  ensemble_arbequina_2050_GF,
+  ensemble_arbequina_2050_HAD,
+  ensemble_arbequina_2050_IN,
+  ensemble_arbequina_2050_IP,
+  ensemble_arbequina_2050_MPI
+))
 
-utm10_results_2050$verCC
-utm10_results_2050$verCN
-utm10_results_2050$verGF
+utm10_results_2050_averages$ARB_m <- arbequina_mean_2050
 
-#AQUI
-#
-utm10_results_2050$galHad <- NA
-utm10_results_2050$cbrHad <- NA
-utm10_results_2050$arbHad <- NA
-utm10_results_2050$picHad <- NA
-utm10_results_2050$corHad <- NA
-utm10_results_2050$madHad <- NA
-utm10_results_2050$verHad <- NA
-#
-utm10_results_2050$galIN <- NA
-utm10_results_2050$cbrIN <- NA
-utm10_results_2050$arbIN <- NA
-utm10_results_2050$picIN <- NA
-utm10_results_2050$corIN <- NA
-utm10_results_2050$madIN <- NA
-utm10_results_2050$verIN <- NA
-#
-utm10_results_2050$galIP <- NA
-utm10_results_2050$cbrIP <- NA
-utm10_results_2050$arbIP <- NA
-utm10_results_2050$picIP <- NA
-utm10_results_2050$corIP <- NA
-utm10_results_2050$madIP <- NA
-utm10_results_2050$verIP <- NA
-#
-utm10_results_2050$galMPI <- NA
-utm10_results_2050$cbrMPI <- NA
-utm10_results_2050$arbMPI <- NA
-utm10_results_2050$picMPI <- NA
-utm10_results_2050$corMPI <- NA
-utm10_results_2050$madMPI <- NA
-utm10_results_2050$verMPI <- NA
+picual_mean_2050 <- rowMeans(cbind(
+  ensemble_picual_2050_CC,
+  ensemble_picual_2050_CN,
+  ensemble_picual_2050_GF,
+  ensemble_picual_2050_HAD,
+  ensemble_picual_2050_IN,
+  ensemble_picual_2050_IP,
+  ensemble_picual_2050_MPI
+))
+
+utm10_results_2050_averages$PIC_m <- picual_mean_2050
+
+cordovil_mean_2050 <- rowMeans(cbind(
+  ensemble_cordovil_2050_CC,
+  ensemble_cordovil_2050_CN,
+  ensemble_cordovil_2050_GF,
+  ensemble_cordovil_2050_HAD,
+  ensemble_cordovil_2050_IN,
+  ensemble_cordovil_2050_IP,
+  ensemble_cordovil_2050_MPI
+))
+
+utm10_results_2050_averages$COR_m <- cordovil_mean_2050
+
+madural_mean_2050 <- rowMeans(cbind(
+  ensemble_madural_2050_CC,
+  ensemble_madural_2050_CN,
+  ensemble_madural_2050_GF,
+  ensemble_madural_2050_HAD,
+  ensemble_madural_2050_IN,
+  ensemble_madural_2050_IP,
+  ensemble_madural_2050_MPI
+))
+
+utm10_results_2050_averages$MAD_m <- madural_mean_2050
+
+verdeal_mean_2050 <- rowMeans(cbind(
+  ensemble_verdeal_2050_CC,
+  ensemble_verdeal_2050_CN,
+  ensemble_verdeal_2050_GF,
+  ensemble_verdeal_2050_HAD,
+  ensemble_verdeal_2050_IN,
+  ensemble_verdeal_2050_IP,
+  ensemble_verdeal_2050_MPI
+))
+
+utm10_results_2050_averages$VER_m <- verdeal_mean_2050
+
 
 ################################################################################
-#                    AVERAGE ALL MODELS ACROSS ALL GCM
+#                              Write to shapefile
 ################################################################################
 
-# Galega - 205
-ggplot(utm10_results_2050) +
-  geom_spatvector(aes(fill = xxx), color = NA) +
+terra::writeVector(utm10_results_2050_averages, "utm10_results_2050_averages_v1", filetype="ESRI Shapefile")
+
+################################################################################
+#                              Plotting
+################################################################################
+
+png(file="galega_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = GAL_m), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
   labs(
     fill = "Suitability",
-    title = "Galega 2050 suitability"
+    title = "Galega future suitability"
   )+ 
   geom_spatvector(data = portugal, fill = NA)
+dev.off()
 
 
+png(file="cobrancosa_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = COB_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Cobrançosa future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="arbequina_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = ARB_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Arbequina future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="picual_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = PIC_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Picual future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="cordovil_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = COR_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Cordovil future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="madural_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = MAD_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Madural future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="verdeal_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = VER_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Verdeal future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
 
 

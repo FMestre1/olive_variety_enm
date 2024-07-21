@@ -181,7 +181,6 @@ plot(getVarImp(verdeal_model),'auc')
 dev.off()
 #rcurve(verdeal_model, mean=TRUE, smooth=TRUE)
 
-
 #Save...
 #save(mean_ev_metrics_galega_model, file = "mean_ev_metrics_galega_model.RData")
 #save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
@@ -190,3 +189,4 @@ dev.off()
 #save(mean_ev_metrics_cordovil_model, file = "mean_ev_metrics_cordovil_model.RData")
 #save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
 #save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")
+
