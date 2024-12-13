@@ -18,7 +18,8 @@ library(tidyterra)
 #cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
 #arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
 #picual_model <- read.sdm(filename = "picual_model.sdm")
-#cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
+#cordovilTM_model <- read.sdm(filename = "cordovilTM_model.sdm")
+#cordovilSE_model <- read.sdm(filename = "cordovilSE_model.sdm")
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
@@ -101,7 +102,8 @@ load("ensemble_galega_2050_CC.RData")
 load("ensemble_cobrancosa_2050_CC.RData")
 load("ensemble_arbequina_2050_CC.RData")
 load("ensemble_picual_2050_CC.RData")
-load("ensemble_cordovil_2050_CC.RData")
+load("ensemble_cordovilTM_2050_CC.RData")
+load("ensemble_cordovilSE_2050_CC.RData")
 load("ensemble_madural_2050_CC.RData")
 load("ensemble_verdeal_2050_CC.RData")
 #
@@ -109,7 +111,8 @@ load("ensemble_galega_2050_CN.RData")
 load("ensemble_cobrancosa_2050_CN.RData")
 load("ensemble_arbequina_2050_CN.RData")
 load("ensemble_picual_2050_CN.RData")
-load("ensemble_cordovil_2050_CN.RData")
+load("ensemble_cordovilTM_2050_CN.RData")
+load("ensemble_cordovilSE_2050_CN.RData")
 load("ensemble_madural_2050_CN.RData")
 load("ensemble_verdeal_2050_CN.RData")
 
@@ -117,7 +120,8 @@ load("ensemble_galega_2050_GF.RData")
 load("ensemble_cobrancosa_2050_GF.RData")
 load("ensemble_arbequina_2050_GF.RData")
 load("ensemble_picual_2050_GF.RData")
-load("ensemble_cordovil_2050_GF.RData")
+load("ensemble_cordovilTM_2050_GF.RData")
+load("ensemble_cordovilSE_2050_GF.RData")
 load("ensemble_madural_2050_GF.RData")
 load("ensemble_verdeal_2050_GF.RData")
 #
@@ -125,7 +129,8 @@ load("ensemble_galega_2050_HAD.RData")
 load("ensemble_cobrancosa_2050_HAD.RData")
 load("ensemble_arbequina_2050_HAD.RData")
 load("ensemble_picual_2050_HAD.RData")
-load("ensemble_cordovil_2050_HAD.RData")
+load("ensemble_cordovilTM_2050_HAD.RData")
+load("ensemble_cordovilSE_2050_HAD.RData")
 load("ensemble_madural_2050_HAD.RData")
 load("ensemble_verdeal_2050_HAD.RData")
 #
@@ -133,7 +138,8 @@ load("ensemble_galega_2050_IN.RData")
 load("ensemble_cobrancosa_2050_IN.RData")
 load("ensemble_arbequina_2050_IN.RData")
 load("ensemble_picual_2050_IN.RData")
-load("ensemble_cordovil_2050_IN.RData")
+load("ensemble_cordovilTM_2050_IN.RData")
+load("ensemble_cordovilSE_2050_IN.RData")
 load("ensemble_madural_2050_IN.RData")
 load("ensemble_verdeal_2050_IN.RData")
 #
@@ -141,7 +147,8 @@ load("ensemble_galega_2050_IP.RData")
 load("ensemble_cobrancosa_2050_IP.RData")
 load("ensemble_arbequina_2050_IP.RData")
 load("ensemble_picual_2050_IP.RData")
-load("ensemble_cordovil_2050_IP.RData")
+load("ensemble_cordovilTM_2050_IP.RData")
+load("ensemble_cordovilSE_2050_IP.RData")
 load("ensemble_madural_2050_IP.RData")
 load("ensemble_verdeal_2050_IP.RData")
 #
@@ -149,7 +156,8 @@ load("ensemble_galega_2050_MPI.RData")
 load("ensemble_cobrancosa_2050_MPI.RData")
 load("ensemble_arbequina_2050_MPI.RData")
 load("ensemble_picual_2050_MPI.RData")
-load("ensemble_cordovil_2050_MPI.RData")
+load("ensemble_cordovilTM_2050_MPI.RData")
+load("ensemble_cordovilSE_2050_MPI.RData")
 load("ensemble_madural_2050_MPI.RData")
 load("ensemble_verdeal_2050_MPI.RData")
 
@@ -158,7 +166,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrCC <- ensemble_cobrancosa_2050_CC
 #utm10_results_2050$arbCC <- ensemble_arbequina_2050_CC
 #utm10_results_2050$picCC <- ensemble_picual_2050_CC
-#utm10_results_2050$corCC <- ensemble_cordovil_2050_CC
+#utm10_results_2050$corTMCC <- ensemble_cordovilTM_2050_CC
+#utm10_results_2050$corSECC <- ensemble_cordovilSE_2050_CC
 #utm10_results_2050$madCC <- ensemble_madural_2050_CC
 #utm10_results_2050$verCC <- ensemble_verdeal_2050_CC
 #
@@ -166,7 +175,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrCN <- ensemble_cobrancosa_2050_CN
 #utm10_results_2050$arbCN <- ensemble_arbequina_2050_CN
 #utm10_results_2050$picCN <- ensemble_picual_2050_CN
-#utm10_results_2050$corCN <- ensemble_cordovil_2050_CN
+#utm10_results_2050$corTMCN <- ensemble_cordovilTM_2050_CN
+#utm10_results_2050$corSECN <- ensemble_cordovilSE_2050_CN
 #utm10_results_2050$madCN <- ensemble_madural_2050_CN
 #utm10_results_2050$verCN <- ensemble_verdeal_2050_CN
 #
@@ -174,7 +184,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrGF <- ensemble_cobrancosa_2050_GF
 #utm10_results_2050$arbGF <- ensemble_arbequina_2050_GF
 #utm10_results_2050$picGF <- ensemble_picual_2050_GF
-#utm10_results_2050$corGF <- ensemble_cordovil_2050_GF
+#utm10_results_2050$corTMGF <- ensemble_cordovilTM_2050_GF
+#utm10_results_2050$corSEGF <- ensemble_cordovilSE_2050_GF
 #utm10_results_2050$madGF <- ensemble_madural_2050_GF
 #utm10_results_2050$verGF <- ensemble_verdeal_2050_GF
 #
@@ -182,7 +193,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrHad <- ensemble_cobrancosa_2050_HAD
 #utm10_results_2050$arbHad <- ensemble_arbequina_2050_HAD
 #utm10_results_2050$picHad <- ensemble_picual_2050_HAD
-#utm10_results_2050$corHad <- ensemble_cordovil_2050_HAD
+#utm10_results_2050$corTMHad <- ensemble_cordovilTM_2050_HAD
+#utm10_results_2050$corSEHad <- ensemble_cordovilSE_2050_HAD
 #utm10_results_2050$madHad <- ensemble_madural_2050_HAD
 #utm10_results_2050$verHad <- ensemble_verdeal_2050_HAD
 #
@@ -190,7 +202,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrIN <- ensemble_cobrancosa_2050_IN
 #utm10_results_2050$arbIN <- ensemble_arbequina_2050_IN
 #utm10_results_2050$picIN <- ensemble_picual_2050_IN
-#utm10_results_2050$corIN <- ensemble_cordovil_2050_IN
+#utm10_results_2050$corTMIN <- ensemble_cordovilTM_2050_IN
+#utm10_results_2050$corSEIN <- ensemble_cordovilSE_2050_IN
 #utm10_results_2050$madIN <- ensemble_madural_2050_IN
 #utm10_results_2050$verIN <- ensemble_verdeal_2050_IN
 #
@@ -198,7 +211,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrIP <- ensemble_cobrancosa_2050_IP
 #utm10_results_2050$arbIP <- ensemble_arbequina_2050_IP
 #utm10_results_2050$picIP <- ensemble_picual_2050_IP
-#utm10_results_2050$corIP <- ensemble_cordovil_2050_IP
+#utm10_results_2050$corTMIP <- ensemble_cordovilTM_2050_IP
+#utm10_results_2050$corSEIP <- ensemble_cordovilSE_2050_IP
 #utm10_results_2050$madIP <- ensemble_madural_2050_IP
 #utm10_results_2050$verIP <- ensemble_verdeal_2050_IP
 #
@@ -206,9 +220,12 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrMPI <- ensemble_cobrancosa_2050_MPI
 #utm10_results_2050$arbMPI <- ensemble_arbequina_2050_MPI
 #utm10_results_2050$picMPI <- ensemble_picual_2050_MPI
-#utm10_results_2050$corMPI <- ensemble_cordovil_2050_MPI
+#utm10_results_2050$corTMMPI <- ensemble_cordovilTM_2050_MPI
+#utm10_results_2050$corSEMPI <- ensemble_cordovilSE_2050_MPI
 #utm10_results_2050$madMPI <- ensemble_madural_2050_MPI
 #utm10_results_2050$verMPI <- ensemble_verdeal_2050_MPI
+
+#AQUI
 
 #######################################################################################################################################
 #                                                   MODEL PROJECTION - 2050

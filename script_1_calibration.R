@@ -15,7 +15,8 @@ library(sdm)
 #cobrancosa_sdm_data
 #arbequina_sdm_data
 #picual_sdm_data
-#cordovil_sdm_data
+#cordovilTM_sdm_data
+#cordovilSE_sdm_data
 #madural_sdm_data
 #verdeal_sdm_data
 
@@ -24,7 +25,8 @@ library(sdm)
 #cobrancosa_sdm_data <- read.sdm(filename = "cobrancosa_sdm_data.sdd")
 #arbequina_sdm_data <- read.sdm(filename = "arbequina_sdm_data.sdd")
 #picual_sdm_data <- read.sdm(filename = "picual_sdm_data.sdd")
-#cordovil_sdm_data <- read.sdm(filename = "cordovil_sdm_data.sdd")
+#cordovilTM_sdm_data <- read.sdm(filename = "cordovilTM_sdm_data.sdd")
+#cordovilSE_sdm_data <- read.sdm(filename = "cordovilSE_sdm_data.sdd")
 #madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
 #verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")
 
@@ -86,7 +88,8 @@ galega_model <- sdm::sdm(Galega~.,data=galega_sdm_data, methods=c('mlp','cart','
 cobrancosa_model <- sdm::sdm(Cobrancosa~.,data=cobrancosa_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cobrancosa), ncore = 6, modelSettings = modeloptions1, n=1)
 arbequina_model <- sdm::sdm(Arbequina~.,data=arbequina_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(arbequina), ncore = 6, modelSettings = modeloptions1, n=1)
 picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(picual), ncore = 6, modelSettings = modeloptions1, n=1)
-cordovil_model <- sdm::sdm(Cordovil~.,data=cordovil_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
+cordovilTM_model <- sdm::sdm(CordovilTM~.,data=cordovilTM_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
+cordovilSE_model <- sdm::sdm(CordovilSE~.,data=cordovilSE_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
 madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(madural), ncore = 6, modelSettings = modeloptions1, n=1)
 verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
 
@@ -95,7 +98,8 @@ verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'ca
 #write.sdm(cobrancosa_model, file = "cobrancosa_model", overwrite = TRUE)
 #write.sdm(arbequina_model, file = "arbequina_model", overwrite = TRUE)
 #write.sdm(picual_model, file = "picual_model", overwrite = TRUE)
-#write.sdm(cordovil_model, file = "cordovil_model", overwrite = TRUE)
+#write.sdm(cordovilTM_model, file = "cordovilTM_model", overwrite = TRUE)
+#write.sdm(cordovilSE_model, file = "cordovilSE_model", overwrite = TRUE)
 #write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
 #write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
 
@@ -104,7 +108,8 @@ verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'ca
 #cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
 #arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
 #picual_model <- read.sdm(filename = "picual_model.sdm")
-#cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
+#cordovilTM_model <- read.sdm(filename = "cordovilTM_model.sdm")
+#cordovilSE_model <- read.sdm(filename = "cordovilSE_model.sdm")
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
@@ -152,14 +157,24 @@ dev.off()
 #rcurve(picual_model, mean=TRUE, smooth=TRUE)
 
 
-##### Cordovil #####
+##### CordovilTM #####
 #getModelInfo(picual_model)
-vimp_cordovil <- getVarImp(cordovil_model)
-vimp_cordovil@varImportanceMean$AUCtest
-png(file="vimp_cordovil_model.png",width=800, height=500)
-plot(getVarImp(cordovil_model),'auc')
+vimp_cordovilTM <- getVarImp(cordovilTM_model)
+vimp_cordovilTM@varImportanceMean$AUCtest
+png(file="vimp_cordovilTM_model.png",width=800, height=500)
+plot(getVarImp(cordovilTM_model),'auc')
 dev.off()
-#rcurve(cordovil_model, mean=TRUE, smooth=TRUE)
+#rcurve(cordovilTM_model, mean=TRUE, smooth=TRUE)
+
+
+##### CordovilSE #####
+#getModelInfo(picual_model)
+vimp_cordovilSE <- getVarImp(cordovilSE_model)
+vimp_cordovilSE@varImportanceMean$AUCtest
+png(file="vimp_cordovilSE_model.png",width=800, height=500)
+plot(getVarImp(cordovilSE_model),'auc')
+dev.off()
+#rcurve(cordovilSE_model, mean=TRUE, smooth=TRUE)
 
 
 ##### Madural #####
@@ -186,7 +201,8 @@ dev.off()
 #save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
 #save(mean_ev_metrics_arbequina_model, file = "mean_ev_metrics_arbequina_model.RData")
 #save(mean_ev_metrics_picual_model, file = "mean_ev_metrics_picual_model.RData")
-#save(mean_ev_metrics_cordovil_model, file = "mean_ev_metrics_cordovil_model.RData")
+#save(mean_ev_metrics_cordovilTM_model, file = "mean_ev_metrics_cordovilTM_model.RData")
+#save(mean_ev_metrics_cordovilSE_model, file = "mean_ev_metrics_cordovilSE_model.RData")
 #save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
 #save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")
 

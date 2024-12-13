@@ -18,7 +18,7 @@ library(terra)
 library(exactextractr)
 
 #Load Portugal shape
-portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
+portugal <- terra::vect("C:/Users/mestr/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
 #plot(portugal)
 #crs(portugal)
 
@@ -29,13 +29,14 @@ portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_v
 #What is the minimum number of presences to conduct an SMD modelling?
 #See: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.01509
 
-olive_vars <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/recente/variedades_recente.shp")
+olive_vars <- terra::vect("C:/Users/mestr/Documents/github/olive_variety_enm/NEW_DATASET/UTM_10x10_km (1).shp")
 #crs(olive_vars)
 
 #Derive variety prevalence in Portugal
 olive_vars_df <- data.frame(olive_vars)
-olive_vars_df[is.na(olive_vars_df)] <- 0
-names(olive_vars_df)[2] # Delete this column
+#View(olive_vars_df)
+olive_vars_df[is.na(olive_vars_df)] <- 0 #Convert NA to 0.
+#names(olive_vars_df)[2] # Delete this column
 olive_vars_df <- olive_vars_df[,-2]
 olive_vars_df <- data.frame(colSums(olive_vars_df[,-1]))
 names(olive_vars_df) <- "number_presences"
@@ -45,42 +46,52 @@ olive_vars_df <- olive_vars_df[order(olive_vars_df$number_presences, decreasing 
 #Use these varieties
 vars_keep <- rownames(olive_vars_df[olive_vars_df$number_presences > 30,])
 
-#Galega (173 presences, prevalence 0.18)
+#[1] "Galega"     "Cobrancosa" "Arbequina"  "Picual"     "VerdealTM"  "Madural"   
+#[7] "CordovilTM" "CordovilSe"
+
+#Galega
 galega <- olive_vars[,vars_keep[1]]
 galega$Galega[is.na(galega$Galega)] <- 0
 galega <- centroids(galega, inside=FALSE)
 galega <- galega[galega$Galega ==1,]
 #plot(galega)
 
-#Cobrançosa (149 presences, prevalence of 0.16)
+#Cobrançosa
 cobrancosa <- olive_vars[,vars_keep[2]]
 cobrancosa$Cobrancosa[is.na(cobrancosa$Cobrancosa)] <- 0
 cobrancosa <- centroids(cobrancosa, inside=FALSE)
 cobrancosa <- cobrancosa[cobrancosa$Cobrancosa ==1,]
 #plot(cobrancosa)
 
-#Arbequina (98 presences, prevalence of 0.10)
+#Arbequina
 arbequina <- olive_vars[,vars_keep[3]]
 arbequina$Arbequina[is.na(arbequina$Arbequina)] <- 0
 arbequina <- centroids(arbequina, inside=FALSE)
 arbequina <- arbequina[arbequina$Arbequina ==1,]
 #plot(arbequina)
 
-#Picual (71 presences, prevalence of 0.08)
+#Picual
 picual <- olive_vars[,vars_keep[4]]
 picual$Picual[is.na(picual$Picual)] <- 0
 picual <- centroids(picual, inside=FALSE)
 picual <- picual[picual$Picual ==1,]
 #plot(picual)
 
-#Cordovil (35 presences, prevalence of 0.04)
-cordovil <- olive_vars[,vars_keep[7]]
-cordovil$Cordovil[is.na(cordovil$Cordovil)] <- 0
-cordovil <- centroids(cordovil, inside=FALSE)
-cordovil <- cordovil[cordovil$Cordovil ==1,]
-#plot(cordovil)
+#CordovilTM
+cordovilTM <- olive_vars[,vars_keep[7]]
+cordovilTM$CordovilTM[is.na(cordovilTM$CordovilTM)] <- 0
+cordovilTM <- centroids(cordovilTM, inside=FALSE)
+cordovilTM <- cordovilTM[cordovilTM$CordovilTM ==1,]
+#plot(cordovilTM)
 
-#Madural (41 presences, prevalence of 0.04)
+#CordovilSe
+cordovilSe <- olive_vars[,vars_keep[8]]
+cordovilSe$CordovilSe[is.na(cordovilSe$CordovilSe)] <- 0
+cordovilSe <- centroids(cordovilSe, inside=FALSE)
+cordovilSe <- cordovilSe[cordovilSe$CordovilSe ==1,]
+#plot(cordovilSe)
+
+#Madural
 madural <- olive_vars[,vars_keep[6]]
 madural$Madural[is.na(madural$Madural)] <- 0
 madural <- centroids(madural, inside=FALSE)
@@ -88,11 +99,11 @@ madural <- madural[madural$Madural ==1,]
 #plot(madural)
 
 #VerdealTM (41 presences, prevalence of 0.04)
-verdeal <- olive_vars[,vars_keep[5]]
-verdeal$VerdealTM[is.na(verdeal$VerdealTM)] <- 0
-verdeal <- centroids(verdeal, inside=FALSE)
-verdeal <- verdeal[verdeal$VerdealTM ==1,]
-#plot(verdeal)
+verdealTM <- olive_vars[,vars_keep[5]]
+verdealTM$VerdealTM[is.na(verdealTM$VerdealTM)] <- 0
+verdealTM <- centroids(verdealTM, inside=FALSE)
+verdealTM <- verdealTM[verdealTM$VerdealTM ==1,]
+#plot(verdealTM)
 
 ################################################################################
 #                         2. LOAD ENVIRONMENTAL LAYERS
@@ -242,7 +253,8 @@ galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(g
 cobrancosa_sdm_data <- sdmData(train=cobrancosa, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
 arbequina_sdm_data <- sdmData(train=arbequina, predictors=env_vars_2, bg=list(n=nrow(arbequina),method='gRandom',remove=TRUE))
 picual_sdm_data <- sdmData(train=picual, predictors=env_vars_2, bg=list(n=nrow(picual),method='gRandom',remove=TRUE))
-cordovil_sdm_data <- sdmData(train=cordovil, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
+cordovilTM_sdm_data <- sdmData(train=cordovilTM, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
+cordovilSE_sdm_data <- sdmData(train=cordovilSe, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
 madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow(madural),method='gRandom',remove=TRUE))
 verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
 
@@ -251,7 +263,8 @@ verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow
 #write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
 #write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
 #write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
-#write.sdm(cordovil_sdm_data, filename = "cordovil_sdm_data", overwrite = TRUE)
+#write.sdm(cordovilTM_sdm_data, filename = "cordovilTM_sdm_data", overwrite = TRUE)
+#write.sdm(cordovilSE_sdm_data, filename = "cordovilSE_sdm_data", overwrite = TRUE)
 #write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
 #write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
 
@@ -269,6 +282,7 @@ rm(bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9,
 #cobrancosa_sdm_data <- read.sdm(filename = "cobrancosa_sdm_data.sdd")
 #arbequina_sdm_data <- read.sdm(filename = "arbequina_sdm_data.sdd")
 #picual_sdm_data <- read.sdm(filename = "picual_sdm_data.sdd")
-#cordovil_sdm_data <- read.sdm(filename = "cordovil_sdm_data.sdd")
+#cordovilTM_sdm_data <- read.sdm(filename = "cordovilTM_sdm_data.sdd")
+#cordovilSE_sdm_data <- read.sdm(filename = "cordovilSE_sdm_data.sdd")
 #madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
 #verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")

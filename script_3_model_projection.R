@@ -21,7 +21,8 @@ library(tidyterra)
 #cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
 #arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
 #picual_model <- read.sdm(filename = "picual_model.sdm")
-#cordovil_model <- read.sdm(filename = "cordovil_model.sdm")
+#cordovilTM_model <- read.sdm(filename = "cordovilTM_model.sdm")
+#cordovilSE_model <- read.sdm(filename = "cordovilSE_model.sdm")
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
@@ -30,7 +31,8 @@ library(tidyterra)
 #load("cobrancosa_ensemble.RData")
 #load("arbequina_ensemble.RData")
 #load("picual_ensemble.RData")
-#load("cordovil_ensemble.RData")
+#load("cordovilTM_ensemble.RData")
+#load("cordovilSE_ensemble.RData")
 #load("madural_ensemble.RData")
 #load("verdeal_ensemble.RData")
 
@@ -103,9 +105,9 @@ utm10_results$results_picual <- ensemble_picual
 save(ensemble_picual, file = "picual_ensemble.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVILTM
+ensemble_cordovilTM <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10,
   setting=list(
     method = 'weighted',
@@ -115,9 +117,25 @@ ensemble_cordovil <- sdm::ensemble(
   )
 )
 
-utm10_results$results_cordovil <- ensemble_cordovil
-#plot(utm10_results, "results_cordovil")
-save(ensemble_cordovil, file = "cordovil_ensemble.RData")
+utm10_results$results_cordovilTM <- ensemble_cordovilTM
+#plot(utm10_results, "results_cordovilTM")
+save(ensemble_cordovilTM, file = "cordovilTM_ensemble.RData")
+
+##### CORDOVILSE
+ensemble_cordovilSE <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results$results_cordovilSE <- ensemble_cordovilSE
+#plot(utm10_results, "results_cordovilSE")
+save(ensemble_cordovilSE, file = "cordovilSE_ensemble.RData")
 
 
 ##### MADURAL
@@ -188,13 +206,21 @@ picual_ev_df[is.na(picual_ev_df)] <- 0
 metrics_picual <- evaluates(picual_ev_df[,1],picual_ev_df[,2])
 save(metrics_picual, file = "metrics_picual.RData")
 
+#cordovilTM_model
+cordovilTM_observ <- as.vector(olive_vars$CordovilTM)
+cordovilTM_predict <- ensemble_cordovilTM$ensemble_weighted
+cordovilTM_ev_df <- data.frame(cordovilTM_observ, cordovilTM_predict)
+cordovilTM_ev_df[is.na(cordovilTM_ev_df)] <- 0
+metrics_cordovilTM <- evaluates(cordovilTM_ev_df[,1],cordovilTM_ev_df[,2])
+save(metrics_cordovilTM, file = "metrics_cordovilTM.RData")
+
 #cordovil_model
-cordovil_observ <- as.vector(olive_vars$Cordovil)
-cordovil_predict <- ensemble_cordovil$ensemble_weighted
-cordovil_ev_df <- data.frame(cordovil_observ, cordovil_predict)
-cordovil_ev_df[is.na(cordovil_ev_df)] <- 0
-metrics_cordovil <- evaluates(cordovil_ev_df[,1],cordovil_ev_df[,2])
-save(metrics_cordovil, file = "metrics_cordovil.RData")
+cordovilSE_observ <- as.vector(olive_vars$CordovilSE)
+cordovilSE_predict <- ensemble_cordovilSE$ensemble_weighted
+cordovilSE_ev_df <- data.frame(cordovilSE_observ, cordovilSE_predict)
+cordovilSE_ev_df[is.na(cordovilSE_ev_df)] <- 0
+metrics_cordovilSE <- evaluates(cordovilSE_ev_df[,1],cordovilSE_ev_df[,2])
+save(metrics_cordovilSE, file = "metrics_cordovilSE.RData")
 
 #madural_model
 madural_observ <- as.vector(olive_vars$Madural)
@@ -219,7 +245,8 @@ auc_1 <- c(metrics_galega@statistics$AUC,
 metrics_cobrancosa@statistics$AUC,
 metrics_arbequina@statistics$AUC,
 metrics_picual@statistics$AUC,
-metrics_cordovil@statistics$AUC,
+metrics_cordovilTM@statistics$AUC,
+metrics_cordovilSE@statistics$AUC,
 metrics_madural@statistics$AUC,
 metrics_verdeal@statistics$AUC
 )
@@ -229,7 +256,8 @@ tss_1 <- c(metrics_galega@threshold_based$TSS[2],
 metrics_cobrancosa@threshold_based$TSS[2],
 metrics_arbequina@threshold_based$TSS[2],
 metrics_picual@threshold_based$TSS[2],
-metrics_cordovil@threshold_based$TSS[2],
+metrics_cordovilTM@threshold_based$TSS[2],
+metrics_cordovilSE@threshold_based$TSS[2],
 metrics_madural@threshold_based$TSS[2],
 metrics_verdeal@threshold_based$TSS[2]
 )
@@ -237,7 +265,7 @@ metrics_verdeal@threshold_based$TSS[2]
 #Create data frame
 metrics_1 <- data.frame(auc_1, tss_1)
 colnames(metrics_1) <- c("AUC", "TSS")
-rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordovil", "Madural", "VerdealTM")
+rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "CordovilTM", "CordovilSE", "Madural", "VerdealTM")
 #write.csv(metrics_1, file = "metrics_1.csv")
 
 ################################################################################
@@ -245,7 +273,7 @@ rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordov
 ################################################################################
 
 #terra::writeVector(utm10_results, "olive_variety_suitability_v5", filetype="ESRI Shapefile")
-#utm10_results <- terra::vect("olive_variety_suitability_v2/olive_variety_suitability_v4.shp")
+#utm10_results <- terra::vect("olive_variety_suitability_v2/olive_variety_suitability_V5.shp")
 
 ################################################################################
 #                              Load ...
@@ -256,7 +284,8 @@ rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordov
 #load("cobrancosa_ensemble.RData")
 #load("arbequina_ensemble.RData")
 #load("picual_ensemble.RData")
-#load("cordovil_ensemble.RData")
+#load("cordovilTM_ensemble.RData")
+#load("cordovilSE_ensemble.RData")
 #load("madural_ensemble.RData")
 #load("verdeal_ensemble.RData")
 
@@ -272,7 +301,7 @@ rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordov
   #https://doi.org/10.21105/joss.05751.
   
   
-png(file="galega_v4.png",width=2000, height=2500, res=300)
+png(file="galega_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_galega), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
@@ -284,7 +313,7 @@ ggplot(utm10_results) +
 dev.off()
 
 
-png(file="cobrancosa_v4.png",width=2000, height=2500, res=300)
+png(file="cobrancosa_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_cobrancosa), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
@@ -295,7 +324,7 @@ ggplot(utm10_results) +
   geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="arbequina_v4.png",width=2000, height=2500, res=300)
+png(file="arbequina_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_arbequina), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
@@ -306,7 +335,7 @@ ggplot(utm10_results) +
   geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="picual_v4.png",width=2000, height=2500, res=300)
+png(file="picual_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_picual), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
@@ -317,18 +346,29 @@ ggplot(utm10_results) +
   geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="cordovil_v4.png",width=2000, height=2500, res=300)
+png(file="cordovilTM_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
-  geom_spatvector(aes(fill = results_cordovil), color = NA) +
+  geom_spatvector(aes(fill = results_cordovilTM), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
   labs(
     fill = "Suitability",
-    title = "Cordovil current suitability"
+    title = "Cordovil (Trás-os-Montes) current suitability"
   )+
 geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="madural_v4.png",width=2000, height=2500, res=300)
+png(file="cordovilSE_V5.png",width=2000, height=2500, res=300)
+ggplot(utm10_results) +
+  geom_spatvector(aes(fill = results_cordovilSE), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Cordovil (Serpa) current suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="madural_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_madural), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
@@ -339,7 +379,7 @@ ggplot(utm10_results) +
 geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="verdeal_v4.png",width=2000, height=2500, res=300)
+png(file="verdeal_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_verdeal), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
