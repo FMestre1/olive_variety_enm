@@ -37,15 +37,17 @@ variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
 ################################################################################
 
 #Create 10x10 km to calibrate models
-utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
-utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
+utm10 <- terra::vect("data2/olive_presence/UTM_10x10_km (1).shp")
+utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "CordovilTM", "VerdealTM", "Madural",   
+                  "Picual", "CordovilSe")]
 
 utm10_results_2050 <- utm10
 utm10_results_2050$galCC <- NA
 utm10_results_2050$cbrCC <- NA
 utm10_results_2050$arbCC <- NA
 utm10_results_2050$picCC <- NA
-utm10_results_2050$corCC <- NA
+utm10_results_2050$cor_TM_CC <- NA
+utm10_results_2050$cor_SE_CC <- NA
 utm10_results_2050$madCC <- NA
 utm10_results_2050$verCC <- NA
 #
@@ -53,7 +55,8 @@ utm10_results_2050$galCN <- NA
 utm10_results_2050$cbrCN <- NA
 utm10_results_2050$arbCN <- NA
 utm10_results_2050$picCN <- NA
-utm10_results_2050$corCN <- NA
+utm10_results_2050$cor_TM_CN <- NA
+utm10_results_2050$cor_SE_CN <- NA
 utm10_results_2050$madCN <- NA
 utm10_results_2050$verCN <- NA
 #
@@ -61,7 +64,8 @@ utm10_results_2050$galGF <- NA
 utm10_results_2050$cbrGF <- NA
 utm10_results_2050$arbGF <- NA
 utm10_results_2050$picGF <- NA
-utm10_results_2050$corGF <- NA
+utm10_results_2050$cor_TM_GF <- NA
+utm10_results_2050$cor_SE_GF <- NA
 utm10_results_2050$madGF <- NA
 utm10_results_2050$verGF <- NA
 #
@@ -69,7 +73,8 @@ utm10_results_2050$galHad <- NA
 utm10_results_2050$cbrHad <- NA
 utm10_results_2050$arbHad <- NA
 utm10_results_2050$picHad <- NA
-utm10_results_2050$corHad <- NA
+utm10_results_2050$cor_TM_Had <- NA
+utm10_results_2050$cor_SE_Had <- NA
 utm10_results_2050$madHad <- NA
 utm10_results_2050$verHad <- NA
 #
@@ -77,7 +82,8 @@ utm10_results_2050$galIN <- NA
 utm10_results_2050$cbrIN <- NA
 utm10_results_2050$arbIN <- NA
 utm10_results_2050$picIN <- NA
-utm10_results_2050$corIN <- NA
+utm10_results_2050$cor_TM_IN <- NA
+utm10_results_2050$cor_SE_IN <- NA
 utm10_results_2050$madIN <- NA
 utm10_results_2050$verIN <- NA
 #
@@ -85,7 +91,8 @@ utm10_results_2050$galIP <- NA
 utm10_results_2050$cbrIP <- NA
 utm10_results_2050$arbIP <- NA
 utm10_results_2050$picIP <- NA
-utm10_results_2050$corIP <- NA
+utm10_results_2050$cor_TM_IP <- NA
+utm10_results_2050$cor_SE_IP <- NA
 utm10_results_2050$madIP <- NA
 utm10_results_2050$verIP <- NA
 #
@@ -93,81 +100,82 @@ utm10_results_2050$galMPI <- NA
 utm10_results_2050$cbrMPI <- NA
 utm10_results_2050$arbMPI <- NA
 utm10_results_2050$picMPI <- NA
-utm10_results_2050$corMPI <- NA
+utm10_results_2050$cor_TM_MPI <- NA
+utm10_results_2050$cor_SE_MPI <- NA
 utm10_results_2050$madMPI <- NA
 utm10_results_2050$verMPI <- NA
 
 #Complete the vector table
-load("ensemble_galega_2050_CC.RData")
-load("ensemble_cobrancosa_2050_CC.RData")
-load("ensemble_arbequina_2050_CC.RData")
-load("ensemble_picual_2050_CC.RData")
-load("ensemble_cordovilTM_2050_CC.RData")
-load("ensemble_cordovilSE_2050_CC.RData")
-load("ensemble_madural_2050_CC.RData")
-load("ensemble_verdeal_2050_CC.RData")
+#load("ensemble_galega_2050_CC.RData")
+#load("ensemble_cobrancosa_2050_CC.RData")
+#load("ensemble_arbequina_2050_CC.RData")
+#load("ensemble_picual_2050_CC.RData")
+#load("ensemble_cordovilTM_2050_CC.RData")
+#load("ensemble_cordovilSE_2050_CC.RData")
+#load("ensemble_madural_2050_CC.RData")
+#load("ensemble_verdeal_2050_CC.RData")
 #
-load("ensemble_galega_2050_CN.RData")
-load("ensemble_cobrancosa_2050_CN.RData")
-load("ensemble_arbequina_2050_CN.RData")
-load("ensemble_picual_2050_CN.RData")
-load("ensemble_cordovilTM_2050_CN.RData")
-load("ensemble_cordovilSE_2050_CN.RData")
-load("ensemble_madural_2050_CN.RData")
-load("ensemble_verdeal_2050_CN.RData")
-
-load("ensemble_galega_2050_GF.RData")
-load("ensemble_cobrancosa_2050_GF.RData")
-load("ensemble_arbequina_2050_GF.RData")
-load("ensemble_picual_2050_GF.RData")
-load("ensemble_cordovilTM_2050_GF.RData")
-load("ensemble_cordovilSE_2050_GF.RData")
-load("ensemble_madural_2050_GF.RData")
-load("ensemble_verdeal_2050_GF.RData")
+#load("ensemble_galega_2050_CN.RData")
+#load("ensemble_cobrancosa_2050_CN.RData")
+#load("ensemble_arbequina_2050_CN.RData")
+#load("ensemble_picual_2050_CN.RData")
+#load("ensemble_cordovilTM_2050_CN.RData")
+#load("ensemble_cordovilSE_2050_CN.RData")
+#load("ensemble_madural_2050_CN.RData")
+#load("ensemble_verdeal_2050_CN.RData")
 #
-load("ensemble_galega_2050_HAD.RData")
-load("ensemble_cobrancosa_2050_HAD.RData")
-load("ensemble_arbequina_2050_HAD.RData")
-load("ensemble_picual_2050_HAD.RData")
-load("ensemble_cordovilTM_2050_HAD.RData")
-load("ensemble_cordovilSE_2050_HAD.RData")
-load("ensemble_madural_2050_HAD.RData")
-load("ensemble_verdeal_2050_HAD.RData")
+#load("ensemble_galega_2050_GF.RData")
+#load("ensemble_cobrancosa_2050_GF.RData")
+#load("ensemble_arbequina_2050_GF.RData")
+#load("ensemble_picual_2050_GF.RData")
+#load("ensemble_cordovilTM_2050_GF.RData")
+#load("ensemble_cordovilSE_2050_GF.RData")
+#load("ensemble_madural_2050_GF.RData")
+#load("ensemble_verdeal_2050_GF.RData")
 #
-load("ensemble_galega_2050_IN.RData")
-load("ensemble_cobrancosa_2050_IN.RData")
-load("ensemble_arbequina_2050_IN.RData")
-load("ensemble_picual_2050_IN.RData")
-load("ensemble_cordovilTM_2050_IN.RData")
-load("ensemble_cordovilSE_2050_IN.RData")
-load("ensemble_madural_2050_IN.RData")
-load("ensemble_verdeal_2050_IN.RData")
+#load("ensemble_galega_2050_HAD.RData")
+#load("ensemble_cobrancosa_2050_HAD.RData")
+#load("ensemble_arbequina_2050_HAD.RData")
+#load("ensemble_picual_2050_HAD.RData")
+#load("ensemble_cordovilTM_2050_HAD.RData")
+#load("ensemble_cordovilSE_2050_HAD.RData")
+#load("ensemble_madural_2050_HAD.RData")
+#load("ensemble_verdeal_2050_HAD.RData")
 #
-load("ensemble_galega_2050_IP.RData")
-load("ensemble_cobrancosa_2050_IP.RData")
-load("ensemble_arbequina_2050_IP.RData")
-load("ensemble_picual_2050_IP.RData")
-load("ensemble_cordovilTM_2050_IP.RData")
-load("ensemble_cordovilSE_2050_IP.RData")
-load("ensemble_madural_2050_IP.RData")
-load("ensemble_verdeal_2050_IP.RData")
+#load("ensemble_galega_2050_IN.RData")
+#load("ensemble_cobrancosa_2050_IN.RData")
+#load("ensemble_arbequina_2050_IN.RData")
+#load("ensemble_picual_2050_IN.RData")
+#load("ensemble_cordovilTM_2050_IN.RData")
+#load("ensemble_cordovilSE_2050_IN.RData")
+#load("ensemble_madural_2050_IN.RData")
+#load("ensemble_verdeal_2050_IN.RData")
 #
-load("ensemble_galega_2050_MPI.RData")
-load("ensemble_cobrancosa_2050_MPI.RData")
-load("ensemble_arbequina_2050_MPI.RData")
-load("ensemble_picual_2050_MPI.RData")
-load("ensemble_cordovilTM_2050_MPI.RData")
-load("ensemble_cordovilSE_2050_MPI.RData")
-load("ensemble_madural_2050_MPI.RData")
-load("ensemble_verdeal_2050_MPI.RData")
+#load("ensemble_galega_2050_IP.RData")
+#load("ensemble_cobrancosa_2050_IP.RData")
+#load("ensemble_arbequina_2050_IP.RData")
+#load("ensemble_picual_2050_IP.RData")
+#load("ensemble_cordovilTM_2050_IP.RData")
+#load("ensemble_cordovilSE_2050_IP.RData")
+#load("ensemble_madural_2050_IP.RData")
+#load("ensemble_verdeal_2050_IP.RData")
+#
+#load("ensemble_galega_2050_MPI.RData")
+#load("ensemble_cobrancosa_2050_MPI.RData")
+#load("ensemble_arbequina_2050_MPI.RData")
+#load("ensemble_picual_2050_MPI.RData")
+#load("ensemble_cordovilTM_2050_MPI.RData")
+#load("ensemble_cordovilSE_2050_MPI.RData")
+#load("ensemble_madural_2050_MPI.RData")
+#load("ensemble_verdeal_2050_MPI.RData")
 
 #Send these uploaded columns to the vector table
 #utm10_results_2050$galCC <- ensemble_galega_2050_CC
 #utm10_results_2050$cbrCC <- ensemble_cobrancosa_2050_CC
 #utm10_results_2050$arbCC <- ensemble_arbequina_2050_CC
 #utm10_results_2050$picCC <- ensemble_picual_2050_CC
-#utm10_results_2050$corTMCC <- ensemble_cordovilTM_2050_CC
-#utm10_results_2050$corSECC <- ensemble_cordovilSE_2050_CC
+#utm10_results_2050$cor_TM_CC <- ensemble_cordovilTM_2050_CC
+#utm10_results_2050$cor_SE_CC <- ensemble_cordovilSE_2050_CC
 #utm10_results_2050$madCC <- ensemble_madural_2050_CC
 #utm10_results_2050$verCC <- ensemble_verdeal_2050_CC
 #
@@ -175,8 +183,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrCN <- ensemble_cobrancosa_2050_CN
 #utm10_results_2050$arbCN <- ensemble_arbequina_2050_CN
 #utm10_results_2050$picCN <- ensemble_picual_2050_CN
-#utm10_results_2050$corTMCN <- ensemble_cordovilTM_2050_CN
-#utm10_results_2050$corSECN <- ensemble_cordovilSE_2050_CN
+#utm10_results_2050$cor_TM_CN <- ensemble_cordovilTM_2050_CN
+#utm10_results_2050$cor_SE_CN <- ensemble_cordovilSE_2050_CN
 #utm10_results_2050$madCN <- ensemble_madural_2050_CN
 #utm10_results_2050$verCN <- ensemble_verdeal_2050_CN
 #
@@ -184,8 +192,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrGF <- ensemble_cobrancosa_2050_GF
 #utm10_results_2050$arbGF <- ensemble_arbequina_2050_GF
 #utm10_results_2050$picGF <- ensemble_picual_2050_GF
-#utm10_results_2050$corTMGF <- ensemble_cordovilTM_2050_GF
-#utm10_results_2050$corSEGF <- ensemble_cordovilSE_2050_GF
+#utm10_results_2050$cor_TM_GF <- ensemble_cordovilTM_2050_GF
+#utm10_results_2050$cor_SE_GF <- ensemble_cordovilSE_2050_GF
 #utm10_results_2050$madGF <- ensemble_madural_2050_GF
 #utm10_results_2050$verGF <- ensemble_verdeal_2050_GF
 #
@@ -193,8 +201,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrHad <- ensemble_cobrancosa_2050_HAD
 #utm10_results_2050$arbHad <- ensemble_arbequina_2050_HAD
 #utm10_results_2050$picHad <- ensemble_picual_2050_HAD
-#utm10_results_2050$corTMHad <- ensemble_cordovilTM_2050_HAD
-#utm10_results_2050$corSEHad <- ensemble_cordovilSE_2050_HAD
+#utm10_results_2050$cor_TM_Had <- ensemble_cordovilTM_2050_HAD
+#utm10_results_2050$cor_SE_Had <- ensemble_cordovilSE_2050_HAD
 #utm10_results_2050$madHad <- ensemble_madural_2050_HAD
 #utm10_results_2050$verHad <- ensemble_verdeal_2050_HAD
 #
@@ -202,8 +210,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrIN <- ensemble_cobrancosa_2050_IN
 #utm10_results_2050$arbIN <- ensemble_arbequina_2050_IN
 #utm10_results_2050$picIN <- ensemble_picual_2050_IN
-#utm10_results_2050$corTMIN <- ensemble_cordovilTM_2050_IN
-#utm10_results_2050$corSEIN <- ensemble_cordovilSE_2050_IN
+#utm10_results_2050$cor_TM_IN <- ensemble_cordovilTM_2050_IN
+#utm10_results_2050$cor_SE_IN <- ensemble_cordovilSE_2050_IN
 #utm10_results_2050$madIN <- ensemble_madural_2050_IN
 #utm10_results_2050$verIN <- ensemble_verdeal_2050_IN
 #
@@ -211,8 +219,8 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrIP <- ensemble_cobrancosa_2050_IP
 #utm10_results_2050$arbIP <- ensemble_arbequina_2050_IP
 #utm10_results_2050$picIP <- ensemble_picual_2050_IP
-#utm10_results_2050$corTMIP <- ensemble_cordovilTM_2050_IP
-#utm10_results_2050$corSEIP <- ensemble_cordovilSE_2050_IP
+#utm10_results_2050$cor_TM_IP <- ensemble_cordovilTM_2050_IP
+#utm10_results_2050$cor_SE_IP <- ensemble_cordovilSE_2050_IP
 #utm10_results_2050$madIP <- ensemble_madural_2050_IP
 #utm10_results_2050$verIP <- ensemble_verdeal_2050_IP
 #
@@ -220,12 +228,10 @@ load("ensemble_verdeal_2050_MPI.RData")
 #utm10_results_2050$cbrMPI <- ensemble_cobrancosa_2050_MPI
 #utm10_results_2050$arbMPI <- ensemble_arbequina_2050_MPI
 #utm10_results_2050$picMPI <- ensemble_picual_2050_MPI
-#utm10_results_2050$corTMMPI <- ensemble_cordovilTM_2050_MPI
-#utm10_results_2050$corSEMPI <- ensemble_cordovilSE_2050_MPI
+#utm10_results_2050$cor_TM_MPI <- ensemble_cordovilTM_2050_MPI
+#utm10_results_2050$cor_SE_MPI <- ensemble_cordovilSE_2050_MPI
 #utm10_results_2050$madMPI <- ensemble_madural_2050_MPI
 #utm10_results_2050$verMPI <- ensemble_verdeal_2050_MPI
-
-#AQUI
 
 #######################################################################################################################################
 #                                                   MODEL PROJECTION - 2050
@@ -301,9 +307,9 @@ save(ensemble_picual_2050_CC, file = "ensemble_picual_2050_CC.RData")
 #load("ensemble_picual_2050_CC.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_CC <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_CC <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_cc_rcp45,
   setting=list(
     method = 'weighted',
@@ -313,9 +319,25 @@ ensemble_cordovil_2050_CC <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corCC <- ensemble_cordovil_2050_CC
-save(ensemble_cordovil_2050_CC, file = "ensemble_cordovil_2050_CC.RData")
-#load("ensemble_cordovil_2050_CC.RData")
+utm10_results_2050$cor_TM_CC <- ensemble_cordovilTM_2050_CC
+save(ensemble_cordovilTM_2050_CC, file = "ensemble_cordovilTM_2050_CC.RData")
+#load("ensemble_cordovilTM_2050_CC.RData")
+
+##### CORDOVIL_SE
+ensemble_cordovilSE_2050_CC <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_cc_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_CC <- ensemble_cordovilSE_2050_CC
+save(ensemble_cordovilSE_2050_CC, file = "ensemble_cordovilSE_2050_CC.RData")
+#load("ensemble_cordovilSE_2050_CC.RData")
 
 
 ##### MADURAL
@@ -419,9 +441,9 @@ save(ensemble_picual_2050_CN, file = "ensemble_picual_2050_CN.RData")
 #load("ensemble_picual_2050_CN.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_CN <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_CN <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_cn_rcp45,
   setting=list(
     method = 'weighted',
@@ -431,10 +453,25 @@ ensemble_cordovil_2050_CN <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corCN <- ensemble_cordovil_2050_CN
-save(ensemble_cordovil_2050_CN, file = "ensemble_cordovil_2050_CN.RData")
-#load("ensemble_cordovil_2050_CN.RData")
+utm10_results_2050$cor_TM_CN <- ensemble_cordovilTM_2050_CN
+save(ensemble_cordovilTM_2050_CN, file = "ensemble_cordovilTM_2050_CN.RData")
+#load("ensemble_cordovilTM_2050_CN.RData")
 
+##### CORDOVIL
+ensemble_cordovilSE_2050_CN <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_cn_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_CN <- ensemble_cordovilSE_2050_CN
+save(ensemble_cordovilSE_2050_CN, file = "ensemble_cordovilSE_2050_CN.RData")
+#load("ensemble_cordovilSE_2050_CN.RData")
 
 ##### MADURAL
 ensemble_madural_2050_CN <- sdm::ensemble(
@@ -537,9 +574,9 @@ save(ensemble_picual_2050_GF, file = "ensemble_picual_2050_GF.RData")
 #load("ensemble_picual_2050_GF.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_GF <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_GF <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_gf_rcp45,
   setting=list(
     method = 'weighted',
@@ -549,9 +586,27 @@ ensemble_cordovil_2050_GF <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corGF <- ensemble_cordovil_2050_GF
-save(ensemble_cordovil_2050_GF, file = "ensemble_cordovil_2050_GF.RData")
-#load("ensemble_cordovil_2050_GF.RData")
+utm10_results_2050$cor_TM_GF <- ensemble_cordovilTM_2050_GF
+save(ensemble_cordovilTM_2050_GF, file = "ensemble_cordovilTM_2050_GF.RData")
+#load("ensemble_cordovilTM_2050_GF.RData")
+
+
+##### CORDOVIL
+ensemble_cordovilSE_2050_GF <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_gf_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_GF <- ensemble_cordovilSE_2050_GF
+save(ensemble_cordovilSE_2050_GF, file = "ensemble_cordovilSE_2050_GF.RData")
+#load("ensemble_cordovilSE_2050_GF.RData")
+
 
 ##### MADURAL
 ensemble_madural_2050_GF <- sdm::ensemble(
@@ -656,9 +711,9 @@ save(ensemble_picual_2050_HAD, file = "ensemble_picual_2050_HAD.RData")
 #load("ensemble_picual_2050_HAD.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_HAD <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_HAD <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_had_rcp45,
   setting=list(
     method = 'weighted',
@@ -668,9 +723,26 @@ ensemble_cordovil_2050_HAD <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corHAD <- ensemble_cordovil_2050_HAD
-save(ensemble_cordovil_2050_HAD, file = "ensemble_cordovil_2050_HAD.RData")
-#load("ensemble_cordovil_2050_HAD.RData")
+utm10_results_2050$cor_TM_HAD <- ensemble_cordovilTM_2050_HAD
+save(ensemble_cordovilTM_2050_HAD, file = "ensemble_cordovilTM_2050_HAD.RData")
+#load("ensemble_cordovilTM_2050_HAD.RData")
+
+
+##### CORDOVIL_SE
+ensemble_cordovilSE_2050_HAD <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_had_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_HAD <- ensemble_cordovilSE_2050_HAD
+save(ensemble_cordovilSE_2050_HAD, file = "ensemble_cordovilSE_2050_HAD.RData")
+#load("ensemble_cordovilSE_2050_HAD.RData")
 
 
 ##### MADURAL
@@ -775,9 +847,9 @@ save(ensemble_picual_2050_IN, file = "ensemble_picual_2050_IN.RData")
 #load("ensemble_picual_2050_IN.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_IN <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_IN <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_in_rcp45,
   setting=list(
     method = 'weighted',
@@ -787,9 +859,26 @@ ensemble_cordovil_2050_IN <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corIN <- ensemble_cordovil_2050_IN
-save(ensemble_cordovil_2050_IN, file = "ensemble_cordovil_2050_IN.RData")
-#load("ensemble_cordovil_2050_IN.RData")
+utm10_results_2050$cor_TM_IN <- ensemble_cordovilTM_2050_IN
+save(ensemble_cordovilTM_2050_IN, file = "ensemble_cordovilTM_2050_IN.RData")
+#load("ensemble_cordovilTM_2050_IN.RData")
+
+
+##### CORDOVIL_SE
+ensemble_cordovilSE_2050_IN <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_in_rcp45,
+  setting=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_IN <- ensemble_cordovilSE_2050_IN
+save(ensemble_cordovilSE_2050_IN, file = "ensemble_cordovilSE_2050_IN.RData")
+#load("ensemble_cordovilSE_2050_IN.RData")
 
 
 ##### MADURAL
@@ -894,9 +983,9 @@ save(ensemble_picual_2050_IP, file = "ensemble_picual_2050_IP.RData")
 #load("ensemble_picual_2050_IP.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_IP <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_IP <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_ip_rcp45,
   settipg=list(
     method = 'weighted',
@@ -906,9 +995,26 @@ ensemble_cordovil_2050_IP <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corIP <- ensemble_cordovil_2050_IP
-save(ensemble_cordovil_2050_IP, file = "ensemble_cordovil_2050_IP.RData")
-#load("ensemble_cordovil_2050_IP.RData")
+utm10_results_2050$cor_TM_IP <- ensemble_cordovilTM_2050_IP
+save(ensemble_cordovilTM_2050_IP, file = "ensemble_cordovilTM_2050_IP.RData")
+#load("ensemble_cordovilTM_2050_IP.RData")
+
+
+##### CORDOVIL_SE
+ensemble_cordovilSE_2050_IP <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_ip_rcp45,
+  settipg=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_IP <- ensemble_cordovilSE_2050_IP
+save(ensemble_cordovilSE_2050_IP, file = "ensemble_cordovilSE_2050_IP.RData")
+#load("ensemble_cordovilSE_2050_IP.RData")
 
 
 ##### MADURAL
@@ -1013,9 +1119,9 @@ save(ensemble_picual_2050_MPI, file = "ensemble_picual_2050_MPI.RData")
 #load("ensemble_picual_2050_MPI.RData")
 
 
-##### CORDOVIL
-ensemble_cordovil_2050_MPI <- sdm::ensemble(
-  x = cordovil_model,
+##### CORDOVIL_TM
+ensemble_cordovilTM_2050_MPI <- sdm::ensemble(
+  x = cordovilTM_model,
   newdata = variables_10x10_mpi_rcp45,
   settmpig=list(
     method = 'weighted',
@@ -1025,9 +1131,26 @@ ensemble_cordovil_2050_MPI <- sdm::ensemble(
   )
 )
 
-utm10_results_2050$corMPI <- ensemble_cordovil_2050_MPI
-save(ensemble_cordovil_2050_MPI, file = "ensemble_cordovil_2050_MPI.RData")
-#load("ensemble_cordovil_2050_MPI.RData")
+utm10_results_2050$cor_TM_MPI <- ensemble_cordovilTM_2050_MPI
+save(ensemble_cordovilTM_2050_MPI, file = "ensemble_cordovilTM_2050_MPI.RData")
+#load("ensemble_cordovilTM_2050_MPI.RData")
+
+
+##### CORDOVIL_SE
+ensemble_cordovilSE_2050_MPI <- sdm::ensemble(
+  x = cordovilSE_model,
+  newdata = variables_10x10_mpi_rcp45,
+  settmpig=list(
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
+  )
+)
+
+utm10_results_2050$cor_SE_MPI <- ensemble_cordovilSE_2050_MPI
+save(ensemble_cordovilSE_2050_MPI, file = "ensemble_cordovilSE_2050_MPI.RData")
+#load("ensemble_cordovilSE_2050_MPI.RData")
 
 
 ##### MADURAL
@@ -1066,5 +1189,5 @@ save(ensemble_verdeal_2050_MPI, file = "ensemble_verdeal_2050_MPI.RData")
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results_2050, "utm10_results_2050_version_2", filetype="ESRI Shapefile")
-#utm10_results_2050 <- terra::vect("olive_variety_suitability_v2/utm10_results_2050.shp")
+terra::writeVector(utm10_results_2050, "utm10_results_2050_version_december24", filetype="ESRI Shapefile")
+#utm10_results_2050 <- terra::vect("utm10_results_2050_version_december24.shp")

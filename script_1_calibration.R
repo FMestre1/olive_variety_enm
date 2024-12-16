@@ -30,7 +30,6 @@ library(sdm)
 #madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
 #verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")
 
-
 ################################################################################
 #                                0. Setup Options
 ################################################################################

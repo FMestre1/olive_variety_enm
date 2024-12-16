@@ -12,19 +12,18 @@ library(ggplot2)
 library(tidyterra)
 
 #Load Portugal shape
-portugal <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
+portugal <- terra::vect("data2/shapes/shape_portugal_continental.shp")
 #Create 10x10 km to calibrate models
-utm10 <- terra::vect("C:/Users/asus/Documents/github/olive_variety_enm/olive_variety_10x10_30Maio24.shp")
-utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
+utm10 <- terra::vect("data2/olive_presence/UTM_10x10_km (1).shp")
+utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "CordovilTM", "VerdealTM", "Madural",   
+                  "Picual", "CordovilSe")]
 
-# Plot projections using
-#utm10_results_2050
+#Create table to output
+utm10_results_2050_averages <- utm10
 
 ################################################################################
 #                    AVERAGE ALL MODELS ACROSS ALL GCM
 ################################################################################
-
-utm10_results_2050_averages <- utm10
 
 galega_mean_2050 <- rowMeans(cbind(
 ensemble_galega_2050_CC,
@@ -37,7 +36,6 @@ ensemble_galega_2050_MPI
 ))
 
 utm10_results_2050_averages$GAL_m <- galega_mean_2050
-#terra::plot(utm10_results_2050_averages, "GAL_m")
 
 cobrancosa_mean_2050 <- rowMeans(cbind(
   ensemble_cobrancosa_2050_CC,
@@ -75,17 +73,29 @@ picual_mean_2050 <- rowMeans(cbind(
 
 utm10_results_2050_averages$PIC_m <- picual_mean_2050
 
-cordovil_mean_2050 <- rowMeans(cbind(
-  ensemble_cordovil_2050_CC,
-  ensemble_cordovil_2050_CN,
-  ensemble_cordovil_2050_GF,
-  ensemble_cordovil_2050_HAD,
-  ensemble_cordovil_2050_IN,
-  ensemble_cordovil_2050_IP,
-  ensemble_cordovil_2050_MPI
+cordovilTM_mean_2050 <- rowMeans(cbind(
+  ensemble_cordovilTM_2050_CC,
+  ensemble_cordovilTM_2050_CN,
+  ensemble_cordovilTM_2050_GF,
+  ensemble_cordovilTM_2050_HAD,
+  ensemble_cordovilTM_2050_IN,
+  ensemble_cordovilTM_2050_IP,
+  ensemble_cordovilTM_2050_MPI
 ))
 
-utm10_results_2050_averages$COR_m <- cordovil_mean_2050
+utm10_results_2050_averages$COR_TM_m <- cordovilTM_mean_2050
+
+cordovilSE_mean_2050 <- rowMeans(cbind(
+  ensemble_cordovilSE_2050_CC,
+  ensemble_cordovilSE_2050_CN,
+  ensemble_cordovilSE_2050_GF,
+  ensemble_cordovilSE_2050_HAD,
+  ensemble_cordovilSE_2050_IN,
+  ensemble_cordovilSE_2050_IP,
+  ensemble_cordovilSE_2050_MPI
+))
+
+utm10_results_2050_averages$COR_SE_m <- cordovilSE_mean_2050
 
 madural_mean_2050 <- rowMeans(cbind(
   ensemble_madural_2050_CC,
@@ -116,7 +126,7 @@ utm10_results_2050_averages$VER_m <- verdeal_mean_2050
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results_2050_averages, "utm10_results_2050_averages_v1", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results_2050_averages, "utm10_results_2050_averages_version_december24", filetype="ESRI Shapefile")
 
 ################################################################################
 #                              Plotting
@@ -167,13 +177,24 @@ ggplot(utm10_results_2050_averages) +
   geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
-png(file="cordovil_mean_2050.png",width=2000, height=2500, res=300)
+png(file="cordovilTM_mean_2050.png",width=2000, height=2500, res=300)
 ggplot(utm10_results_2050_averages) +
-  geom_spatvector(aes(fill = COR_m), color = NA) +
+  geom_spatvector(aes(fill = COR_TM_m), color = NA) +
   scale_fill_whitebox_c(palette = "bl_yl_rd") +
   labs(
     fill = "Suitability",
-    title = "Cordovil future suitability"
+    title = "Cordovil TM future suitability"
+  )+
+  geom_spatvector(data = portugal, fill = NA)
+dev.off()
+
+png(file="cordovilSE_mean_2050.png",width=2000, height=2500, res=300)
+ggplot(utm10_results_2050_averages) +
+  geom_spatvector(aes(fill = COR_SE_m), color = NA) +
+  scale_fill_whitebox_c(palette = "bl_yl_rd") +
+  labs(
+    fill = "Suitability",
+    title = "Cordovil SE future suitability"
   )+
   geom_spatvector(data = portugal, fill = NA)
 dev.off()

@@ -105,7 +105,7 @@ utm10_results$results_picual <- ensemble_picual
 save(ensemble_picual, file = "picual_ensemble.RData")
 
 
-##### CORDOVILTM
+##### CORDOVIL_TM
 ensemble_cordovilTM <- sdm::ensemble(
   x = cordovilTM_model,
   newdata = variables_10x10,
@@ -121,7 +121,7 @@ utm10_results$results_cordovilTM <- ensemble_cordovilTM
 #plot(utm10_results, "results_cordovilTM")
 save(ensemble_cordovilTM, file = "cordovilTM_ensemble.RData")
 
-##### CORDOVILSE
+##### CORDOVIL_SE
 ensemble_cordovilSE <- sdm::ensemble(
   x = cordovilSE_model,
   newdata = variables_10x10,
@@ -272,8 +272,8 @@ rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "Cordov
 #                              Write to shapefile
 ################################################################################
 
-#terra::writeVector(utm10_results, "olive_variety_suitability_v5", filetype="ESRI Shapefile")
-#utm10_results <- terra::vect("olive_variety_suitability_v2/olive_variety_suitability_V5.shp")
+terra::writeVector(utm10_results, "olive_variety_suitability_version_december24", filetype="ESRI Shapefile")
+#utm10_results <- terra::vect("olive_variety_suitability_version_december24/olive_variety_suitability_version_december24.shp")
 
 ################################################################################
 #                              Load ...

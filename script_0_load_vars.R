@@ -6,19 +6,18 @@
 #13-05-2024
 
 #Load required packages
-#detach(package:sdm, unload = TRUE)
-#devtools::install_github("babaknaimi/sdm")
-
-#sessionInfo()
-
+#Use this to install devtools
+library(devtools)
+devtools::install_github("babaknaimi/sdm") #install the development version on github
+installAll() # Run to install all the dependencies of sdm
 library(sdm)
 library(usdm)
-#installAll()
 library(terra)
 library(exactextractr)
 
 #Load Portugal shape
-portugal <- terra::vect("C:/Users/mestr/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/shape_portugal_continental.shp")
+portugal <- terra::vect("data2/shapes/shape_portugal_continental.shp")
+#Check it...
 #plot(portugal)
 #crs(portugal)
 
@@ -29,10 +28,10 @@ portugal <- terra::vect("C:/Users/mestr/Documents/0. Artigos/oleadapt_modelacao_
 #What is the minimum number of presences to conduct an SMD modelling?
 #See: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.01509
 
-olive_vars <- terra::vect("C:/Users/mestr/Documents/github/olive_variety_enm/NEW_DATASET/UTM_10x10_km (1).shp")
+olive_vars <- terra::vect("data2/olive_presence/UTM_10x10_km (1).shp")
 #crs(olive_vars)
 
-#Derive variety prevalence in Portugal
+#Derive variety prevalence in Portugal across varieties
 olive_vars_df <- data.frame(olive_vars)
 #View(olive_vars_df)
 olive_vars_df[is.na(olive_vars_df)] <- 0 #Convert NA to 0.
@@ -110,26 +109,27 @@ verdealTM <- verdealTM[verdealTM$VerdealTM ==1,]
 ################################################################################
 
 #Worldclim v2
-bio1 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_1.tif")
-bio2 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_2.tif")
-bio3 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_3.tif")
-bio4 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_4.tif")
-bio5 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_5.tif")
-bio6 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_6.tif")
-bio7 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_7.tif")
-bio8 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_8.tif")
-bio9 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_9.tif")
-bio10 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_10.tif")
-bio11 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_11.tif")
-bio12 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_12.tif")
-bio13 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_13.tif")
-bio14 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_14.tif")
-bio15 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_15.tif")
-bio16 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_16.tif")
-bio17 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_17.tif")
-bio18 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_18.tif")
-bio19 <- terra::rast("D:/Dados climáticos/WorldClim 2.0/30 seconds/wc2.1_30s_bio/wc2.1_30s_bio_19.tif")
+bio1 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_1.tif")
+bio2 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_2.tif")
+bio3 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_3.tif")
+bio4 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_4.tif")
+bio5 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_5.tif")
+bio6 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_6.tif")
+bio7 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_7.tif")
+bio8 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_8.tif")
+bio9 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_9.tif")
+bio10 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_10.tif")
+bio11 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_11.tif")
+bio12 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_12.tif")
+bio13 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_13.tif")
+bio14 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_14.tif")
+bio15 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_15.tif")
+bio16 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_16.tif")
+bio17 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_17.tif")
+bio18 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_18.tif")
+bio19 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_19.tif")
 #
+#Check crs
 #crs(bio1)
 #terra::res(bio1)
 
@@ -140,7 +140,7 @@ bioclimatic_crop <- crop(bioclimatic, portugal, mask = TRUE)
 names(bioclimatic_crop) <- c("bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bio7", "bio8", "bio9", 
                              "bio10", "bio11", "bio12", "bio13", "bio14", "bio15", "bio16", "bio17", "bio18", 
                              "bio19")
-
+#plot
 #plot(bioclimatic_crop)
 
 #ClimateEU variables
@@ -152,26 +152,27 @@ names(bioclimatic_crop) <- c("bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bi
 #projections for Europe. Scientific Data 7: 428. doi: 10.1038/s41597-020-00763-0
 #https://www.nature.com/articles/s41597-020-00763-0
 
-ahm <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/ahm_wgs84.tif")#Annual heat:moisture index (MAT+10)/(MAP/1000))
-shm <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/shm_wgs84.tif")#Summer heat:moisture index ((MWMT)/(MSP/1000))
-nffd <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/nffd_wgs84.tif")#Number of frost-free days
-eref <- terra::rast("D:/MOVING/CLIMATE/CLIMATE_PROL_EU/Albers_2.5km_Normal_1961-1990_bioclim/wgs/eref_wgs84.tif")#Hargreaves reference evaporation
+ahm <- terra::rast("data2/climate_eu/ahm_wgs84.tif")#Annual heat:moisture index (MAT+10)/(MAP/1000))
+shm <- terra::rast("data2/climate_eu/shm_wgs84.tif")#Summer heat:moisture index ((MWMT)/(MSP/1000))
+nffd <- terra::rast("data2/climate_eu/nffd_wgs84.tif")#Number of frost-free days
+eref <- terra::rast("data2/climate_eu/eref_wgs84.tif")#Hargreaves reference evaporation
 #
 climate_eu <- c(ahm, shm, nffd, eref)
 climate_eu_res <- terra::resample(climate_eu, bio1)
 climate_eu_res_crop <- crop(climate_eu_res, portugal, mask = TRUE)
 
+#plot
 #plot(climate_eu_res_crop)
 
 #Soil-related variables
-bdod <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/BDOD.tif") #BDOD - Bulk density of the fine earth fraction
-ocd <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/OCD.tif") #OCD - Organic Carbon Density
-ph <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/pH.tif") #pH
-sand <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/Sand.tif") #Sand - Proportion of sand particles (> 0.05 mm) in the fine earth fraction
-soil_class <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/Soil_Class.tif") #Soil_Class - World Reference Base Soil Groups
-tri <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/TRI.tif") #TRI - Terrain Roughness Index (derivada da variável DEM)
-twi <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/TWI.tif") #TWI - Topographic Wetness Index (derivada da variável DEM)
-slope <- terra::rast("~/0. Artigos/oleadapt_modelacao_variedades/Variaveis/Slope.tif") #Slope
+bdod <- terra::rast("data2/soil/BDOD.tif") #BDOD - Bulk density of the fine earth fraction
+ocd <- terra::rast("data2/soil/OCD.tif") #OCD - Organic Carbon Density
+ph <- terra::rast("data2/soil/pH.tif") #pH
+sand <- terra::rast("data2/soil/Sand.tif") #Sand - Proportion of sand particles (> 0.05 mm) in the fine earth fraction
+soil_class <- terra::rast("data2/soil/Soil_Class.tif") #Soil_Class - World Reference Base Soil Groups
+tri <- terra::rast("data2/soil/TRI.tif") #TRI - Terrain Roughness Index (derivada da variável DEM)
+twi <- terra::rast("data2/soil/TWI.tif") #TWI - Topographic Wetness Index (derivada da variável DEM)
+slope <- terra::rast("data2/soil/Slope.tif") #Slope
 #
 bdod_wgs84 <- terra::project(bdod, bio1)
 ocd_wgs84 <- terra::project(ocd, bio1)
@@ -184,10 +185,12 @@ slope_wgs84 <- terra::project(slope, bio1)#
 
 soil <- c(bdod_wgs84, ocd_wgs84, ph_wgs84, sand_wgs84, soil_class_wgs84, tri_wgs84, twi_wgs84, slope_wgs84)
 soil_crop <- crop(soil, portugal, mask = TRUE)
+
+#plot
 #plot(soil_crop)
 
 ################################################################################
-#                        All variables together
+#                           Combine all variables
 ################################################################################
 
 env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
@@ -210,8 +213,6 @@ env_vars <- c(bioclimatic_crop, climate_eu_res_crop, soil_crop)
 #
 
 #Keep the one from the first time I ran the VIF function
-#keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
-#  "eref_wgs84", "OCD", "pH", "Sand", "Soil_Class", "TRI", "TWI")
 keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
                 "eref_wgs84", "OCD", "pH", "Sand", "TRI", "TWI")
 
@@ -224,27 +225,6 @@ env_vars_2 <- env_vars[[keep_these]]
 #Load it...
 #load("env_vars_2.RData")
 
-
-################################################################################
-#                    Average to every 10x10 km square grid
-################################################################################
-
-#Create 10x10 km to calibrate models
-utm10 <- terra::vect("C:/Users/asus/Documents/0. Artigos/oleadapt_modelacao_variedades/shapes/variedades_portugal_15_05_2024.shp")
-utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "Picual", "Cordovil", "Madural", "Verdeal")]
-#utm10_df <- data.frame(utm10)
-#utm10_df[is.na(utm10_df)] <- 0
-
-#variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean')
-variables_10x10 <- exactextractr::exact_extract(env_vars_2, sf::st_as_sf(utm10), 'mean')
-
-#utm_bio1_10x10_df <- data.frame(variables_10x10)
-#names(utm_bio1_10x10_df)
-
-#variables_10x10_2 <- terra::cbind2(utm10, variables_10x10)
-#plot(variables_10x10_2, "bio2")
-#names(variables_10x10_2)
-
 ################################################################################
 #                              Create SDM data
 ################################################################################
@@ -253,10 +233,10 @@ galega_sdm_data <- sdmData(train=galega, predictors=env_vars_2, bg=list(n=nrow(g
 cobrancosa_sdm_data <- sdmData(train=cobrancosa, predictors=env_vars_2, bg=list(n=nrow(cobrancosa),method='gRandom',remove=TRUE))
 arbequina_sdm_data <- sdmData(train=arbequina, predictors=env_vars_2, bg=list(n=nrow(arbequina),method='gRandom',remove=TRUE))
 picual_sdm_data <- sdmData(train=picual, predictors=env_vars_2, bg=list(n=nrow(picual),method='gRandom',remove=TRUE))
-cordovilTM_sdm_data <- sdmData(train=cordovilTM, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
-cordovilSE_sdm_data <- sdmData(train=cordovilSe, predictors=env_vars_2, bg=list(n=nrow(cordovil),method='gRandom',remove=TRUE))
+cordovilTM_sdm_data <- sdmData(train=cordovilTM, predictors=env_vars_2, bg=list(n=nrow(cordovilTM),method='gRandom',remove=TRUE))
+cordovilSE_sdm_data <- sdmData(train=cordovilSe, predictors=env_vars_2, bg=list(n=nrow(cordovilSe),method='gRandom',remove=TRUE))
 madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow(madural),method='gRandom',remove=TRUE))
-verdeal_sdm_data <- sdmData(train=verdeal, predictors=env_vars_2, bg=list(n=nrow(verdeal),method='gRandom',remove=TRUE))
+verdeal_sdm_data <- sdmData(train=verdealTM, predictors=env_vars_2, bg=list(n=nrow(verdealTM),method='gRandom',remove=TRUE))
 
 #Save...
 #write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
