@@ -74,27 +74,7 @@ soil_vars_crop <- terra::crop(soil_vars, portugal, mask = TRUE)
 ################################################################################
 
 #variables_10x10 <- terra::extract(env_vars_2, utm10, fun = 'mean', touches = TRUE)
-variables_10x10 <- exactextractr::exact_extract(env_vars_2, sf::st_as_sf(utm10), 'mean')
-
-################################################################################
-#                     Create table to save the results to:
-################################################################################
-
-utm10_results <- utm10
-utm10_results$results_galega <- NA
-utm10_results$results_cobrancosa <- NA
-utm10_results$results_arbequina <- NA
-utm10_results$results_picual <- NA
-utm10_results$results_cordovilTM <- NA
-utm10_results$results_cordovilSE <- NA
-utm10_results$results_madural <- NA
-utm10_results$results_verdeal <- NA
-
-
-variables_10x10 <- terra::cbind2(as.data.frame(utm10), variables_10x10)
-names(variables_10x10)[9:19] <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
-                                  "eref_wgs84", "OCD", "pH", "Sand",
-                                  "TRI", "TWI")
+#variables_10x10 <- exactextractr::exact_extract(env_vars_2, sf::st_as_sf(utm10), 'mean')
 
 ################################################################################
 #                 RCP 4.5 - CCSM4 (CC)
@@ -141,7 +121,7 @@ names(env_vars_cc) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wg
 #plot(env_vars_cc)
 
 #Create a data frame
-variables_10x10_cc_rcp45 <- exactextractr::exact_extract(raster::raster::stack(env_vars_cc), sf::st_as_sf(utm10), 'mean')
+variables_10x10_cc_rcp45 <- exactextractr::exact_extract(raster::stack(env_vars_cc), sf::st_as_sf(utm10), 'mean')
 colnames(variables_10x10_cc_rcp45) <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", "eref_wgs84", 
                                       "OCD", "pH", "Sand", "TRI", "TWI")
 

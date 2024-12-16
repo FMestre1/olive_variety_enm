@@ -36,6 +36,29 @@ library(tidyterra)
 #load("madural_ensemble.RData")
 #load("verdeal_ensemble.RData")
 
+################################################################################
+#                     Create table to save the results to:
+################################################################################
+
+utm10_results <- utm10
+utm10_results$results_galega <- NA
+utm10_results$results_cobrancosa <- NA
+utm10_results$results_arbequina <- NA
+utm10_results$results_picual <- NA
+utm10_results$results_cordovilTM <- NA
+utm10_results$results_cordovilSE <- NA
+utm10_results$results_madural <- NA
+utm10_results$results_verdeal <- NA
+
+
+variables_10x10 <- terra::cbind2(as.data.frame(utm10), variables_10x10)
+names(variables_10x10)[9:19] <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
+                                  "eref_wgs84", "OCD", "pH", "Sand",
+                                  "TRI", "TWI")
+
+################################################################################
+#                                     Project
+################################################################################
 
 ##### GALEGA #####
 ensemble_galega <- sdm::ensemble(
