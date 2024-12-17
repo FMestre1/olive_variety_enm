@@ -90,7 +90,7 @@ picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart',
 cordovilTM_model <- sdm::sdm(CordovilTM~.,data=cordovilTM_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovilTM), ncore = 6, modelSettings = modeloptions1, n=1)
 cordovilSE_model <- sdm::sdm(CordovilSe~.,data=cordovilSE_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovilSe), ncore = 6, modelSettings = modeloptions1, n=1)
 madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(madural), ncore = 6, modelSettings = modeloptions1, n=1)
-verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
+verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdealTM), ncore = 6, modelSettings = modeloptions1, n=1)
 
 #Save...
 #write.sdm(galega_model, file = "galega_model", overwrite = TRUE)
