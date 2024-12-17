@@ -87,8 +87,8 @@ galega_model <- sdm::sdm(Galega~.,data=galega_sdm_data, methods=c('mlp','cart','
 cobrancosa_model <- sdm::sdm(Cobrancosa~.,data=cobrancosa_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cobrancosa), ncore = 6, modelSettings = modeloptions1, n=1)
 arbequina_model <- sdm::sdm(Arbequina~.,data=arbequina_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(arbequina), ncore = 6, modelSettings = modeloptions1, n=1)
 picual_model <- sdm::sdm(Picual~.,data=picual_sdm_data, methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(picual), ncore = 6, modelSettings = modeloptions1, n=1)
-cordovilTM_model <- sdm::sdm(CordovilTM~.,data=cordovilTM_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
-cordovilSE_model <- sdm::sdm(CordovilSE~.,data=cordovilSE_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovil), ncore = 6, modelSettings = modeloptions1, n=1)
+cordovilTM_model <- sdm::sdm(CordovilTM~.,data=cordovilTM_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovilTM), ncore = 6, modelSettings = modeloptions1, n=1)
+cordovilSE_model <- sdm::sdm(CordovilSe~.,data=cordovilSE_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'), replication=c('cv','boot'), cv.folds=nrow(cordovilSe), ncore = 6, modelSettings = modeloptions1, n=1)
 madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(madural), ncore = 6, modelSettings = modeloptions1, n=1)
 verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdeal), ncore = 6, modelSettings = modeloptions1, n=1)
 
