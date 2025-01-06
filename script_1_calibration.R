@@ -93,14 +93,14 @@ madural_model <- sdm::sdm(Madural~.,data=madural_sdm_data,methods=c('mlp', 'cart
 verdeal_model <- sdm::sdm(VerdealTM~.,data=verdeal_sdm_data,methods=c('mlp', 'cart','rf','fda','glm','gam','mars','brt'),replication=c('cv','boot'), cv.folds=nrow(verdealTM), ncore = 6, modelSettings = modeloptions1, n=1)
 
 #Save...
-#write.sdm(galega_model, file = "galega_model", overwrite = TRUE)
-#write.sdm(cobrancosa_model, file = "cobrancosa_model", overwrite = TRUE)
-#write.sdm(arbequina_model, file = "arbequina_model", overwrite = TRUE)
-#write.sdm(picual_model, file = "picual_model", overwrite = TRUE)
-#write.sdm(cordovilTM_model, file = "cordovilTM_model", overwrite = TRUE)
-#write.sdm(cordovilSE_model, file = "cordovilSE_model", overwrite = TRUE)
-#write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
-#write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
+write.sdm(galega_model, file = "galega_model", overwrite = TRUE)
+write.sdm(cobrancosa_model, file = "cobrancosa_model", overwrite = TRUE)
+write.sdm(arbequina_model, file = "arbequina_model", overwrite = TRUE)
+write.sdm(picual_model, file = "picual_model", overwrite = TRUE)
+write.sdm(cordovilTM_model, file = "cordovilTM_model", overwrite = TRUE)
+write.sdm(cordovilSE_model, file = "cordovilSE_model", overwrite = TRUE)
+write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
+write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
 
 #Read
 #galega_model <- read.sdm(filename = "galega_model.sdm")

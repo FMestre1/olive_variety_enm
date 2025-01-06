@@ -239,14 +239,14 @@ madural_sdm_data <- sdmData(train=madural, predictors=env_vars_2, bg=list(n=nrow
 verdeal_sdm_data <- sdmData(train=verdealTM, predictors=env_vars_2, bg=list(n=nrow(verdealTM),method='gRandom',remove=TRUE))
 
 #Save...
-#write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
-#write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
-#write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
-#write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
-#write.sdm(cordovilTM_sdm_data, filename = "cordovilTM_sdm_data", overwrite = TRUE)
-#write.sdm(cordovilSE_sdm_data, filename = "cordovilSE_sdm_data", overwrite = TRUE)
-#write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
-#write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
+write.sdm(galega_sdm_data, filename = "galega_sdm_data", overwrite = TRUE)
+write.sdm(cobrancosa_sdm_data, filename = "cobrancosa_sdm_data", overwrite = TRUE)
+write.sdm(arbequina_sdm_data, filename = "arbequina_sdm_data", overwrite = TRUE)
+write.sdm(picual_sdm_data, filename = "picual_sdm_data", overwrite = TRUE)
+write.sdm(cordovilTM_sdm_data, filename = "cordovilTM_sdm_data", overwrite = TRUE)
+write.sdm(cordovilSE_sdm_data, filename = "cordovilSE_sdm_data", overwrite = TRUE)
+write.sdm(madural_sdm_data, filename = "madural_sdm_data", overwrite = TRUE)
+write.sdm(verdeal_sdm_data, filename = "verdeal_sdm_data", overwrite = TRUE)
 
 #remove individual rasters...
 rm(bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9, 
