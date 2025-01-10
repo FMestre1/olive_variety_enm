@@ -12,27 +12,29 @@ library(ggplot2)
 library(tidyterra)
 
 #Load Portugal shape
-portugal <- terra::vect("data2/shapes/shape_portugal_continental.shp")
+portugal <- terra::vect("D:/000Frederico/data2/shapes/shape_portugal_continental.shp")
 #Create 10x10 km to calibrate models
-utm10 <- terra::vect("data2/olive_presence/UTM_10x10_km (1).shp")
+utm10 <- terra::vect("D:/000Frederico/data2/olive_presence/UTM_10x10_km (1).shp")
 utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "CordovilTM", "VerdealTM", "Madural",   
                   "Picual", "CordovilSe")]
 
 #Create table to output
 utm10_results_2050_averages <- utm10
+utm10_results_2050_averages <- terra::crop(utm10_results_2050_averages, portugal)
+#plot(utm10_results_2050_averages)
 
 ################################################################################
 #                    AVERAGE ALL MODELS ACROSS ALL GCM
 ################################################################################
 
 galega_mean_2050 <- rowMeans(cbind(
-ensemble_galega_2050_CC,
-ensemble_galega_2050_CN,
-ensemble_galega_2050_GF,
-ensemble_galega_2050_HAD,
-ensemble_galega_2050_IN,
-ensemble_galega_2050_IP,
-ensemble_galega_2050_MPI
+  ensemble_galega_2050_CC,
+  ensemble_galega_2050_CN,
+  ensemble_galega_2050_GF,
+  ensemble_galega_2050_HAD,
+  ensemble_galega_2050_IN,
+  ensemble_galega_2050_IP,
+  ensemble_galega_2050_MPI
 ))
 
 utm10_results_2050_averages$GAL_m <- galega_mean_2050
@@ -126,7 +128,7 @@ utm10_results_2050_averages$VER_m <- verdeal_mean_2050
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results_2050_averages, "utm10_results_2050_averages_version_december24", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results_2050_averages, "utm10_results_2050_averages_version_january25_v4", filetype="ESRI Shapefile")
 
 ################################################################################
 #                              Plotting
@@ -220,5 +222,3 @@ ggplot(utm10_results_2050_averages) +
   )+
   geom_spatvector(data = portugal, fill = NA)
 dev.off()
-
-

@@ -103,14 +103,14 @@ write.sdm(madural_model, file = "madural_model", overwrite = TRUE)
 write.sdm(verdeal_model, file = "verdeal_model", overwrite = TRUE)
 
 #Read
-#galega_model <- read.sdm(filename = "galega_model.sdm")
-#cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
-#arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
-#picual_model <- read.sdm(filename = "picual_model.sdm")
-#cordovilTM_model <- read.sdm(filename = "cordovilTM_model.sdm")
-#cordovilSE_model <- read.sdm(filename = "cordovilSE_model.sdm")
-#madural_model <- read.sdm(filename = "madural_model.sdm")
-#verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
+galega_model <- read.sdm(filename = "galega_model.sdm")
+cobrancosa_model <- read.sdm(filename = "cobrancosa_model.sdm")
+arbequina_model <- read.sdm(filename = "arbequina_model.sdm")
+picual_model <- read.sdm(filename = "picual_model.sdm")
+cordovilTM_model <- read.sdm(filename = "cordovilTM_model.sdm")
+cordovilSE_model <- read.sdm(filename = "cordovilSE_model.sdm")
+madural_model <- read.sdm(filename = "madural_model.sdm")
+verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
 ################################################################################
 #                    2. Model metrics and variable importance
@@ -123,8 +123,7 @@ vimp_galega@varImportanceMean$AUCtest
 png(file="vimp_galega_model.png",width=800, height=500)
 plot(getVarImp(galega_model),'auc')
 dev.off()
-#rcurve(galega_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### Cobrancosa #####
 #getModelInfo(cobrancosa_model)
@@ -133,8 +132,7 @@ vimp_cobrancosa@varImportanceMean$AUCtest
 png(file="vimp_cobrancosa_model.png",width=800, height=500)
 plot(getVarImp(cobrancosa_model),'auc')
 dev.off()
-#rcurve(cobrancosa_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### Arbequina #####
 #getModelInfo(arbequina_model)
@@ -143,8 +141,7 @@ vimp_arbequina@varImportanceMean$AUCtest
 png(file="vimp_arbequina_model.png",width=800, height=500)
 plot(getVarImp(arbequina_model),'auc')
 dev.off()
-#rcurve(arbequina_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### Picual #####
 #getModelInfo(picual_model)
@@ -153,8 +150,7 @@ vimp_picual@varImportanceMean$AUCtest
 png(file="vimp_picual_model.png",width=800, height=500)
 plot(getVarImp(picual_model),'auc')
 dev.off()
-#rcurve(picual_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### CordovilTM #####
 #getModelInfo(picual_model)
@@ -163,8 +159,7 @@ vimp_cordovilTM@varImportanceMean$AUCtest
 png(file="vimp_cordovilTM_model.png",width=800, height=500)
 plot(getVarImp(cordovilTM_model),'auc')
 dev.off()
-#rcurve(cordovilTM_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### CordovilSE #####
 #getModelInfo(picual_model)
@@ -173,8 +168,7 @@ vimp_cordovilSE@varImportanceMean$AUCtest
 png(file="vimp_cordovilSE_model.png",width=800, height=500)
 plot(getVarImp(cordovilSE_model),'auc')
 dev.off()
-#rcurve(cordovilSE_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### Madural #####
 #getModelInfo(madural_model)
@@ -183,8 +177,7 @@ vimp_madural@varImportanceMean$AUCtest
 png(file="vimp_madural_model.png",width=800, height=500)
 plot(getVarImp(madural_model),'auc')
 dev.off()
-#rcurve(madural_model, mean=TRUE, smooth=TRUE)
-
+#
 
 ##### Verdeal #####
 #getModelInfo(verdeal_model)
@@ -193,15 +186,40 @@ vimp_verdeal@varImportanceMean$AUCtest
 png(file="vimp_verdeal_model.png",width=800, height=500)
 plot(getVarImp(verdeal_model),'auc')
 dev.off()
-#rcurve(verdeal_model, mean=TRUE, smooth=TRUE)
+#
 
-#Save...
-#save(mean_ev_metrics_galega_model, file = "mean_ev_metrics_galega_model.RData")
-#save(mean_ev_metrics_cobrancosa_model, file = "mean_ev_metrics_cobrancosa_model.RData")
-#save(mean_ev_metrics_arbequina_model, file = "mean_ev_metrics_arbequina_model.RData")
-#save(mean_ev_metrics_picual_model, file = "mean_ev_metrics_picual_model.RData")
-#save(mean_ev_metrics_cordovilTM_model, file = "mean_ev_metrics_cordovilTM_model.RData")
-#save(mean_ev_metrics_cordovilSE_model, file = "mean_ev_metrics_cordovilSE_model.RData")
-#save(mean_ev_metrics_madural_model, file = "mean_ev_metrics_madural_model.RData")
-#save(mean_ev_metrics_verdeal_model, file = "mean_ev_metrics_verdeal_model.RData")
+################################################################################
+#                                 3. Rcurves
+################################################################################
 
+png(file="curves_galega_model.png",width=800, height=500)
+rcurve(galega_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_cobrancosa_model.png",width=800, height=500)
+rcurve(cobrancosa_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_arbequina_model.png",width=800, height=500)
+rcurve(arbequina_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_picual_model.png",width=800, height=500)
+rcurve(picual_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_cordovilTM_model.png",width=800, height=500)
+rcurve(cordovilTM_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_cordovilSE_model.png",width=800, height=500)
+rcurve(cordovilSE_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_madural_model.png",width=800, height=500)
+rcurve(madural_model, mean=TRUE, smooth=TRUE)
+dev.off()
+
+png(file="curves_verdeal_model.png",width=800, height=500)
+rcurve(verdeal_model, mean=TRUE, smooth=TRUE)
+dev.off()

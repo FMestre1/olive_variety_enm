@@ -24,24 +24,28 @@ library(tidyterra)
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
 #Load the variable data frames
-variables_10x10_cc_rcp45 <- read.csv("variables_10x10_cc_rcp45.csv")
-variables_10x10_cn_rcp45 <- read.csv("variables_10x10_cn_rcp45.csv")
-variables_10x10_gf_rcp45 <- read.csv("variables_10x10_gf_rcp45.csv")
-variables_10x10_had_rcp45 <- read.csv("variables_10x10_had_rcp45.csv")
-variables_10x10_in_rcp45 <- read.csv("variables_10x10_in_rcp45.csv")
-variables_10x10_ip_rcp45 <- read.csv("variables_10x10_ip_rcp45.csv")
-variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
+#variables_10x10_cc_rcp45 <- read.csv("variables_10x10_cc_rcp45.csv")
+#variables_10x10_cn_rcp45 <- read.csv("variables_10x10_cn_rcp45.csv")
+#variables_10x10_gf_rcp45 <- read.csv("variables_10x10_gf_rcp45.csv")
+#variables_10x10_had_rcp45 <- read.csv("variables_10x10_had_rcp45.csv")
+#variables_10x10_in_rcp45 <- read.csv("variables_10x10_in_rcp45.csv")
+#variables_10x10_ip_rcp45 <- read.csv("variables_10x10_ip_rcp45.csv")
+#variables_10x10_mpi_rcp45 <- read.csv("variables_10x10_mpi_rcp45.csv")
 
 ################################################################################
 #                 Create vector for the 2050 projections
 ################################################################################
 
 #Create 10x10 km to calibrate models
-utm10 <- terra::vect("data2/olive_presence/UTM_10x10_km (1).shp")
+utm10 <- terra::vect("D:/000Frederico/data2/olive_presence/UTM_10x10_km (1).shp")
 utm10 <- utm10[,c("Galega", "Cobrancosa", "Arbequina", "CordovilTM", "VerdealTM", "Madural",   
                   "Picual", "CordovilSe")]
 
-utm10_results_2050 <- utm10
+portugal <- terra::vect("D:/000Frederico/data2/shapes/shape_portugal_continental.shp")
+utm10_results_2050 <- mask(utm10, portugal)
+#plot(utm10_results_2050)
+
+#utm10_results_2050 <- utm10
 utm10_results_2050$galCC <- NA
 utm10_results_2050$cbrCC <- NA
 utm10_results_2050$arbCC <- NA
@@ -178,7 +182,7 @@ utm10_results_2050$verMPI <- NA
 #utm10_results_2050$cor_SE_CC <- ensemble_cordovilSE_2050_CC
 #utm10_results_2050$madCC <- ensemble_madural_2050_CC
 #utm10_results_2050$verCC <- ensemble_verdeal_2050_CC
-#
+
 #utm10_results_2050$galCN <- ensemble_galega_2050_CN
 #utm10_results_2050$cbrCN <- ensemble_cobrancosa_2050_CN
 #utm10_results_2050$arbCN <- ensemble_arbequina_2050_CN
@@ -1189,5 +1193,10 @@ save(ensemble_verdeal_2050_MPI, file = "ensemble_verdeal_2050_MPI.RData")
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results_2050, "utm10_results_2050_version_december24", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results_2050, "utm10_results_2050_version_january25", filetype="ESRI Shapefile")
 #utm10_results_2050 <- terra::vect("utm10_results_2050_version_december24.shp")
+
+plot(utm10_results_2050, col="verMPI")
+
+
+

@@ -4,7 +4,7 @@
 
 #FMestre
 #13-05-2024
-
+setwd("D:/000Frederico/Output")
 #Load required packages
 #Use this to install devtools
 library(devtools)
@@ -15,8 +15,9 @@ library(usdm)
 library(terra)
 library(exactextractr)
 
+
 #Load Portugal shape
-portugal <- terra::vect("data2/shapes/shape_portugal_continental.shp")
+portugal <- terra::vect("D:/000Frederico/data2/shapes/shape_portugal_continental.shp")
 #Check it...
 #plot(portugal)
 #crs(portugal)
@@ -28,7 +29,7 @@ portugal <- terra::vect("data2/shapes/shape_portugal_continental.shp")
 #What is the minimum number of presences to conduct an SMD modelling?
 #See: https://nsojournals.onlinelibrary.wiley.com/doi/full/10.1111/ecog.01509
 
-olive_vars <- terra::vect("data2/olive_presence/UTM_10x10_km (1).shp")
+olive_vars <- terra::vect("D:/000Frederico/data2/olive_presence/UTM_10x10_km (1).shp")
 #crs(olive_vars)
 
 #Derive variety prevalence in Portugal across varieties
@@ -109,25 +110,25 @@ verdealTM <- verdealTM[verdealTM$VerdealTM ==1,]
 ################################################################################
 
 #Worldclim v2
-bio1 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_1.tif")
-bio2 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_2.tif")
-bio3 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_3.tif")
-bio4 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_4.tif")
-bio5 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_5.tif")
-bio6 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_6.tif")
-bio7 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_7.tif")
-bio8 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_8.tif")
-bio9 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_9.tif")
-bio10 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_10.tif")
-bio11 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_11.tif")
-bio12 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_12.tif")
-bio13 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_13.tif")
-bio14 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_14.tif")
-bio15 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_15.tif")
-bio16 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_16.tif")
-bio17 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_17.tif")
-bio18 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_18.tif")
-bio19 <- terra::rast("data2/wc2.1_30s_bio/wc2.1_30s_bio_19.tif")
+bio1 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_1.tif")
+bio2 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_2.tif")
+bio3 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_3.tif")
+bio4 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_4.tif")
+bio5 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_5.tif")
+bio6 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_6.tif")
+bio7 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_7.tif")
+bio8 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_8.tif")
+bio9 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_9.tif")
+bio10 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_10.tif")
+bio11 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_11.tif")
+bio12 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_12.tif")
+bio13 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_13.tif")
+bio14 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_14.tif")
+bio15 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_15.tif")
+bio16 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_16.tif")
+bio17 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_17.tif")
+bio18 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_18.tif")
+bio19 <- terra::rast("D:/000Frederico/data2/wc2.1_30s_bio/wc2.1_30s_bio_19.tif")
 #
 #Check crs
 #crs(bio1)
@@ -152,10 +153,10 @@ names(bioclimatic_crop) <- c("bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bi
 #projections for Europe. Scientific Data 7: 428. doi: 10.1038/s41597-020-00763-0
 #https://www.nature.com/articles/s41597-020-00763-0
 
-ahm <- terra::rast("data2/climate_eu/ahm_wgs84.tif")#Annual heat:moisture index (MAT+10)/(MAP/1000))
-shm <- terra::rast("data2/climate_eu/shm_wgs84.tif")#Summer heat:moisture index ((MWMT)/(MSP/1000))
-nffd <- terra::rast("data2/climate_eu/nffd_wgs84.tif")#Number of frost-free days
-eref <- terra::rast("data2/climate_eu/eref_wgs84.tif")#Hargreaves reference evaporation
+ahm <- terra::rast("D:/000Frederico/data2/climate_eu/ahm_wgs84.tif")#Annual heat:moisture index (MAT+10)/(MAP/1000))
+shm <- terra::rast("D:/000Frederico/data2/climate_eu/shm_wgs84.tif")#Summer heat:moisture index ((MWMT)/(MSP/1000))
+nffd <- terra::rast("D:/000Frederico/data2/climate_eu/nffd_wgs84.tif")#Number of frost-free days
+eref <- terra::rast("D:/000Frederico/data2/climate_eu/eref_wgs84.tif")#Hargreaves reference evaporation
 #
 climate_eu <- c(ahm, shm, nffd, eref)
 climate_eu_res <- terra::resample(climate_eu, bio1)
@@ -165,14 +166,14 @@ climate_eu_res_crop <- crop(climate_eu_res, portugal, mask = TRUE)
 #plot(climate_eu_res_crop)
 
 #Soil-related variables
-bdod <- terra::rast("data2/soil/BDOD.tif") #BDOD - Bulk density of the fine earth fraction
-ocd <- terra::rast("data2/soil/OCD.tif") #OCD - Organic Carbon Density
-ph <- terra::rast("data2/soil/pH.tif") #pH
-sand <- terra::rast("data2/soil/Sand.tif") #Sand - Proportion of sand particles (> 0.05 mm) in the fine earth fraction
-soil_class <- terra::rast("data2/soil/Soil_Class.tif") #Soil_Class - World Reference Base Soil Groups
-tri <- terra::rast("data2/soil/TRI.tif") #TRI - Terrain Roughness Index (derivada da variável DEM)
-twi <- terra::rast("data2/soil/TWI.tif") #TWI - Topographic Wetness Index (derivada da variável DEM)
-slope <- terra::rast("data2/soil/Slope.tif") #Slope
+bdod <- terra::rast("D:/000Frederico/data2/soil/BDOD.tif") #BDOD - Bulk density of the fine earth fraction
+ocd <- terra::rast("D:/000Frederico/data2/soil/OCD.tif") #OCD - Organic Carbon Density
+ph <- terra::rast("D:/000Frederico/data2/soil/pH.tif") #pH
+sand <- terra::rast("D:/000Frederico/data2/soil/Sand.tif") #Sand - Proportion of sand particles (> 0.05 mm) in the fine earth fraction
+soil_class <- terra::rast("D:/000Frederico/data2/soil/Soil_Class.tif") #Soil_Class - World Reference Base Soil Groups
+tri <- terra::rast("D:/000Frederico/data2/soil/TRI.tif") #TRI - Terrain Roughness Index (derivada da variável DEM)
+twi <- terra::rast("D:/000Frederico/data2/soil/TWI.tif") #TWI - Topographic Wetness Index (derivada da variável DEM)
+slope <- terra::rast("D:/000Frederico/data2/soil/Slope.tif") #Slope
 #
 bdod_wgs84 <- terra::project(bdod, bio1)
 ocd_wgs84 <- terra::project(ocd, bio1)
@@ -218,12 +219,7 @@ keep_these <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84",
 
 
 env_vars_2 <- env_vars[[keep_these]]
-
-#Saving it...
-#save(env_vars_2, file = "env_vars_2.RData")
-
-#Load it...
-#load("env_vars_2.RData")
+#names(env_vars_2)
 
 ################################################################################
 #                              Create SDM data
@@ -258,11 +254,11 @@ rm(bio1, bio2, bio3, bio4, bio5, bio6, bio7, bio8, bio9,
    keep_these, ahm, shm, nffd, eref)
 
 #Read...
-#galega_sdm_data <- read.sdm(filename = "galega_sdm_data.sdd")
-#cobrancosa_sdm_data <- read.sdm(filename = "cobrancosa_sdm_data.sdd")
-#arbequina_sdm_data <- read.sdm(filename = "arbequina_sdm_data.sdd")
-#picual_sdm_data <- read.sdm(filename = "picual_sdm_data.sdd")
-#cordovilTM_sdm_data <- read.sdm(filename = "cordovilTM_sdm_data.sdd")
-#cordovilSE_sdm_data <- read.sdm(filename = "cordovilSE_sdm_data.sdd")
-#madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
-#verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")
+galega_sdm_data <- read.sdm(filename = "galega_sdm_data.sdd")
+cobrancosa_sdm_data <- read.sdm(filename = "cobrancosa_sdm_data.sdd")
+arbequina_sdm_data <- read.sdm(filename = "arbequina_sdm_data.sdd")
+picual_sdm_data <- read.sdm(filename = "picual_sdm_data.sdd")
+cordovilTM_sdm_data <- read.sdm(filename = "cordovilTM_sdm_data.sdd")
+cordovilSE_sdm_data <- read.sdm(filename = "cordovilSE_sdm_data.sdd")
+madural_sdm_data <- read.sdm(filename = "madural_sdm_data.sdd")
+verdeal_sdm_data <- read.sdm( filename = "verdeal_sdm_data.sdd")

@@ -10,6 +10,7 @@ library(sdm)
 library(terra)
 #remotes::install_github("dieghernan/tidyterra")
 library(tidyterra)
+library(ggplot2)
 
 #A model performs accurately at a certain detection threshold if it scores a 
 #TSS higher than 0.5 (Allouche et al. 2006; Liu et al. 2011).
@@ -26,21 +27,13 @@ library(tidyterra)
 #madural_model <- read.sdm(filename = "madural_model.sdm")
 #verdeal_model <- read.sdm( filename = "verdeal_model.sdm")
 
-#Ensemble Outputs
-#load("galega_ensemble.RData")
-#load("cobrancosa_ensemble.RData")
-#load("arbequina_ensemble.RData")
-#load("picual_ensemble.RData")
-#load("cordovilTM_ensemble.RData")
-#load("cordovilSE_ensemble.RData")
-#load("madural_ensemble.RData")
-#load("verdeal_ensemble.RData")
-
 ################################################################################
 #                     Create table to save the results to:
 ################################################################################
 
-utm10_results <- utm10
+portugal <- terra::vect("D:/000Frederico/data2/shapes/shape_portugal_continental.shp")
+utm10_results <- mask(utm10, portugal)
+#plot(utm10_results)
 utm10_results$results_galega <- NA
 utm10_results$results_cobrancosa <- NA
 utm10_results$results_arbequina <- NA
@@ -50,9 +43,9 @@ utm10_results$results_cordovilSE <- NA
 utm10_results$results_madural <- NA
 utm10_results$results_verdeal <- NA
 
-
-variables_10x10 <- terra::cbind2(as.data.frame(utm10), variables_10x10)
-names(variables_10x10)[9:19] <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
+variables_10x10 <- exactextractr::exact_extract(env_vars_2, sf::st_as_sf(utm10_results), 'mean')
+variables_10x10 <- terra::cbind2(as.data.frame(utm10_results), variables_10x10)
+names(variables_10x10)[17:27] <- c("bio2", "bio3", "bio13", "bio15", "nffd_wgs84", 
                                   "eref_wgs84", "OCD", "pH", "Sand",
                                   "TRI", "TWI")
 
@@ -65,12 +58,12 @@ ensemble_galega <- sdm::ensemble(
   x = galega_model,
   newdata = variables_10x10,
   setting=list(
-  method = 'weighted',
-  stat = 'TSS',
-  power = 2,
-  expr = 'tss > 0.5'
-   )
+    method = 'weighted',
+    stat = 'TSS',
+    power = 2,
+    expr = 'tss > 0.5'
   )
+)
 
 utm10_results$results_galega <- ensemble_galega
 #plot(utm10_results, "results_galega")
@@ -198,7 +191,7 @@ save(ensemble_verdeal, file = "verdeal_ensemble.RData")
 ################################################################################
 
 #galega_model
-galega_observ <- as.vector(olive_vars$Galega)
+galega_observ <- as.vector(utm10_results$Galega)
 galega_predict <- ensemble_galega$ensemble_weighted
 galega_ev_df <- data.frame(galega_observ, galega_predict)
 galega_ev_df[is.na(galega_ev_df)] <- 0
@@ -206,7 +199,7 @@ metrics_galega <- evaluates(galega_ev_df[,1],galega_ev_df[,2])
 save(metrics_galega, file = "metrics_galega.RData")
 
 #cobrancosa_model
-cobrancosa_observ <- as.vector(olive_vars$Cobrancosa)
+cobrancosa_observ <- as.vector(utm10_results$Cobrancosa)
 cobrancosa_predict <- ensemble_cobrancosa$ensemble_weighted
 cobrancosa_ev_df <- data.frame(cobrancosa_observ, cobrancosa_predict)
 cobrancosa_ev_df[is.na(cobrancosa_ev_df)] <- 0
@@ -214,7 +207,7 @@ metrics_cobrancosa <- evaluates(cobrancosa_ev_df[,1],cobrancosa_ev_df[,2])
 save(metrics_cobrancosa, file = "metrics_cobrancosa.RData")
 
 #arbequina_model
-arbequina_observ <- as.vector(olive_vars$Arbequina)
+arbequina_observ <- as.vector(utm10_results$Arbequina)
 arbequina_predict <- ensemble_arbequina$ensemble_weighted
 arbequina_ev_df <- data.frame(arbequina_observ, arbequina_predict)
 arbequina_ev_df[is.na(arbequina_ev_df)] <- 0
@@ -222,7 +215,7 @@ metrics_arbequina <- evaluates(arbequina_ev_df[,1],arbequina_ev_df[,2])
 save(metrics_arbequina, file = "metrics_arbequina.RData")
 
 #picual_model
-picual_observ <- as.vector(olive_vars$Picual)
+picual_observ <- as.vector(utm10_results$Picual)
 picual_predict <- ensemble_picual$ensemble_weighted
 picual_ev_df <- data.frame(picual_observ, picual_predict)
 picual_ev_df[is.na(picual_ev_df)] <- 0
@@ -230,7 +223,7 @@ metrics_picual <- evaluates(picual_ev_df[,1],picual_ev_df[,2])
 save(metrics_picual, file = "metrics_picual.RData")
 
 #cordovilTM_model
-cordovilTM_observ <- as.vector(olive_vars$CordovilTM)
+cordovilTM_observ <- as.vector(utm10_results$CordovilTM)
 cordovilTM_predict <- ensemble_cordovilTM$ensemble_weighted
 cordovilTM_ev_df <- data.frame(cordovilTM_observ, cordovilTM_predict)
 cordovilTM_ev_df[is.na(cordovilTM_ev_df)] <- 0
@@ -238,7 +231,7 @@ metrics_cordovilTM <- evaluates(cordovilTM_ev_df[,1],cordovilTM_ev_df[,2])
 save(metrics_cordovilTM, file = "metrics_cordovilTM.RData")
 
 #cordovil_model
-cordovilSE_observ <- as.vector(olive_vars$CordovilSE)
+cordovilSE_observ <- as.vector(utm10_results$CordovilSe)
 cordovilSE_predict <- ensemble_cordovilSE$ensemble_weighted
 cordovilSE_ev_df <- data.frame(cordovilSE_observ, cordovilSE_predict)
 cordovilSE_ev_df[is.na(cordovilSE_ev_df)] <- 0
@@ -246,7 +239,7 @@ metrics_cordovilSE <- evaluates(cordovilSE_ev_df[,1],cordovilSE_ev_df[,2])
 save(metrics_cordovilSE, file = "metrics_cordovilSE.RData")
 
 #madural_model
-madural_observ <- as.vector(olive_vars$Madural)
+madural_observ <- as.vector(utm10_results$Madural)
 madural_predict <- ensemble_madural$ensemble_weighted
 madural_ev_df <- data.frame(madural_observ, madural_predict)
 madural_ev_df[is.na(madural_ev_df)] <- 0
@@ -254,7 +247,7 @@ metrics_madural <- evaluates(madural_ev_df[,1],madural_ev_df[,2])
 save(metrics_madural, file = "metrics_madural.RData")
 
 #verdeal_model
-verdeal_observ <- as.vector(olive_vars$Verdeal)
+verdeal_observ <- as.vector(utm10_results$VerdealTM)
 verdeal_predict <- ensemble_verdeal$ensemble_weighted
 verdeal_ev_df <- data.frame(verdeal_observ, verdeal_predict)
 verdeal_ev_df[is.na(verdeal_ev_df)] <- 0
@@ -265,37 +258,37 @@ save(metrics_verdeal, file = "metrics_verdeal.RData")
 
 #AUC
 auc_1 <- c(metrics_galega@statistics$AUC,
-metrics_cobrancosa@statistics$AUC,
-metrics_arbequina@statistics$AUC,
-metrics_picual@statistics$AUC,
-metrics_cordovilTM@statistics$AUC,
-metrics_cordovilSE@statistics$AUC,
-metrics_madural@statistics$AUC,
-metrics_verdeal@statistics$AUC
+           metrics_cobrancosa@statistics$AUC,
+           metrics_arbequina@statistics$AUC,
+           metrics_picual@statistics$AUC,
+           metrics_cordovilTM@statistics$AUC,
+           metrics_cordovilSE@statistics$AUC,
+           metrics_madural@statistics$AUC,
+           metrics_verdeal@statistics$AUC
 )
 
 #TSS (using max(se+sp) as a criteria for predicting potential presence and absence)
 tss_1 <- c(metrics_galega@threshold_based$TSS[2],
-metrics_cobrancosa@threshold_based$TSS[2],
-metrics_arbequina@threshold_based$TSS[2],
-metrics_picual@threshold_based$TSS[2],
-metrics_cordovilTM@threshold_based$TSS[2],
-metrics_cordovilSE@threshold_based$TSS[2],
-metrics_madural@threshold_based$TSS[2],
-metrics_verdeal@threshold_based$TSS[2]
+           metrics_cobrancosa@threshold_based$TSS[2],
+           metrics_arbequina@threshold_based$TSS[2],
+           metrics_picual@threshold_based$TSS[2],
+           metrics_cordovilTM@threshold_based$TSS[2],
+           metrics_cordovilSE@threshold_based$TSS[2],
+           metrics_madural@threshold_based$TSS[2],
+           metrics_verdeal@threshold_based$TSS[2]
 )
 
 #Create data frame
 metrics_1 <- data.frame(auc_1, tss_1)
 colnames(metrics_1) <- c("AUC", "TSS")
 rownames(metrics_1) <- c("Galega", "Cobrançosa", "Arbequina", "Picual", "CordovilTM", "CordovilSE", "Madural", "VerdealTM")
-#write.csv(metrics_1, file = "metrics_1.csv")
+write.csv(metrics_1, file = "metrics_1.csv")
 
 ################################################################################
 #                              Write to shapefile
 ################################################################################
 
-terra::writeVector(utm10_results, "olive_variety_suitability_version_december24", filetype="ESRI Shapefile")
+terra::writeVector(utm10_results, "olive_variety_suitability_version_09Jan25", filetype="ESRI Shapefile")
 #utm10_results <- terra::vect("olive_variety_suitability_version_december24/olive_variety_suitability_version_december24.shp")
 
 ################################################################################
@@ -316,14 +309,12 @@ terra::writeVector(utm10_results, "olive_variety_suitability_version_december24"
 #                              Plotting
 ################################################################################
 
-
 #tidyterra reference:
-  
-  #Hernangómez, D., (2023). Using the tidyverse with terra objects: 
-  #the tidyterra package. Journal of Open Source Software, 8(91), 5751, 
-  #https://doi.org/10.21105/joss.05751.
-  
-  
+
+#Hernangómez, D., (2023). Using the tidyverse with terra objects: 
+#the tidyterra package. Journal of Open Source Software, 8(91), 5751, 
+#https://doi.org/10.21105/joss.05751.
+
 png(file="galega_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
   geom_spatvector(aes(fill = results_galega), color = NA) +
@@ -334,7 +325,6 @@ ggplot(utm10_results) +
   )+ 
   geom_spatvector(data = portugal, fill = NA)
 dev.off()
-
 
 png(file="cobrancosa_V5.png",width=2000, height=2500, res=300)
 ggplot(utm10_results) +
@@ -377,7 +367,7 @@ ggplot(utm10_results) +
     fill = "Suitability",
     title = "Cordovil (Trás-os-Montes) current suitability"
   )+
-geom_spatvector(data = portugal, fill = NA)
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
 png(file="cordovilSE_V5.png",width=2000, height=2500, res=300)
@@ -399,7 +389,7 @@ ggplot(utm10_results) +
     fill = "Suitability",
     title = "Madural current suitability"
   )+
-geom_spatvector(data = portugal, fill = NA)
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
 
 png(file="verdeal_V5.png",width=2000, height=2500, res=300)
@@ -410,6 +400,5 @@ ggplot(utm10_results) +
     fill = "Suitability",
     title = "VerdealTM current suitability"
   )+
-geom_spatvector(data = portugal, fill = NA)
+  geom_spatvector(data = portugal, fill = NA)
 dev.off()
-
