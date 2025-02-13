@@ -115,7 +115,67 @@ for (i in 1:nrow(suitability_data)) {
 
 
 
+################################################################################
+#                       VARIETIES TO SELECT IN THE FUTURE
+################################################################################
 
+#FMestre
+#12-02-2025
+
+#Load packages
+library(terra)
+
+# ... (Your existing code for loading data and calculating present suitability)
+
+# 7. Load future projections (Repeat for each GCM)
+# Example for GCM1:
+load("last_results_fev_2025/future/arbequina_ensemble_gcm1.RData") # Adjust file paths
+load("last_results_fev_2025/future/cobrancosa_ensemble_gcm1.RData")
+# ... load all other future projections for GCM1
+
+# 8. Create future projections shapefile (Repeat for each GCM)
+future_gcm1 <- terra::vect("olive_variety_suitability_version_09Jan25/olive_variety_suitability_version_09Jan25.shp") # Adjust path if needed
+future_gcm1 <- future_gcm1[, 1:8]
+
+future_gcm1$results_galega <- ensemble_galega # Assign future suitability values
+future_gcm1$results_cobrancosa <- ensemble_cobrancosa
+# ... assign all other future suitability values
+
+# 9. Calculate % increase for future (Repeat for each GCM)
+future_gcm1$results_galega_percent_increase <- ifelse(present$results_galega_01 == 1, (((future_gcm1$results_galega - t_galega) * 100) / t_galega), 0)
+# ... repeat for all varieties and GCM1
+
+# 10. Find best variety for each cell (Repeat for each GCM)
+future_gcm1$best_variety_gcm1 <- NA  # Initialize a new column
+for (i in 1:nrow(future_gcm1)) {
+  if (any(present[i, paste0("results_", c("galega", "cobrancosa", "arbequina", "picual", "cordovilTM", "cordovilSE", "madural", "verdeal"), "_01")] == 1)) { # Check if any variety is present CURRENTLY
+    increases <- future_gcm1[i, paste0("results_", c("galega", "cobrancosa", "arbequina", "picual", "cordovilTM", "cordovilSE", "madural", "verdeal"), "_percent_increase")]
+    best_variety_index <- which.max(increases)
+    best_variety <- names(increases)[best_variety_index]
+    future_gcm1$best_variety_gcm1[i] <- gsub("_percent_increase", "", best_variety) # Store the variety name
+  }
+}
+
+# Repeat steps 7-10 for all 7 GCMs (future_gcm2, future_gcm3, etc.)
+
+# 11. Combine best varieties across GCMs (Optional - if you want a consensus)
+# You might want to create a table summarizing the best variety for each cell under each GCM.
+# Then, you could use a voting system (most frequent variety) or another method to 
+# determine a final recommended variety.
+
+# Example (simple voting):
+best_varieties_all_gcms <- data.frame(
+  gcm1 = future_gcm1$best_variety_gcm1,
+  # ... add other GCM best variety columns
+)
+
+# Calculate the most frequent variety for each cell
+future_gcm1$final_recommendation <- apply(best_varieties_all_gcms, 1, function(x) {
+  names(sort(table(x), decreasing = TRUE))[1] # Most frequent
+})
+
+# 12. Save the results
+terra::writeVector(future_gcm1, "future_recommendations.shp", overwrite = TRUE) # Or a different filename
 
 
 
