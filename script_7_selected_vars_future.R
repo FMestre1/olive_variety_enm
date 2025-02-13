@@ -84,3 +84,39 @@ names(present[,25:32])
 
 # 7. Save the updated shapefile (Optional but recommended)
 #terra::writeVector(present, "present_with_percent_increase.shp", overwrite=TRUE)
+
+
+
+
+## Code from Gemini
+
+# Assuming your data is in a data frame called 'suitability_data'
+# with columns for x, y, current suitability for each variety, and 
+# future suitability for each variety under each GCM.
+
+# Calculate average future suitability for each variety
+suitability_data$mean_future_arbequina <- rowMeans(suitability_data[, paste0("future_arbequina_gcm", 1:7)]) # Assuming GCM columns are named this way
+# ... repeat for all varieties
+
+# Set a threshold
+threshold <- 0.5
+
+# Recommend varieties
+suitability_data$recommended_variety <- NA
+for (i in 1:nrow(suitability_data)) {
+  best_variety <- names(suitability_data)[which.max(suitability_data[i, paste0("mean_future_", names(suitability_data)[grep("_arbequina", names(suitability_data))])])] #Finds the best variety name. Adapt for all.
+  if (suitability_data[i, paste0("mean_future_", best_variety)] >= threshold) {
+    suitability_data$recommended_variety[i] <- best_variety
+  } 
+}
+
+# Now 'recommended_variety' column will have the name of the recommended variety 
+# or NA if none meet the criteria.
+
+
+
+
+
+
+
+
