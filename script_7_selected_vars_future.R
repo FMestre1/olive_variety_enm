@@ -473,15 +473,211 @@ percent_increase_picual_2$percent_increase_picual_2_MEAN <- rowMeans(data.frame(
 #                     VARIETY RICHNNESS CURRENT AND FUTURE
 ################################################################################
 
+##### CURRENT #####
 
+present$current_predicted_species <- present$results_galega_01 +
+                                     present$results_cobrancosa_01 +
+                                     present$results_arbequina_01 +
+                                     present$results_picual_01 +
+                                     present$results_cordovilTM_01 +
+                                     present$results_cordovilSE_01 +
+                                     present$results_madural_01 +
+                                     present$results_verdeal_01
+
+#Plot using gradual colour for current_predicted_species
+plot(present, "current_predicted_species")
+
+#Keep only current_predicted_species
+present_richness <- present[,"current_predicted_species"]
+
+#Save shapefile
+terra::writeVector(present_richness, "olive_potential_richness_05Mar25.shp", overwrite=TRUE)
+
+##### FUTURE #####
+
+#mean of the following vectors
+galega_2050 <- rowMeans(data.frame(future$results_galega_2050_CC,
+                                   future$results_galega_2050_CN,
+                                   future$results_galega_2050_GF,
+                                   future$results_galega_2050_HAD,
+                                   future$results_galega_2050_IN,
+                                   future$results_galega_2050_IP,
+                                   future$results_galega_2050_MPI)
+                                   )
+
+cobrancosa_2050 <- rowMeans(data.frame(future$results_cobrancosa_2050_CC,
+                                      future$results_cobrancosa_2050_CN,
+                                      future$results_cobrancosa_2050_GF,
+                                      future$results_cobrancosa_2050_HAD,
+                                      future$results_cobrancosa_2050_IN,
+                                      future$results_cobrancosa_2050_IP,
+                                      future$results_cobrancosa_2050_MPI)
+                                      )
+
+cordovilTM_2050 <- rowMeans(data.frame(future$results_cordovilTM_2050_CC,
+                                      future$results_cordovilTM_2050_CN,
+                                      future$results_cordovilTM_2050_GF,
+                                      future$results_cordovilTM_2050_HAD,
+                                      future$results_cordovilTM_2050_IN,
+                                      future$results_cordovilTM_2050_IP,
+                                      future$results_cordovilTM_2050_MPI)
+                                      )
+
+cordovilSE_2050 <- rowMeans(data.frame(future$results_cordovilSE_2050_CC,
+                                      future$results_cordovilSE_2050_CN,
+                                      future$results_cordovilSE_2050_GF,
+                                      future$results_cordovilSE_2050_HAD,
+                                      future$results_cordovilSE_2050_IN,
+                                      future$results_cordovilSE_2050_IP,
+                                      future$results_cordovilSE_2050_MPI)
+                                      )  
+
+arbequina_2050 <- rowMeans(data.frame(future$results_arbequina_2050_CC,
+                                     future$results_arbequina_2050_CN,
+                                     future$results_arbequina_2050_GF,
+                                     future$results_arbequina_2050_HAD,
+                                     future$results_arbequina_2050_IN,
+                                     future$results_arbequina_2050_IP,
+                                     future$results_arbequina_2050_MPI)
+                                     )
+
+verdeal_2050 <- rowMeans(data.frame(future$results_verdeal_2050_CC,
+                                   future$results_verdeal_2050_CN,
+                                   future$results_verdeal_2050_GF,
+                                   future$results_verdeal_2050_HAD,
+                                   future$results_verdeal_2050_IN,
+                                   future$results_verdeal_2050_IP,
+                                   future$results_verdeal_2050_MPI)
+                                   )
+
+madural_2050 <- rowMeans(data.frame(future$results_madural_2050_CC,
+                                   future$results_madural_2050_CN,
+                                   future$results_madural_2050_GF,
+                                   future$results_madural_2050_HAD,
+                                   future$results_madural_2050_IN,
+                                   future$results_madural_2050_IP,
+                                   future$results_madural_2050_MPI)
+                                   )
+
+picual_2050 <- rowMeans(data.frame(future$results_picual_2050_CC,
+                                  future$results_picual_2050_CN,
+                                  future$results_picual_2050_GF,
+                                  future$results_picual_2050_HAD,
+                                  future$results_picual_2050_IN,
+                                  future$results_picual_2050_IP,
+                                  future$results_picual_2050_MPI)
+                                  )
+
+
+galega_2050_01 <- ifelse(galega_2050 >= t_galega, 1, 0)
+cobrancosa_2050_01 <- ifelse(cobrancosa_2050 >= t_cobrancosa, 1, 0)
+cordovilTM_2050_01 <- ifelse(cordovilTM_2050 >= t_cordovilTM, 1, 0)
+cordovilSE_2050_01 <- ifelse(cordovilSE_2050 >= t_cordovilSE, 1, 0)
+arbequina_2050_01 <- ifelse(arbequina_2050 >= t_arbequina, 1, 0)
+verdeal_2050_01 <- ifelse(verdeal_2050 >= t_verdeal, 1, 0)
+madural_2050_01 <- ifelse(madural_2050 >= t_madural, 1, 0)
+picual_2050_01 <- ifelse(picual_2050 >= t_picual, 1, 0)
+
+#Sum all
+future$future_predicted_species <- galega_2050_01 +
+                                   cobrancosa_2050_01 +
+                                   cordovilTM_2050_01 +
+                                   cordovilSE_2050_01 +
+                                   arbequina_2050_01 +
+                                   verdeal_2050_01 +
+                                   madural_2050_01 +
+                                   picual_2050_01
+
+#plot using gradual colour for future_predicted_species
+plot(future, "future_predicted_species")
+
+#Keep only future_predicted_species
+future_richness <- future[,"future_predicted_species"]
+
+#Save shapefile
+terra::writeVector(future_richness, "olive_future_potential_richness_2050_05Mar25.shp", overwrite=TRUE)
+
+#Gain, loss and stable areas - difference between present_richness and future_richness
+# Access attribute tables
+present_values <- values(present_richness)
+future_values <- values(future_richness)
+
+# Perform column subtraction
+difference_01 <- future_values$future_predicted_species - present_values$current_predicted_species
+
+# Add the result to the present_richness SpatVector
+difference_present_future <- present_richness
+difference_present_future$difference <- difference_01
+difference_present_future <- difference_present_future[,2]
+
+#Plot
+plot(difference_present_future, "difference")
+
+#Save
+terra::writeVector(difference_present_future, "olive_gain_loss_stable_richness_05Mar25.shp", overwrite=TRUE)
 
 ################################################################################
 #         FIGURE RELATING VAR PRESENT AND % SUITABLE GRIDS IN FUTURE 
 ################################################################################
 
+library(ggplot2)
+library(dplyr)
 
+df_galega <- data.frame(rep("galega", length(ensemble_galega$ensemble_weighted)),
+                        rownames(ensemble_galega),
+                        ensemble_galega$ensemble_weighted,
+                        galega_2050)
 
-################################################################################
-#                       WON AND LOST AREA PER VARIETY
-################################################################################
+names(df_galega) <- c("variety", "grid_id", "present_suitability", "future_suitability")
 
+df_cobrancosa <- data.frame(rep("cobrancosa", length(ensemble_cobrancosa$ensemble_weighted)),
+                            rownames(ensemble_cobrancosa),
+                            ensemble_cobrancosa$ensemble_weighted,
+                            cobrancosa_2050)
+
+names(df_cobrancosa) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_cordovilTM <- data.frame(rep("cordovilTM", length(ensemble_cordovilTM$ensemble_weighted)),
+                            rownames(ensemble_cordovilTM),
+                            ensemble_cordovilTM$ensemble_weighted,
+                            cordovilTM_2050)
+
+names(df_cordovilTM) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_cordovilSE <- data.frame(rep("cordovilSE", length(ensemble_cordovilSE$ensemble_weighted)),
+                            rownames(ensemble_cordovilSE),
+                            ensemble_cordovilSE$ensemble_weighted,
+                            cordovilSE_2050)
+
+names(df_cordovilSE) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_arbequina <- data.frame(rep("arbequina", length(ensemble_arbequina$ensemble_weighted)),
+                            rownames(ensemble_arbequina),
+                            ensemble_arbequina$ensemble_weighted,
+                            arbequina_2050)
+
+names(df_arbequina) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_verdeal <- data.frame(rep("verdeal", length(ensemble_verdeal$ensemble_weighted)),
+                            rownames(ensemble_verdeal),
+                            ensemble_verdeal$ensemble_weighted,
+                            verdeal_2050)
+
+names(df_verdeal) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_madural <- data.frame(rep("madural", length(ensemble_madural$ensemble_weighted)),
+                            rownames(ensemble_madural),
+                            ensemble_madural$ensemble_weighted,
+                            madural_2050)
+
+names(df_madural) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_picual <- data.frame(rep("picual", length(ensemble_picual$ensemble_weighted)),
+                            rownames(ensemble_picual),
+                            ensemble_picual$ensemble_weighted,
+                            picual_2050)
+
+names(df_picual) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+# Combine all in a data frame
+data1 <- rbind(df_galega, df_cobrancosa, df_cordovilTM, df_cordovilSE, df_arbequina, df_verdeal, df_madural, df_picual)

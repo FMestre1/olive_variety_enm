@@ -49,3 +49,74 @@ selected_var_2$selected_var_2 <- selected_var_22
 #Plot
 plot(selected_var_2, "selected_var_2")
 
+####################################################################################
+
+
+
+# Function to calculate suitability gains for a combination of varieties
+calculate_gains <- function(combination, results_list) {
+  gains <- rowSums(do.call(cbind, results_list[combination]))
+  return(gains)
+}
+
+# Function to calculate proportion of gains
+calculate_proportion <- function(gains, total_gains) {
+  proportion <- gains / total_gains
+  return(proportion)
+}
+
+# Function to get all combinations
+get_combinations <- function(n, varieties) {
+  combs <- combn(varieties, n, simplify = FALSE)
+  return(combs)
+}
+
+varieties <- 1:8  # Represents the 8 olive varieties
+
+
+
+suitability_gains <- list()
+
+# Loop through the number of varieties (1 to 8)
+for (n_varieties in 1:8) {
+  
+  # Get all combinations of n_varieties
+  combinations <- get_combinations(n_varieties, varieties)
+  
+  results_list <- list(
+    percent_increase_arbequina$percent_increase_arbequina_MEAN,
+    percent_increase_cobrancosa$percent_increase_cobrancosa_MEAN,
+    percent_increase_cordovilSE$percent_increase_cordovilSE_MEAN,
+    percent_increase_cordovilTM$percent_increase_cordovilTM_MEAN,
+    percent_increase_galega$percent_increase_galega_MEAN,
+    percent_increase_madural$percent_increase_madural_MEAN,
+    percent_increase_picual$percent_increase_picual_MEAN,
+    percent_increase_verdeal$percent_increase_verdeal_MEAN
+  )
+  
+  
+  
+  # Initialize a list to store gains for each combination
+  combination_gains <- list()
+  
+  # Loop through each combination
+  for (comb in combinations) {
+    
+    # Calculate gains for the current combination
+    gains <- calculate_gains(comb, results_list)
+    
+    # Calculate proportion of gains
+    proportion <- calculate_proportion(gains, total_gains)
+    
+    # Store the proportion of gains for this combination
+    combination_gains[[paste(comb, collapse = ",")]] <- proportion
+  }
+  
+  # Store the results for this number of varieties
+  suitability_gains[[as.character(n_varieties)]] <- combination_gains
+}
+
+################################################################################
+#                       WON AND LOST AREA PER VARIETY
+################################################################################
+
