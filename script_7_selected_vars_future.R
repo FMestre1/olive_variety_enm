@@ -9,6 +9,8 @@ rm(list = ls())
 
 #Load packages
 library(terra)
+library(ggplot2)
+library(dplyr)
 
 # 1. Metrics
 metrics_arbequina <- read.csv("last_results_fev_2025\\tabelas_metrics\\metrics_arbequina.csv", sep = ";")
@@ -491,7 +493,7 @@ plot(present, "current_predicted_species")
 present_richness <- present[,"current_predicted_species"]
 
 #Save shapefile
-terra::writeVector(present_richness, "olive_potential_richness_05Mar25.shp", overwrite=TRUE)
+#terra::writeVector(present_richness, "olive_potential_richness_05Mar25.shp", overwrite=TRUE)
 
 ##### FUTURE #####
 
@@ -595,7 +597,7 @@ plot(future, "future_predicted_species")
 future_richness <- future[,"future_predicted_species"]
 
 #Save shapefile
-terra::writeVector(future_richness, "olive_future_potential_richness_2050_05Mar25.shp", overwrite=TRUE)
+#terra::writeVector(future_richness, "olive_future_potential_richness_2050_05Mar25.shp", overwrite=TRUE)
 
 #Gain, loss and stable areas - difference between present_richness and future_richness
 # Access attribute tables
@@ -614,78 +616,83 @@ difference_present_future <- difference_present_future[,2]
 plot(difference_present_future, "difference")
 
 #Save
-terra::writeVector(difference_present_future, "olive_gain_loss_stable_richness_05Mar25.shp", overwrite=TRUE)
+#terra::writeVector(difference_present_future, "olive_gain_loss_stable_richness_05Mar25.shp", overwrite=TRUE)
 
 ################################################################################
-#         FIGURE RELATING VAR PRESENT AND % SUITABLE GRIDS IN FUTURE 
+#             FIGURE WITH THE PROPORTION OF SUITABLE AREAS
 ################################################################################
 
-library(ggplot2)
-library(dplyr)
+df_present_01 <- data.frame(
+present$results_galega_01,
+present$results_cobrancosa_01,
+present$results_arbequina_01,
+present$results_picual_01,
+present$results_cordovilTM_01,
+present$results_cordovilSE_01,
+present$results_madural_01,
+present$results_verdeal_01
+)
 
-df_galega <- data.frame(rep("galega", length(ensemble_galega$ensemble_weighted)),
-                        rownames(ensemble_galega),
-                        ensemble_galega$ensemble_weighted,
-                        galega_2050)
+names(df_present_01) <- c("galega", "cobrancosa", "arbequina", "picual", "cordovilTM", "cordovilSE", "madural", "verdeal")
 
-names(df_galega) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+df_future_01 <- data.frame(
+galega_2050_01,
+cobrancosa_2050_01,
+arbequina_2050_01,
+picual_2050_01,
+cordovilTM_2050_01,
+cordovilSE_2050_01,
+madural_2050_01,
+verdeal_2050_01
+)
 
-df_cobrancosa <- data.frame(rep("cobrancosa", length(ensemble_cobrancosa$ensemble_weighted)),
-                            rownames(ensemble_cobrancosa),
-                            ensemble_cobrancosa$ensemble_weighted,
-                            cobrancosa_2050)
+names(df_future_01) <- c("galega", "cobrancosa", "arbequina", "picual", "cordovilTM", "cordovilSE", "madural", "verdeal")
 
-names(df_cobrancosa) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+df_present_suit <- data.frame(
+present$results_galega,
+present$results_cobrancosa,
+present$results_arbequina,
+present$results_picual,
+present$results_cordovilTM,
+present$results_cordovilSE,
+present$results_madural,
+present$results_verdeal
+)
 
-df_cordovilTM <- data.frame(rep("cordovilTM", length(ensemble_cordovilTM$ensemble_weighted)),
-                            rownames(ensemble_cordovilTM),
-                            ensemble_cordovilTM$ensemble_weighted,
-                            cordovilTM_2050)
+names(df_present_suit) <- c("galega", "cobrancosa", "arbequina", "picual", "cordovilTM", "cordovilSE", "madural", "verdeal")
 
-names(df_cordovilTM) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+df_future_suit <- data.frame(
+galega_2050,
+cobrancosa_2050,
+arbequina_2050,
+picual_2050,
+cordovilTM_2050,
+cordovilSE_2050,
+madural_2050,
+verdeal_2050
+)
 
-df_cordovilSE <- data.frame(rep("cordovilSE", length(ensemble_cordovilSE$ensemble_weighted)),
-                            rownames(ensemble_cordovilSE),
-                            ensemble_cordovilSE$ensemble_weighted,
-                            cordovilSE_2050)
+names(df_future_suit) <- c("galega", "cobrancosa", "arbequina", "picual", "cordovilTM", "cordovilSE", "madural", "verdeal")
 
-names(df_cordovilSE) <- c("variety", "grid_id", "present_suitability", "future_suitability")
 
-df_arbequina <- data.frame(rep("arbequina", length(ensemble_arbequina$ensemble_weighted)),
-                            rownames(ensemble_arbequina),
-                            ensemble_arbequina$ensemble_weighted,
-                            arbequina_2050)
+#Suitabilities when present
+df_present_01_suit <- df_present_01*df_present_suit
+df_future_01_suit <- df_future_01*df_future_suit
 
-names(df_arbequina) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+#Save all data frames as csv files
+write.csv(df_present_01, "df_present_01.csv", row.names=FALSE)
+write.csv(df_future_01, "df_future_01.csv", row.names=FALSE)
+write.csv(df_present_suit, "df_present_suit.csv", row.names=FALSE)
+write.csv(df_future_suit, "df_future_suit.csv", row.names=FALSE)
 
-df_verdeal <- data.frame(rep("verdeal", length(ensemble_verdeal$ensemble_weighted)),
-                            rownames(ensemble_verdeal),
-                            ensemble_verdeal$ensemble_weighted,
-                            verdeal_2050)
 
-names(df_verdeal) <- c("variety", "grid_id", "present_suitability", "future_suitability")
 
-df_madural <- data.frame(rep("madural", length(ensemble_madural$ensemble_weighted)),
-                            rownames(ensemble_madural),
-                            ensemble_madural$ensemble_weighted,
-                            madural_2050)
-
-names(df_madural) <- c("variety", "grid_id", "present_suitability", "future_suitability")
-
-df_picual <- data.frame(rep("picual", length(ensemble_picual$ensemble_weighted)),
-                            rownames(ensemble_picual),
-                            ensemble_picual$ensemble_weighted,
-                            picual_2050)
-
-names(df_picual) <- c("variety", "grid_id", "present_suitability", "future_suitability")
-
-# Combine all in a data frame
-data1 <- rbind(df_galega, df_cobrancosa, df_cordovilTM, df_cordovilSE, df_arbequina, df_verdeal, df_madural, df_picual)
-
+################################################################################
+#          FIGURE WITH THE SUITABILITY OF THE SELECTED VARIETIES
+################################################################################
 
 variety <- c("galega", "cobrancosa", "cordovilTM", "cordovilSE", "arbequina", "verdeal", "madural", "picual")
 
-#all combinations of 1, 2, 3, 4, 5, 6, 7, 8 varieties
 combinations_1 <- combn(variety, 1)
 combinations_2 <- combn(variety, 2)
 combinations_3 <- combn(variety, 3)
@@ -695,4 +702,132 @@ combinations_6 <- combn(variety, 6)
 combinations_7 <- combn(variety, 7)
 combinations_8 <- combn(variety, 8)
 
+list_combs <- list(combinations_1, combinations_2, 
+                   combinations_3, combinations_4, 
+                   combinations_5, combinations_6, 
+                   combinations_7, combinations_8
+                   )
 
+##PRESENT
+
+proportion_area_present <- data.frame(matrix(ncol=3, nrow=0))
+names(proportion_area_present) <- c("varieties", "combination", "proportion_area")
+
+for(i in 1:length(list_combs)){
+  
+  combinations <- list_combs[[i]]
+  
+  for(j in 1:ncol(combinations)){
+    
+    vars1 <- combinations[,j]
+    df0 <- df_present_01[,vars1]
+    if(length(vars1)==1) vect1 <- df0 else{
+    vect1 <- do.call(pmax, df0)
+    }
+    
+    df_out <- data.frame(
+      varieties = length(vars1), 
+      combination = paste(vars1, collapse = ", "), 
+      proportion_area = sum(vect1) / 943
+    )
+    
+    proportion_area_present <- rbind(proportion_area_present, df_out)
+        
+  }
+
+  
+}
+
+proportion_area_future$varieties <- as.factor(proportion_area_future$varieties)
+
+#Save
+write.csv(proportion_area_present, "proportion_area_present.csv", row.names=FALSE)
+
+## FUTURE
+
+proportion_area_future <- data.frame(matrix(ncol=3, nrow=0))
+names(proportion_area_future) <- c("varieties", "combination", "proportion_area_future")
+
+for(i in 1:length(list_combs)){
+  
+  combinations <- list_combs[[i]]
+  
+  for(j in 1:ncol(combinations)){
+    
+    vars1 <- combinations[,j]
+    df0 <- df_future_01[,vars1]
+    if(length(vars1)==1) vect1 <- df0 else{
+      vect1 <- do.call(pmax, df0)
+    }
+    
+    df_out <- data.frame(
+      varieties = length(vars1), 
+      combination = paste(vars1, collapse = ", "), 
+      proportion_area_future = sum(vect1) / 943
+    )
+    
+    proportion_area_future <- rbind(proportion_area_future, df_out)
+    
+  }
+  
+  
+}
+
+proportion_area_present$varieties <- as.factor(proportion_area_present$varieties)
+
+#Save
+write.csv(proportion_area_future, "proportion_area_future.csv", row.names=FALSE)
+
+################################################################################
+
+#PLOT
+p1 <- ggplot(proportion_area_present, aes(x = varieties, y = proportion_area)) +
+  geom_boxplot(fill = "#ADD8E6", color = "black", alpha = 0.5, position = position_dodge(width = 0.7)) +  
+  ylim(0, 1) +
+  labs(x = "variety diversity", y = "proportion current suitable area") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+#
+p2 <- ggplot(proportion_area_future, aes(x = varieties, y = proportion_area)) +
+  geom_boxplot(fill = "#90EE90", color = "black", alpha = 0.5, position = position_dodge(width = 0.7)) + 
+  ylim(0, 1) +
+  labs(x = "variety diversity", y = "proportion current suitable area") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+
+################################################################################
+#          FIGURE WITH THE SUITABILITY OF THE SELECTED VARIETIES
+################################################################################
+
+#Suitabilities when present
+df_present_01_suit <- data.frame(apply(df_present_01_suit, 1, function(x) sum(x != 0)), df_present_01_suit)
+names(df_present_01_suit)[1] <- "varieties_present"
+
+df_future_01_suit <- data.frame(apply(df_future_01_suit, 1, function(x) sum(x != 0)), df_future_01_suit)
+names(df_future_01_suit)[1] <- "varieties_present"
+
+df_present_01_suit$varieties_present <- as.factor(df_present_01_suit$varieties_present)
+df_future_01_suit$varieties_present <- as.factor(df_future_01_suit$varieties_present)
+
+p3 <- ggplot(df_present_01_suit, aes(x = varieties_present, y = rowMeans(df_present_01_suit[,-1]))) +
+  geom_boxplot(fill = "#ADD8E6", color = "black", alpha = 0.5, position = position_dodge(width = 0.7)) +  
+  ylim(0, 1) +
+  labs(x = "varieties present", y = "mean suitability") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+p4 <- ggplot(df_future_01_suit, aes(x = varieties_present, y = rowMeans(df_future_01_suit[,-1]))) +
+  geom_boxplot(fill = "#90EE90", color = "black", alpha = 0.5, position = position_dodge(width = 0.7)) +  
+  ylim(0, 1) +
+  labs(x = "varieties present", y = "mean suitability") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+gridExtra::grid.arrange(p3, p4, ncol = 2)
+
+#Save
+write.csv(df_present_01_suit, "df_present_01_suit.csv", row.names=FALSE)
+write.csv(df_future_01_suit, "df_future_01_suit.csv", row.names=FALSE)
