@@ -116,7 +116,68 @@ for (n_varieties in 1:8) {
   suitability_gains[[as.character(n_varieties)]] <- combination_gains
 }
 
+
+
 ################################################################################
-#                       WON AND LOST AREA PER VARIETY
+#         FIGURE RELATING VAR PRESENT AND % SUITABLE GRIDS IN FUTURE 
 ################################################################################
+
+df_galega <- data.frame(rep("galega", length(ensemble_galega$ensemble_weighted)),
+                        rownames(ensemble_galega),
+                        ensemble_galega$ensemble_weighted,
+                        galega_2050)
+
+names(df_galega) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_cobrancosa <- data.frame(rep("cobrancosa", length(ensemble_cobrancosa$ensemble_weighted)),
+                            rownames(ensemble_cobrancosa),
+                            ensemble_cobrancosa$ensemble_weighted,
+                            cobrancosa_2050)
+
+names(df_cobrancosa) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_cordovilTM <- data.frame(rep("cordovilTM", length(ensemble_cordovilTM$ensemble_weighted)),
+                            rownames(ensemble_cordovilTM),
+                            ensemble_cordovilTM$ensemble_weighted,
+                            cordovilTM_2050)
+
+names(df_cordovilTM) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_cordovilSE <- data.frame(rep("cordovilSE", length(ensemble_cordovilSE$ensemble_weighted)),
+                            rownames(ensemble_cordovilSE),
+                            ensemble_cordovilSE$ensemble_weighted,
+                            cordovilSE_2050)
+
+names(df_cordovilSE) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_arbequina <- data.frame(rep("arbequina", length(ensemble_arbequina$ensemble_weighted)),
+                           rownames(ensemble_arbequina),
+                           ensemble_arbequina$ensemble_weighted,
+                           arbequina_2050)
+
+names(df_arbequina) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_verdeal <- data.frame(rep("verdeal", length(ensemble_verdeal$ensemble_weighted)),
+                         rownames(ensemble_verdeal),
+                         ensemble_verdeal$ensemble_weighted,
+                         verdeal_2050)
+
+names(df_verdeal) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_madural <- data.frame(rep("madural", length(ensemble_madural$ensemble_weighted)),
+                         rownames(ensemble_madural),
+                         ensemble_madural$ensemble_weighted,
+                         madural_2050)
+
+names(df_madural) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+df_picual <- data.frame(rep("picual", length(ensemble_picual$ensemble_weighted)),
+                        rownames(ensemble_picual),
+                        ensemble_picual$ensemble_weighted,
+                        picual_2050)
+
+names(df_picual) <- c("variety", "grid_id", "present_suitability", "future_suitability")
+
+# Combine all in a data frame
+data1 <- rbind(df_galega, df_cobrancosa, df_cordovilTM, df_cordovilSE, df_arbequina, df_verdeal, df_madural, df_picual)
 
