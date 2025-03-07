@@ -681,3 +681,18 @@ names(df_picual) <- c("variety", "grid_id", "present_suitability", "future_suita
 
 # Combine all in a data frame
 data1 <- rbind(df_galega, df_cobrancosa, df_cordovilTM, df_cordovilSE, df_arbequina, df_verdeal, df_madural, df_picual)
+
+
+variety <- c("galega", "cobrancosa", "cordovilTM", "cordovilSE", "arbequina", "verdeal", "madural", "picual")
+
+#all combinations of 1, 2, 3, 4, 5, 6, 7, 8 varieties
+combinations_1 <- combn(variety, 1)
+combinations_2 <- combn(variety, 2)
+combinations_3 <- combn(variety, 3)
+combinations_4 <- combn(variety, 4)
+combinations_5 <- combn(variety, 5)
+combinations_6 <- combn(variety, 6)
+combinations_7 <- combn(variety, 7)
+combinations_8 <- combn(variety, 8)
+
+
